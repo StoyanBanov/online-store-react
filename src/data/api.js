@@ -1,5 +1,7 @@
+const host = 'http://localhost:3030'
+
 async function request(method, url, body) {
-    const response = await fetch(url, createOptions(method, body))
+    const response = await fetch(host + url, createOptions(method, body))
     if (!response.ok) throw new Error()
 
     try {

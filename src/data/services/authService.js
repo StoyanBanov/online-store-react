@@ -5,10 +5,14 @@ const endpoints = {
     register: 'auth/register'
 }
 
-async function login(userData) {
+export async function login(userData) {
     return post(endpoints.login, userData)
 }
 
-async function register(userData) {
+export async function register(userData) {
     return post(endpoints.register, userData)
+}
+
+export async function logout() {
+    //TODO
 }

@@ -27,7 +27,7 @@ export const CreateItem = () => {
         }
     }, [])
 
-    const onSubmitHandler = useCallback(async e => {
+    const onSubmitHandler = async e => {
         e.preventDefault()
         const formData = new FormData()
         Object.entries(values).forEach(([k, v]) => {
@@ -41,7 +41,7 @@ export const CreateItem = () => {
         await createItem(formData)
 
         navigate('/')
-    }, [values])
+    }
 
     return (
         <div>

@@ -18,8 +18,7 @@ function createOptions(method, body) {
     }
 
     if (body) {
-        options.headers['Content-Type'] = 'application/json'
-        options.body = JSON.stringify(body)
+        options.body = body
     }
 
     return options

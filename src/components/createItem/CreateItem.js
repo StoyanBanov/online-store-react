@@ -1,29 +1,51 @@
 import { useCallback, useState } from "react"
 import { createItem } from "../../data/services/itemService"
+import { useNavigate } from "react-router-dom"
 
 export const CreateItem = () => {
 
+    const navigate = useNavigate()
+
     const [values, setValues] = useState({
-        title: "",
-        price: "",
-        description: "",
-        category: 1
+        title: '',
+        price: '',
+        description: '',
+        thumbnail: '',
+        images: [],
+        category: '64aaf40e98592b05c3864a5e'
     })
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
     }, [])
 
+    const onImageHandler = useCallback(e => {
+        if (e.target.name === 'thumbnail') {
+            setValues(state => ({ ...state, thumbnail: e.target.files[0] }))
+        } else {
+            setValues(state => ({ ...state, images: [...e.target.files] }))
+        }
+    }, [])
+
     const onSubmitHandler = useCallback(async e => {
         e.preventDefault()
-        const formData = Object.fromEntries(new FormData(e.target))
-        const item = await createItem(formData)
-        console.log(item);
-    }, [])
+        const formData = new FormData()
+        Object.entries(values).forEach(([k, v]) => {
+            if (k === 'images') {
+                for (const file of v) {
+                    formData.append('images', file)
+                }
+            } else formData.append(k, v)
+        });
+
+        await createItem(formData)
+
+        navigate('/')
+    }, [values])
 
     return (
         <div>
-            <form onSubmit={onSubmitHandler}>
+            <form onSubmit={onSubmitHandler} encType="multipart/form-data">
                 <div>
                     <label htmlFor="item-title">Title</label>
                     <input id="item-title" name="title" value={values.title} onChange={onValueChangeHandler} />
@@ -40,9 +62,19 @@ export const CreateItem = () => {
                 </div>
 
                 <div>
+                    <label htmlFor="item-thumbnail">Thumbnail</label>
+                    <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
+                </div>
+
+                <div>
+                    <label htmlFor="item-images">Images</label>
+                    <input type="file" id="item-images" name="images" onChange={onImageHandler} multiple />
+                </div>
+
+                <div>
                     <label htmlFor="item-category">Category</label>
                     <select id="item-category" name="category" onChange={onValueChangeHandler} value={values.category}>
-                        <option value={1}>1</option>
+                        <option value={'64aaf40e98592b05c3864a5e'}>1</option>
                         <option value={2}>2</option>
                         <option value={3}>3</option>
                     </select>

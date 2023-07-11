@@ -13,7 +13,11 @@ export const CreateCategory = () => {
 
     const onSubmitHandler = useCallback(async e => {
         e.preventDefault()
-        await createCategory(values.parentCategory === 'none' ? { ...values, parentCategory: undefined } : values)
+        const formData = new FormData()
+        Object.entries(values.parentCategory === 'none' ? { title: values.title } : values).forEach(([k, v]) => {
+            formData.append(k, v)
+        })
+        await createCategory(formData)
     }, [values])
 
     return (

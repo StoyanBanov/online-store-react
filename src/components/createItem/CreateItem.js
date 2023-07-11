@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react"
-import { createItem } from "../../data/services/itemService"
+import { useCallback, useEffect, useState } from "react"
+import { createItem, getAllChildCategories } from "../../data/services/itemService"
 import { useNavigate } from "react-router-dom"
 
 export const CreateItem = () => {
@@ -12,8 +12,19 @@ export const CreateItem = () => {
         description: '',
         thumbnail: '',
         images: [],
-        category: '64aaf40e98592b05c3864a5e'
+        category: ''
     })
+
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        getAllChildCategories()
+            .then(cats => {
+                setCategories(cats)
+                setValues(state => ({ ...state, category: cats[0]?._id }))
+            })
+            .catch(err => console.log(err))
+    }, [])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -74,9 +85,7 @@ export const CreateItem = () => {
                 <div>
                     <label htmlFor="item-category">Category</label>
                     <select id="item-category" name="category" onChange={onValueChangeHandler} value={values.category}>
-                        <option value={'64aaf40e98592b05c3864a5e'}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
+                        {categories.map((c, i) => <option key={c._id} value={c._id}>{c.title}</option>)}
                     </select>
                 </div>
 

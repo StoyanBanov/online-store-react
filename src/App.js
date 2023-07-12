@@ -1,3 +1,5 @@
+import { Login } from "./components/auth/Login";
+import { Register } from "./components/auth/Register";
 import { CreateCategory } from "./components/createCategory/CreateCategory";
 import { CreateItem } from "./components/createItem/CreateItem";
 import { Home } from "./components/home/Home";
@@ -16,6 +18,9 @@ function App() {
                     <Route path="item" element={<CreateItem />} />
                     <Route path="category" element={<CreateCategory />} />
                 </Route>
+
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
             </Routes>
         </div >
     );

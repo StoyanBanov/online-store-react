@@ -1,0 +1,17 @@
+.navContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.navContainer a {
+    color: black;
+    display: inline-block;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.navContainer a:hover {
+    background-color: aliceblue;
+    text-decoration: none;
+}

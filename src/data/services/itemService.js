@@ -20,3 +20,7 @@ export async function createCategory(catData) {
 export async function getAllChildCategories() {
     return api.get(endpoints.cat + `?where=${encodeURIComponent('childrenCount="0"')}`)
 }
+
+export async function getTopChildCategories(limit) {
+    return api.get(endpoints.cat + `?orderBy=items&asc=-1&limit=${limit}&skip=0`)
+}

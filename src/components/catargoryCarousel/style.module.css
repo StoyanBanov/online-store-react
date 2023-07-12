@@ -1,0 +1,11 @@
+.carouselContainer {
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.carouselItemThumbnail {
+    width: 200px;
+}

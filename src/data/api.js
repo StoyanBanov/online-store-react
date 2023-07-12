@@ -1,7 +1,7 @@
 const host = 'http://localhost:3030'
 
-async function request(method, url, body) {
-    const response = await fetch(host + url, createOptions(method, body))
+async function request(method, url, body, json = false) {
+    const response = await fetch(host + url, createOptions(method, body, json))
     if (!response.ok) throw new Error()
 
     try {
@@ -11,10 +11,15 @@ async function request(method, url, body) {
     }
 }
 
-function createOptions(method, body) {
+function createOptions(method, body, json) {
     const options = {
         method,
         headers: {}
+    }
+
+    if (json && body) {
+        options.headers['Content-Type'] = 'application/json'
+        body = JSON.stringify(body)
     }
 
     if (body) {

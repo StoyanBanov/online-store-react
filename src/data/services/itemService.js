@@ -9,8 +9,15 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItemsForCategory(categoryId, limit = 10, skip = 0) {
-    return api.get(endpoints.item + `?where=${encodeURIComponent(`category="${categoryId}"`)}&limit=${limit}&skip=${skip}`)
+export async function getItems({ categoryId, search = '', limit = 10, skip = 0 }) {
+    const queryParams = []
+    if (categoryId) {
+        queryParams.push(`where=${encodeURIComponent(`category="${categoryId}"`)}`)
+    }
+    if (search) {
+        queryParams.push(`search=${search}`)
+    }
+    return api.get(endpoints.item + `?${queryParams.join('&')}&limit=${limit}&skip=${skip}`)
 }
 
 export async function createCategory(catData) {

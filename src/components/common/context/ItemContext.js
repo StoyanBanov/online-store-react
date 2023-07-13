@@ -1,16 +1,19 @@
 import { createContext, useEffect, useState } from "react"
 
-export const ItemContext = ({ children }) => {
-    const ItemContext = createContext()
+export const ItemContext = createContext()
 
-    const [categories, setCategories] = useState([])
+export const ItemContextProvider = ({ children }) => {
+
+    const [items, setItems] = useState([])
 
     useEffect(() => {
 
     }, [])
 
     return (
-        <ItemContext.Provider categories={categories}>
+        <ItemContext.Provider value={
+            items
+        }>
             {children}
         </ItemContext.Provider>
     )

@@ -10,6 +10,7 @@ export const Nav = () => {
     return (
         <nav className={style.navContainer}>
             <Link to={'/'}>Home</Link>
+            <Link to={'/catalog'}>Catalog</Link>
 
             {verified && roles.includes('admin') &&
                 <>

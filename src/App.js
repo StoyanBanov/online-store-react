@@ -2,6 +2,7 @@ import { Login } from "./components/auth/Login";
 import { Logout } from "./components/auth/Logout";
 import { NonVerified } from "./components/auth/NonVerified";
 import { Register } from "./components/auth/Register";
+import { Catalog } from "./components/catalog/Catalog";
 import { AuthContextProvider } from "./components/common/context/AuthContext";
 import { GuestUserRouteGuard } from "./components/common/guards/GuestUserRouteGuard";
 import { UnverifiedUserRouteGuard } from "./components/common/guards/UnverifiedUserRouteGuard";
@@ -24,6 +25,7 @@ function App() {
 
                     <Route element={<UnverifiedUserRouteGuard />}>
                         <Route path="/" element={<Home />} />
+                        <Route path="/catalog" element={<Catalog />} />
 
                         <Route element={<VerifiedUserRouteGuard />}>
                             <Route path="/create">

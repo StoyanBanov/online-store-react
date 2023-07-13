@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { getItemsForCategory } from "../../data/services/itemService"
+import { getItems } from "../../data/services/itemService"
 import { CategoryCarouselItem } from "./CategoryCarouselItem"
 
 import style from './style.module.css'
@@ -8,7 +8,7 @@ export const CategoryCarousel = ({ category }) => {
     const [items, setItems] = useState([])
 
     useEffect(() => {
-        getItemsForCategory(category._id)
+        getItems({ categoryId: category._id })
             .then(setItems)
     }, [category])
 

@@ -1,13 +1,18 @@
 const host = 'http://localhost:3030'
 
 async function request(method, url, body, json = false) {
-    const response = await fetch(host + url, createOptions(method, body, json))
-    if (!response.ok) throw new Error()
-
     try {
-        return await response.json()
+        const response = await fetch(host + url, createOptions(method, body, json))
+        if (!response.ok) throw new Error((await response.json()).message)
+
+        try {
+            return await response.json()
+        } catch (error) {
+            return response
+        }
     } catch (error) {
-        return response
+        window.alert(error)
+        throw error
     }
 }
 

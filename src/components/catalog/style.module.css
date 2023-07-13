@@ -1,0 +1,8 @@
+.catalogContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.catalogContainer .itemContainer {
+    width: 400px;
+}

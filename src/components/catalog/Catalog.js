@@ -4,20 +4,24 @@ import { getItems } from "../../data/services/itemService"
 import { useParams, useSearchParams } from "react-router-dom"
 import { ItemCard } from "./ItemCard"
 
+import style from './style.module.css'
+
 export const Catalog = () => {
 
     const [items, setItems] = useState([])
 
-    const { search } = useSearchParams()
+    let [searchParams] = useSearchParams();
     const { categoryId } = useParams()
 
+    console.log(searchParams.get('search'));
+
     useEffect(() => {
-        getItems({ search, categoryId })
+        getItems({ search: searchParams.get('search'), categoryId })
             .then(setItems)
-    }, [search, categoryId])
+    }, [searchParams, categoryId])
 
     return (
-        <div>
+        <div className={style.catalogContainer}>
             {items.map(i => <ItemCard key={i._id} item={i} />)}
         </div>
     )

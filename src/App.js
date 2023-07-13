@@ -13,12 +13,14 @@ import { Home } from "./components/home/Home";
 import { Nav } from "./components/nav/Nav";
 
 import { Navigate, Route, Routes } from "react-router-dom"
+import { Search } from "./components/search/Search";
 
 function App() {
     return (
         <div>
             <AuthContextProvider>
                 <Nav />
+                <Search />
                 <Routes>
                     <Route path="/non-verified" element={<NonVerified />} />
                     <Route path="/logout" element={<Logout />} />

@@ -13,12 +13,11 @@ export const Catalog = () => {
     let [searchParams] = useSearchParams();
     const { categoryId } = useParams()
 
-    console.log(searchParams.get('search'));
-
     useEffect(() => {
         getItems({ search: searchParams.get('search'), categoryId })
             .then(setItems)
     }, [searchParams, categoryId])
+
 
     return (
         <div className={style.catalogContainer}>

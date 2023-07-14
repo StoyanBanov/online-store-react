@@ -20,6 +20,10 @@ export async function getItems({ categoryId, search = '', limit = 10, skip = 0 }
     return api.get(endpoints.item + `?${queryParams.join('&')}&limit=${limit}&skip=${skip}`)
 }
 
+export async function getItemById(itemId) {
+    return api.get(`${endpoints.item}/${itemId}`)
+}
+
 export async function createCategory(catData) {
     return api.post(endpoints.cat, catData)
 }

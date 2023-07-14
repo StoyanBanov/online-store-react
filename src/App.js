@@ -9,6 +9,7 @@ import { UnverifiedUserRouteGuard } from "./components/common/guards/UnverifiedU
 import { VerifiedUserRouteGuard } from "./components/common/guards/VerifiedUserRouteGuard";
 import { CreateCategory } from "./components/createCategory/CreateCategory";
 import { CreateItem } from "./components/createItem/CreateItem";
+import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
 import { Nav } from "./components/nav/Nav";
 
@@ -27,7 +28,10 @@ function App() {
 
                     <Route element={<UnverifiedUserRouteGuard />}>
                         <Route path="/" element={<Home />} />
-                        <Route path="/catalog" element={<Catalog />} />
+                        <Route path="/catalog">
+                            <Route index={true} element={<Catalog />} />
+                            <Route path=":itemId" element={<ItemDetails />} />
+                        </Route>
 
                         <Route element={<VerifiedUserRouteGuard />}>
                             <Route path="/create">

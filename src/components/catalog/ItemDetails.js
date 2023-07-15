@@ -1,8 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getItemById } from '../../data/services/itemService'
 
 import { AuthContext } from '../common/context/AuthContext'
+
+import style from './style.module.css'
 
 export const ItemDetails = () => {
     const { user: { roles } } = useContext(AuthContext)
@@ -13,8 +15,20 @@ export const ItemDetails = () => {
 
     useEffect(() => {
         getItemById(itemId)
-            .then(setItem)
+            .then(i => {
+                i.rating = 3 //test
+                setItem(i)
+            })
     }, [itemId])
+
+    const ratingStarMouseOverHandler = useCallback(e => {
+        Array.from(e.currentTarget.children)
+            .slice(item.rating, Number(e.target.id) + 1)
+            .forEach(r => {
+                if (e.type === 'mouseover') r.textContent = '★'
+                else r.textContent = '☆'
+            })
+    }, [item.rating])
 
     return (
         <div>
@@ -27,6 +41,20 @@ export const ItemDetails = () => {
                         <>
                             <Link to='edit'>Edit</Link>
                             <button>Delete</button>
+                        </>
+                    }
+                    {(!roles || (roles && !roles.includes('admin'))) &&
+                        <>
+                            <p>
+                                Rate:
+                                <span onMouseOver={ratingStarMouseOverHandler} onMouseOut={ratingStarMouseOverHandler}>
+                                    {
+                                        ('★'.repeat(item.rating) + '☆'.repeat(5 - item.rating))
+                                            .split('')
+                                            .map((r, i) => <span id={i} key={i} className={style.ratingStar}>{r}</span>)
+                                    }
+                                </span>
+                            </p>
                         </>
                     }
                 </>

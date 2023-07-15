@@ -6,3 +6,9 @@
 .catalogContainer .itemContainer {
     width: 400px;
 }
+
+.ratingStar {
+    margin-left: 5px;
+    font-size: x-large;
+    cursor: pointer;
+}

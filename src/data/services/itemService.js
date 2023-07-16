@@ -25,7 +25,7 @@ export async function getItemById(itemId) {
 }
 
 export async function createCategory(catData) {
-    return api.post(endpoints.cat, catData)
+    return api.post(endpoints.cat, catData, true)
 }
 
 export async function getAllChildCategories() {
@@ -34,4 +34,14 @@ export async function getAllChildCategories() {
 
 export async function getTopChildCategories(limit) {
     return api.get(endpoints.cat + `?orderBy=items&asc=-1&limit=${limit}&skip=0`)
+}
+
+export async function addUserRatingForItemId(itemId, rating) {
+    return api.post(`${endpoints.item}/rating`, { item: itemId, rating }, true)
+}
+
+export async function getUserRatingForItemId(itemId) {
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    if (user)
+        return api.get(`${endpoints.item}/rating?where=${encodeURIComponent(`item="${itemId}"&_creator="${user._id}"`)}`)
 }

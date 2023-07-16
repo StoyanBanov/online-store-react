@@ -22,6 +22,11 @@ function createOptions(method, body, json) {
         headers: {}
     }
 
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    if (user && user.accessToken) {
+        options.headers['Authorization'] = user.accessToken
+    }
+
     if (json && body) {
         options.headers['Content-Type'] = 'application/json'
         body = JSON.stringify(body)

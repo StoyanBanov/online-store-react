@@ -12,3 +12,7 @@
     font-size: x-large;
     cursor: pointer;
 }
+
+.userRatingStar {
+    border: 1px solid gold;
+}

@@ -17,13 +17,16 @@ export const ItemDetails = () => {
 
     useEffect(() => {
         getItemById(itemId)
-            .then(i => {
+            .then(async i => {
                 setItem(i)
                 setItemRating(i.rating)
-                getUserRatingForItemId(i._id)
-                    .then(([r]) => setUserRating(r.rating))
+
+                if (_id) {
+                    getUserRatingForItemId(i._id)
+                        .then(([r]) => r && setUserRating(r.rating))
+                }
             })
-    }, [itemId])
+    }, [_id, itemId])
 
     const ratingStarMouseOverHandler = useCallback(e => {
         Array.from(e.currentTarget.children)
@@ -36,14 +39,19 @@ export const ItemDetails = () => {
 
     const ratingStarClickHandler = useCallback(async e => {
         if (_id) {
-            const rating = Number(e.target.id) + 1
-            setUserRating(rating)
-            setItemRating(item.rating + rating / (item.totalRatingVotes + 1))
-            await addUserRatingForItemId(item._id, rating)
-        } else window.alert('login or register to vote')
-    }, [_id, item])
+            const uRating = Number(e.target.id) + 1
+            let averagedUserRating = uRating
+            if (userRating) {
+                averagedUserRating -= userRating
+                averagedUserRating /= item.totalRatingVotes
+            } else averagedUserRating /= item.totalRatingVotes + 1
 
-    //TODO fix rating bugs
+            setUserRating(uRating)
+            setItemRating(state => state + averagedUserRating)
+            await addUserRatingForItemId(item._id, uRating)
+        } else window.alert('login or register to vote')
+    }, [_id, item, userRating])
+
     return (
         <div>
             {item._id &&

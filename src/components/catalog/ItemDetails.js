@@ -22,7 +22,7 @@ export const ItemDetails = () => {
                 setItemRating(i.rating)
 
                 if (_id) {
-                    getUserRatingForItemId(i._id)
+                    getUserRatingForItemId(i._id, _id)
                         .then(([r]) => r && setUserRating(r.rating))
                 }
             })

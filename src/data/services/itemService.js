@@ -40,8 +40,6 @@ export async function addUserRatingForItemId(itemId, rating) {
     return api.post(`${endpoints.item}/rating`, { item: itemId, rating }, true)
 }
 
-export async function getUserRatingForItemId(itemId) {
-    const user = JSON.parse(sessionStorage.getItem('user'))
-    if (user)
-        return api.get(`${endpoints.item}/rating?where=${encodeURIComponent(`item="${itemId}"&_creator="${user._id}"`)}`)
+export async function getUserRatingForItemId(itemId, userId) {
+    return api.get(`${endpoints.item}/rating?where=${encodeURIComponent(`item="${itemId}"&_creator="${userId}"`)}`)
 }

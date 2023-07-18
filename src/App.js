@@ -15,6 +15,7 @@ import { Nav } from "./components/nav/Nav";
 
 import { Navigate, Route, Routes } from "react-router-dom"
 import { Search } from "./components/search/Search";
+import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
             <AuthContextProvider>
                 <Nav />
                 <Search />
+                <ShoppingCart />
                 <Routes>
                     <Route path="/non-verified" element={<NonVerified />} />
                     <Route path="/logout" element={<Logout />} />

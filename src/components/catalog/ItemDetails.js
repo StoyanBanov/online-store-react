@@ -5,9 +5,12 @@ import { addUserRatingForItemId, getItemById, getUserRatingForItemId } from '../
 import { AuthContext } from '../common/context/AuthContext'
 
 import style from './style.module.css'
+import { CartContext } from '../common/context/CartContext'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
+
+    const { addToCart } = useContext(CartContext)
 
     const { itemId } = useParams()
 
@@ -65,7 +68,7 @@ export const ItemDetails = () => {
                             <button>Delete</button>
                         </>
                     }
-                    {(!roles || (roles && !roles.includes('admin'))) &&
+                    {(!roles || (roles.includes('user') && !roles.includes('admin'))) &&
                         <>
                             <p>
                                 Rate:
@@ -82,6 +85,9 @@ export const ItemDetails = () => {
                                 </span>
                                 ({item.totalRatingVotes})
                             </p>
+                            <div>
+                                <button onClick={() => addToCart(item, 1)}>Add To Cart</button>
+                            </div>
                         </>
                     }
                 </>

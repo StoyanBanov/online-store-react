@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useReducer, useCallback } from "react";
-import { getCartBydId, addToCartBydId } from "../../../data/services/shoppingCartService"
+import { getCartBydId, addToCartBydId, removeFromCartBydId, emptyCartBydId } from "../../../data/services/shoppingCartService"
 import { AuthContext } from "./AuthContext";
 
 export const CartContext = createContext()
 
-const emptyCart = { items: [], totalPrice: 0 }
+const cartInitialState = { items: [], totalPrice: 0 }
 
 export const CartContextProvider = ({ children }) => {
     const { user: { shoppingCart, _id } } = useContext(AuthContext)
@@ -14,27 +14,50 @@ export const CartContextProvider = ({ children }) => {
 
         switch (action.type) {
             case 'setCart':
-                changedCart = action.cart
-                break;
+                return action.cart
+            case 'emptyCart':
+                changedCart = { items: [] }
+                break
             case 'addToCart':
                 if (state.items.find(i => i.item._id === action.itemObj.item._id))
                     return state
 
                 changedCart = {
-                    items: [...state.items, action.itemObj],
-                    totalPrice: state.totalPrice + action.itemObj.item.price * action.itemObj.count
+                    items: [...state.items, action.itemObj]
+                }
+                break
+            case 'removeFromCart':
+                changedCart = {
+                    items: state.items.filter(i => i._id !== action.itemId)
+                }
+                break
+            case 'changeItemCount':
+                const itemToChange = state.items.find(i => i.item._id === action.itemToChangeId)
+                if (!itemToChange || action.newCount < 0 || itemToChange.item.count < action.newCount) return state
+
+                changedCart = {
+                    items:
+                        [
+                            ...state.items.filter(i => i !== itemToChange),
+                            {
+                                ...itemToChange,
+                                count: itemToChange.count + action.newCount
+                            }
+                        ],
                 }
                 break
             default:
                 return state;
         }
 
+        changedCart.totalPrice = changedCart.items.reduce((total, i) => total + i.item.price * i.count, 0)
+
         if (!_id) sessionStorage.setItem('cart', JSON.stringify(changedCart))
 
         return changedCart
     }, [_id])
 
-    const [cart, dispatch] = useReducer(reducer, { ...emptyCart })
+    const [cart, dispatch] = useReducer(reducer, { ...cartInitialState })
 
     useEffect(() => {
         if (shoppingCart) {
@@ -48,8 +71,8 @@ export const CartContextProvider = ({ children }) => {
             if (guestCart) {
                 dispatch({ type: 'setCart', cart: guestCart })
             } else {
-                sessionStorage.setItem('cart', JSON.stringify({ ...emptyCart }))
-                dispatch({ type: 'setCart', cart: { ...emptyCart } })
+                sessionStorage.setItem('cart', JSON.stringify({ ...cartInitialState }))
+                dispatch({ type: 'setCart', cart: { ...cartInitialState } })
             }
         }
     }, [shoppingCart])
@@ -61,8 +84,29 @@ export const CartContextProvider = ({ children }) => {
         dispatch({ type: 'addToCart', itemObj: { item, count } })
     }, [cart._id, _id])
 
+    const removeFromCart = useCallback(async (itemId) => {
+        if (_id)
+            await removeFromCartBydId(cart._id, itemId)
+
+        dispatch({ type: 'removeFromCart', itemId })
+    }, [cart._id, _id])
+
+    const emptyCart = useCallback(async () => {
+        if (_id)
+            await emptyCartBydId(cart._id)
+
+        dispatch({ type: 'emptyCart' })
+    }, [cart._id, _id])
+
+    const changeItemCount = useCallback(async (itemId, newCount) => {
+        if (_id)
+            await addToCartBydId(cart._id, { item: itemId, count: newCount })
+
+        dispatch({ type: 'changeItemCount', itemId, newCount })
+    }, [cart._id, _id])
+
     return (
-        <CartContext.Provider value={{ cart, addToCart }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, emptyCart, changeItemCount }}>
             {children}
         </CartContext.Provider>
     )

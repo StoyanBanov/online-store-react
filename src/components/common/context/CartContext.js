@@ -84,7 +84,8 @@ export const CartContextProvider = ({ children }) => {
         dispatch({ type: 'addToCart', itemObj: { item, count } })
     }, [cart._id, _id])
 
-    const removeFromCart = useCallback(async (itemId) => {
+    //TODO refactor remove
+    const removeFromCart = useCallback(async ({ item }) => {
         if (_id)
             await removeFromCartBydId(cart._id, itemId)
 

@@ -23,7 +23,6 @@ export const CreateItem = () => {
                 setCategories(cats)
                 setValues(state => ({ ...state, category: cats[0]?._id }))
             })
-            .catch(err => console.log(err))
     }, [])
 
     const onValueChangeHandler = useCallback(e => {

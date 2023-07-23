@@ -3,48 +3,76 @@ import { getItems } from "../../data/services/itemService"
 import { CategoryCarouselItem } from "./CategoryCarouselItem"
 
 import style from './style.module.css'
+import { CarouselArrowButton } from "./CarouselArrowButton"
 
 export const CategoryCarousel = ({ category }) => {
     const [items, setItems] = useState([])
 
     useEffect(() => {
-        getItems({ categoryId: category._id })
+        getItems({ categoryId: category._id, limit: 15 })
             .then(setItems)
     }, [category])
 
     const nextSlideHandler = useCallback(e => {
         e.preventDefault()
-        setItems(state => [...state.slice(1), state[0]])
+        const items = document.getElementById('11').children
+        let left = 20
+        const interval = setInterval(() => {
+
+            for (const item of items) {
+                item.style.left = item.offsetLeft - left + 'px'
+            }
+
+            left += 10
+        }, 25)
+        setTimeout(() => {
+            clearInterval(interval)
+            setItems(
+                state => [
+                    ...state.slice(state.length / 3 * 2),
+                    ...state.slice(0, state.length / 3 * 2)
+                ]
+            )
+        }, 300)
+
     }, [])
 
     const prevSlideHandler = useCallback(e => {
         e.preventDefault()
-        setItems(state => [state[state.length - 1], ...state.slice(0, -1)])
+        const items = document.getElementById('11').children
+        let left = 20
+        const interval = setInterval(() => {
+
+            for (const item of items) {
+                item.style.left = item.offsetLeft + left + 'px'
+            }
+
+            left += 10
+        }, 25)
+        setTimeout(() => {
+            clearInterval(interval)
+            setItems(
+                state => [
+                    ...state.slice(Math.ceil(state.length / 3)),
+                    ...state.slice(0, Math.ceil(state.length / 3))
+                ]
+            )
+        }, 300)
     }, [])
 
     return (
-        <>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-            <div className="container">
+        <div>
+            <h2>{category.title}</h2>
 
-                <h2>{category.title}</h2>
+            <div className={style.carouselContainer}>
+                <CarouselArrowButton clickHandler={prevSlideHandler} direction={'left'} />
 
-                <div id="myCarousel" className="carousel slide" data-ride="carousel">
-
-                    <div className={"carousel-inner " + style.carouselContainer}>
-                        {items.map((item, index) => <CategoryCarouselItem key={item._id} item={item} index={index} />)}
-                    </div>
-
-                    <a onClick={prevSlideHandler} className="left carousel-control" href="#myCarousel">
-                        <span className="glyphicon glyphicon-chevron-left"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
-                    <a onClick={nextSlideHandler} className="right carousel-control" href="#myCarousel">
-                        <span className="glyphicon glyphicon-chevron-right"></span>
-                        <span className="sr-only">Next</span>
-                    </a>
+                <div id="11" className={style.carouselItems}>
+                    {items.slice(0, items.length / 2).map((item, index) => <CategoryCarouselItem key={item._id} item={item} index={index} />)}
                 </div>
+
+                <CarouselArrowButton clickHandler={nextSlideHandler} direction={'right'} />
             </div>
-        </>
+        </div>
     )
 }

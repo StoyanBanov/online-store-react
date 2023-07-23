@@ -1,9 +1,28 @@
 .carouselContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.carouselItems {
+    left: 500px;
     height: 400px;
+    width: 1000px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.carouselContainer button {
+    cursor: pointer;
+    height: 45px;
+    width: 45px;
+    padding: 5px;
+}
+
+.carouselIem {
+    position: fixed;
 }
 
 .carouselItemThumbnail {

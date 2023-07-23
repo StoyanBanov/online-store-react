@@ -2,27 +2,30 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
 }
 
 .carouselItems {
-    left: 500px;
+    position: relative;
     height: 400px;
     width: 1000px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+}
+
+.carouselIem {
+    position: absolute;
 }
 
 .carouselContainer button {
+    z-index: 1;
     cursor: pointer;
     height: 45px;
     width: 45px;
     padding: 5px;
-}
-
-.carouselIem {
-    position: fixed;
 }
 
 .carouselItemThumbnail {

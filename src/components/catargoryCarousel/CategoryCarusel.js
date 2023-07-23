@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { getItems } from "../../data/services/itemService"
 import { CategoryCarouselItem } from "./CategoryCarouselItem"
 
@@ -8,70 +8,52 @@ import { CarouselArrowButton } from "./CarouselArrowButton"
 export const CategoryCarousel = ({ category }) => {
     const [items, setItems] = useState([])
 
+    const carouselDiv = useRef()
+
     useEffect(() => {
         getItems({ categoryId: category._id, limit: 15 })
-            .then(setItems)
-    }, [category])
+            .then(i => setItems([...i, ...i, ...i, ...i, ...i, ...i])) //for tests
+    }, [category, carouselDiv])
 
-    const nextSlideHandler = useCallback(e => {
+    const slideHandler = useCallback((e, direction) => {
         e.preventDefault()
-        const items = document.getElementById('11').children
-        let left = 20
-        const interval = setInterval(() => {
+        const items = carouselDiv.current.children
+        const carouselDivWidth = carouselDiv.current.offsetWidth
 
-            for (const item of items) {
-                item.style.left = item.offsetLeft - left + 'px'
+        if (direction === 'left' && items[0].offsetLeft === 0) return
+        if (direction === 'right' && items[items.length - 1].offsetLeft < carouselDivWidth && items[items.length - 1].offsetLeft > 0) return
+
+        const step = carouselDivWidth / 50
+
+        let totalSteps = 0
+        const interval = setInterval(() => {
+            totalSteps += step
+
+            if (totalSteps >= carouselDivWidth) {
+                totalSteps = carouselDivWidth
+                clearInterval(interval)
             }
 
-            left += 10
-        }, 25)
-        setTimeout(() => {
-            clearInterval(interval)
-            setItems(
-                state => [
-                    ...state.slice(state.length / 3 * 2),
-                    ...state.slice(0, state.length / 3 * 2)
-                ]
-            )
-        }, 300)
-
-    }, [])
-
-    const prevSlideHandler = useCallback(e => {
-        e.preventDefault()
-        const items = document.getElementById('11').children
-        let left = 20
-        const interval = setInterval(() => {
-
             for (const item of items) {
-                item.style.left = item.offsetLeft + left + 'px'
+                item.style.left = item.offsetLeft + (direction === 'left' ? step : -step) + 'px'
             }
 
-            left += 10
-        }, 25)
-        setTimeout(() => {
-            clearInterval(interval)
-            setItems(
-                state => [
-                    ...state.slice(Math.ceil(state.length / 3)),
-                    ...state.slice(0, Math.ceil(state.length / 3))
-                ]
-            )
-        }, 300)
-    }, [])
+        }, 10)
+
+    }, [carouselDiv])
 
     return (
         <div>
             <h2>{category.title}</h2>
 
             <div className={style.carouselContainer}>
-                <CarouselArrowButton clickHandler={prevSlideHandler} direction={'left'} />
+                <CarouselArrowButton slideHandler={slideHandler} direction={'left'} />
 
-                <div id="11" className={style.carouselItems}>
-                    {items.slice(0, items.length / 2).map((item, index) => <CategoryCarouselItem key={item._id} item={item} index={index} />)}
+                <div ref={carouselDiv} className={style.carouselItems}>
+                    {items.map((item, index) => <CategoryCarouselItem key={index} item={item} index={index} />)}
                 </div>
 
-                <CarouselArrowButton clickHandler={nextSlideHandler} direction={'right'} />
+                <CarouselArrowButton slideHandler={slideHandler} direction={'right'} />
             </div>
         </div>
     )

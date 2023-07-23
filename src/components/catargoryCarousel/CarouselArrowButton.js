@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const CarouselArrowButton = ({ direction, clickHandler }) => {
+export const CarouselArrowButton = ({ direction, slideHandler }) => {
     const [arrowStyle, setArrowStyle] = useState({
         fill: 'white',
         stroke: 'black',
@@ -16,7 +16,7 @@ export const CarouselArrowButton = ({ direction, clickHandler }) => {
     }
 
     return (
-        <button onClick={clickHandler} onMouseOver={btnHoverHandler} onMouseOut={btnMouseOutHandler}>
+        <button onClick={e => slideHandler(e, direction)} onMouseOver={btnHoverHandler} onMouseOut={btnMouseOutHandler}>
             <svg height={40} width={40}>
                 {direction === 'left'
                     ? <polygon points="30,0 0,15 30,30" style={arrowStyle} />

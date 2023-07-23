@@ -85,6 +85,7 @@ export const ItemDetails = () => {
                                 </span>
                                 ({item.totalRatingVotes})
                             </p>
+                            <p>Price: {item.price}</p>
                             <div>
                                 <button onClick={() => addToCart(item, 1)}>Add To Cart</button>
                             </div>

@@ -28,21 +28,22 @@ export const CartContextProvider = ({ children }) => {
                 break
             case 'removeFromCart':
                 changedCart = {
-                    items: state.items.filter(i => i._id !== action.itemId)
+                    items: state.items.filter(i => i.item._id !== action.itemId)
                 }
                 break
             case 'changeItemCount':
-                const itemToChange = state.items.find(i => i.item._id === action.itemToChangeId)
+                const itemToChange = state.items.find(i => i.item._id === action.itemId)
                 if (!itemToChange || action.newCount < 0 || itemToChange.item.count < action.newCount) return state
 
                 changedCart = {
                     items:
                         [
-                            ...state.items.filter(i => i !== itemToChange),
+                            ...state.items.slice(0, state.items.indexOf(itemToChange)),
                             {
                                 ...itemToChange,
-                                count: itemToChange.count + action.newCount
-                            }
+                                count: action.newCount
+                            },
+                            ...state.items.slice(state.items.indexOf(itemToChange) + 1)
                         ],
                 }
                 break
@@ -51,6 +52,7 @@ export const CartContextProvider = ({ children }) => {
         }
 
         changedCart.totalPrice = changedCart.items.reduce((total, i) => total + i.item.price * i.count, 0)
+        changedCart._id = state._id
 
         if (!_id) sessionStorage.setItem('cart', JSON.stringify(changedCart))
 
@@ -84,12 +86,11 @@ export const CartContextProvider = ({ children }) => {
         dispatch({ type: 'addToCart', itemObj: { item, count } })
     }, [cart._id, _id])
 
-    //TODO refactor remove
-    const removeFromCart = useCallback(async ({ item }) => {
+    const removeFromCart = useCallback(async (itemObj) => {
         if (_id)
-            await removeFromCartBydId(cart._id, itemId)
+            await removeFromCartBydId(cart._id, itemObj._id)
 
-        dispatch({ type: 'removeFromCart', itemId })
+        dispatch({ type: 'removeFromCart', itemId: itemObj.item._id })
     }, [cart._id, _id])
 
     const emptyCart = useCallback(async () => {

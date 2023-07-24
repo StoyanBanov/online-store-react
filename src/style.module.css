@@ -11,3 +11,8 @@
     position: absolute;
     background-color: white;
 }
+
+main {
+    margin-left: 10%;
+    margin-right: 10%;
+}

@@ -25,8 +25,10 @@ export const CategoryCarousel = ({ category }) => {
         const items = carouselDiv.current.children
         const carouselDivWidth = carouselDiv.current.offsetWidth
 
-        if (direction === 'left' && items[0].offsetLeft === 0) return
-        else if (direction === 'right' && items[items.length - 1].offsetLeft < carouselDivWidth && items[items.length - 1].offsetLeft > 0) return
+        if ((direction === 'left' && items[0].offsetLeft === 0)
+            || (direction === 'right' && items[items.length - 1].offsetLeft < carouselDivWidth && items[items.length - 1].offsetLeft > 0)) {
+            return
+        }
 
         isSliding = true
 

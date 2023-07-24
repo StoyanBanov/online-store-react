@@ -1,7 +1,13 @@
 .carouselContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start
+}
+
+.carouselContainer>h2 {
+    margin: 0;
 }
 
 .carousel {
@@ -24,20 +30,24 @@
 }
 
 .carouselItem {
-    cursor: pointer;
     box-sizing: border-box;
     border-radius: 4px;
     background-color: white;
     width: 190px;
-    height: 300px;
+    height: 310px;
     padding: 10px;
     margin-right: 10px;
     position: absolute;
 }
 
+.carouselItem h3,
+img {
+    cursor: pointer;
+}
+
 .carouselItem>div {
     position: absolute;
-    bottom: 0px;
+    bottom: 10px;
 }
 
 .carousel button {

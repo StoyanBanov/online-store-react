@@ -41,8 +41,11 @@ function App() {
     return (
         <div>
             <AuthContextProvider>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <p style={{ color: 'red', display: 'inline' }}><span style={{ fontSize: 30, fontWeight: 'bold' }}>ne</span><span style={{ fontSize: 21.5, fontWeight: 'bolder' }}>MAG</span></p>
+                    <Search />
+                </div>
                 <Nav />
-                <Search />
 
                 <CartContextProvider>
                     <div className={style.cartDiv}>
@@ -63,34 +66,34 @@ function App() {
                             <ShoppingCart />
                         </div>
                     </div>
+                    <main>
+                        <Routes>
+                            <Route path="/non-verified" element={<NonVerified />} />
+                            <Route path="/logout" element={<Logout />} />
 
-                    <Routes>
-                        <Route path="/non-verified" element={<NonVerified />} />
-                        <Route path="/logout" element={<Logout />} />
+                            <Route element={<UnverifiedUserRouteGuard />}>
+                                <Route path="/" element={<Home />} />
 
-                        <Route element={<UnverifiedUserRouteGuard />}>
-                            <Route path="/" element={<Home />} />
+                                <Route path="/catalog">
+                                    <Route index={true} element={<Catalog />} />
+                                    <Route path=":itemId" element={<ItemDetails />} />
+                                </Route>
 
-                            <Route path="/catalog">
-                                <Route index={true} element={<Catalog />} />
-                                <Route path=":itemId" element={<ItemDetails />} />
-                            </Route>
+                                <Route element={<VerifiedUserRouteGuard />}>
+                                    <Route path="/create">
+                                        <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
+                                        <Route path="item" element={<CreateItem />} />
+                                        <Route path="category" element={<CreateCategory />} />
+                                    </Route>
+                                </Route>
 
-                            <Route element={<VerifiedUserRouteGuard />}>
-                                <Route path="/create">
-                                    <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
-                                    <Route path="item" element={<CreateItem />} />
-                                    <Route path="category" element={<CreateCategory />} />
+                                <Route element={<GuestUserRouteGuard />}>
+                                    <Route path="/login" element={<Login />} />
+                                    <Route path="/register" element={<Register />} />
                                 </Route>
                             </Route>
-
-                            <Route element={<GuestUserRouteGuard />}>
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/register" element={<Register />} />
-                            </Route>
-                        </Route>
-                    </Routes>
-
+                        </Routes>
+                    </main>
                 </CartContextProvider>
 
             </AuthContextProvider>

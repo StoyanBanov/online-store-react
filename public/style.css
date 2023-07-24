@@ -1,4 +1,9 @@
 body {
     margin: 0;
     background-color: #f2f2f7;
+    font-family: Arial;
+}
+
+button {
+    cursor: pointer;
 }

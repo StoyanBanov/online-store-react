@@ -1,9 +1,12 @@
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import style from './style.module.css'
 
 import { useNavigate } from "react-router-dom"
+import { CartContext } from '../common/context/CartContext'
 
 export const CategoryCarouselItem = ({ item, styleRight }) => {
+    const { addToCart } = useContext(CartContext)
+
     const navigate = useNavigate()
 
     const itemClickHandler = useCallback(() => {
@@ -11,11 +14,12 @@ export const CategoryCarouselItem = ({ item, styleRight }) => {
     }, [navigate, item._id])
 
     return (
-        <div onClick={itemClickHandler} style={{ right: styleRight }} className={style.carouselItem}>
-            <img className={style.carouselItemThumbnail} src={'http://localhost:3030/static/images/' + item.thumbnail} alt={`${item.title} thumbnail`} />
+        <div style={{ right: styleRight }} className={style.carouselItem}>
+            <img onClick={itemClickHandler} className={style.carouselItemThumbnail} src={'http://localhost:3030/static/images/' + item.thumbnail} alt={`${item.title} thumbnail`} />
             <div>
-                <h3>{item.title}</h3>
+                <h3 onClick={itemClickHandler}>{item.title}</h3>
                 <p>Price: {item.price}</p>
+                <button onClick={e => addToCart(item, 1)}><img src='' alt='Cart' /></button>
             </div>
         </div>
     )

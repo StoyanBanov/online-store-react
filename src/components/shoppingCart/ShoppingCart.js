@@ -1,20 +1,8 @@
-import { useCallback, useContext } from "react"
-import { CartContext } from "../common/context/CartContext"
 import { ShoppingCartItem } from "./ShoppingCartItem"
-import { useNavigate } from "react-router-dom"
+import { useCart } from "../common/hooks/useCart"
 
 export const ShoppingCart = () => {
-    const { cart, emptyCart } = useContext(CartContext)
-
-    const navigate = useNavigate()
-
-    const purchaseClickHandler = useCallback(() => {
-        navigate('/purchase')
-    }, [navigate])
-
-    const emptyCartClickHandler = useCallback(() => {
-        emptyCart(cart._id)
-    }, [emptyCart, cart._id])
+    const { cart, purchaseClickHandler, emptyCartClickHandler } = useCart()
 
     return (
         <div>

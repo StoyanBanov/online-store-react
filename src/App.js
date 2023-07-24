@@ -13,12 +13,31 @@ import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
 import { Nav } from "./components/nav/Nav";
 
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import { Search } from "./components/search/Search";
 import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
 import { CartContextProvider } from "./components/common/context/CartContext";
+import { useCallback, useRef } from "react";
+
+import style from './style.module.css'
 
 function App() {
+    const navigate = useNavigate()
+
+    const cartDiv = useRef()
+
+    const cartClickHandler = useCallback(() => {
+        navigate('/cart')
+    }, [navigate])
+
+    const cartHoverHandler = useCallback(e => {
+        if (e.type === 'mouseover') {
+            cartDiv.current.style.display = 'block'
+        } else {
+            cartDiv.current.style.display = 'none'
+        }
+    }, [])
+
     return (
         <div>
             <AuthContextProvider>
@@ -26,7 +45,24 @@ function App() {
                 <Search />
 
                 <CartContextProvider>
-                    <ShoppingCart />
+                    <div className={style.cartDiv}>
+                        <button
+                            onClick={cartClickHandler}
+                            onMouseOver={cartHoverHandler}
+                            onMouseOut={cartHoverHandler}
+                        >
+                            Cart
+                        </button>
+                        <div
+                            onMouseOver={cartHoverHandler}
+                            onMouseOut={cartHoverHandler}
+                            ref={cartDiv}
+                            style={{ display: 'none' }}
+                        >
+                            <h1>cart</h1>
+                            <ShoppingCart />
+                        </div>
+                    </div>
 
                     <Routes>
                         <Route path="/non-verified" element={<NonVerified />} />

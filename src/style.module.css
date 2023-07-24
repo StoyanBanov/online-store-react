@@ -1,0 +1,11 @@
+.cartDiv {
+    position: relative;
+}
+
+.cartDiv>div {
+    padding: 1vh;
+    border: 1px solid gray;
+    border-radius: 2%;
+    position: absolute;
+    background-color: white;
+}

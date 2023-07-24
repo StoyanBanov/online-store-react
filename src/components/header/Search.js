@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import style from './style.module.css'
+
 export const Search = () => {
     const [searchValue, setSearchValue] = useState('')
 
@@ -16,7 +18,7 @@ export const Search = () => {
     }
 
     return (
-        <div>
+        <div className={style.searchBar}>
             <form onSubmit={submitHandler}>
                 <input value={searchValue} onChange={searchValueChangeHandler} />
                 <button type="submit">Search</button>

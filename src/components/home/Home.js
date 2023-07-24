@@ -10,9 +10,10 @@ export const Home = () => {
             .then(setTopCats)
     }, [])
 
+    //for testing purposes
     return (
         <div>
-            {topCats.map(c => <CategoryCarousel key={c._id} category={c} />)}
+            {[...topCats, ...topCats, ...topCats].map(c => <CategoryCarousel key={c._id} category={c} />)}
         </div>
     )
 }

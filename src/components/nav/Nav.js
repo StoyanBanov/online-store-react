@@ -31,7 +31,7 @@ export const Nav = () => {
             }
 
             {
-                _id && <Link to={'/logout'}>Logout</Link>
+                _id && <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
             }
         </nav>
     )

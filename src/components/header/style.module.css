@@ -1,0 +1,65 @@
+.cartDiv {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.cartDiv>div {
+    top: 20px;
+    z-index: 999;
+    padding: 1vh;
+    border: 1px solid gray;
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px #888888;
+    position: absolute;
+    background-color: white;
+}
+
+.typeLower {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.typeUpper {
+    font-size: 21.5px;
+    font-weight: bolder;
+}
+
+.typeText {
+    color: red;
+}
+
+.searchContainer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: row;
+    align-items: center
+}
+
+.searchContainer>div {
+    flex-shrink: 0;
+}
+
+.searchContainer>p {
+    cursor: pointer;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.searchBar input {
+    font-size: 18px;
+    padding: 0;
+    padding-left: 10px;
+    border-radius: 14px;
+    border: 2px solid #ccc;
+    height: 25px;
+    width: 300px;
+}
+
+.searchBar {
+    margin-left: 2%;
+}

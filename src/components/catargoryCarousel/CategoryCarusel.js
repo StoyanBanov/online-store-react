@@ -63,7 +63,7 @@ export const CategoryCarousel = ({ category }) => {
                     {items.map((item, index) =>
                         <CategoryCarouselItem
                             key={index}
-                            styleRight={carouselDiv.current.offsetWidth - (index + 1) * (carouselDiv.current.offsetWidth / 5) + 'px'}
+                            styleRight={carouselDiv.current.offsetWidth - (index + 1) * 200 + 'px'}
                             item={item}
                         />
                     )}

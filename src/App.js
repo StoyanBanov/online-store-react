@@ -11,61 +11,20 @@ import { CreateCategory } from "./components/createCategory/CreateCategory";
 import { CreateItem } from "./components/createItem/CreateItem";
 import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
-import { Nav } from "./components/nav/Nav";
 
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
-import { Search } from "./components/search/Search";
-import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
+import { Navigate, Route, Routes } from "react-router-dom"
 import { CartContextProvider } from "./components/common/context/CartContext";
-import { useCallback, useRef } from "react";
+import { Header } from "./components/header/Header";
 
 import style from './style.module.css'
 
 function App() {
-    const navigate = useNavigate()
-
-    const cartDiv = useRef()
-
-    const cartClickHandler = useCallback(() => {
-        navigate('/cart')
-    }, [navigate])
-
-    const cartHoverHandler = useCallback(e => {
-        if (e.type === 'mouseover') {
-            cartDiv.current.style.display = 'block'
-        } else {
-            cartDiv.current.style.display = 'none'
-        }
-    }, [])
-
     return (
         <div>
             <AuthContextProvider>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <p style={{ color: 'red', display: 'inline' }}><span style={{ fontSize: 30, fontWeight: 'bold' }}>ne</span><span style={{ fontSize: 21.5, fontWeight: 'bolder' }}>MAG</span></p>
-                    <Search />
-                </div>
-                <Nav />
-
                 <CartContextProvider>
-                    <div className={style.cartDiv}>
-                        <button
-                            onClick={cartClickHandler}
-                            onMouseOver={cartHoverHandler}
-                            onMouseOut={cartHoverHandler}
-                        >
-                            Cart
-                        </button>
-                        <div
-                            onMouseOver={cartHoverHandler}
-                            onMouseOut={cartHoverHandler}
-                            ref={cartDiv}
-                            style={{ display: 'none' }}
-                        >
-                            <h1>cart</h1>
-                            <ShoppingCart />
-                        </div>
-                    </div>
+                    <Header />
+
                     <main>
                         <Routes>
                             <Route path="/non-verified" element={<NonVerified />} />

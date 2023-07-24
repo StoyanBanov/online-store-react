@@ -1,9 +1,13 @@
 .carouselContainer {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 70px;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-start
+}
+
+.carouselContainer:first-child {
+    margin-top: 20px;
 }
 
 .carouselContainer>h2 {
@@ -21,7 +25,7 @@
     margin-left: 10px;
     position: relative;
     height: 320px;
-    width: 1000px;
+    width: 1400px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -60,4 +64,22 @@ img {
 
 .carouselItemThumbnail {
     width: 100px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .carouselItems {
+        width: 1000px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .carouselItems {
+        width: 600px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .carouselItems {
+        width: 200px;
+    }
 }

@@ -3,9 +3,11 @@
 }
 
 .cartDiv>div {
+    z-index: 999;
     padding: 1vh;
     border: 1px solid gray;
-    border-radius: 2%;
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px #888888;
     position: absolute;
     background-color: white;
 }

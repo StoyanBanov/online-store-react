@@ -8,11 +8,20 @@
     color: black;
     display: inline-block;
     padding: 5px;
-    text-decoration: none;
 }
 
 .navContainer a:hover {
     background-color: aliceblue;
+    text-decoration: none;
+}
+
+.navContainer .activeLink {
+    background-color: aliceblue;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.navContainer .inactiveLink {
     text-decoration: none;
 }
 

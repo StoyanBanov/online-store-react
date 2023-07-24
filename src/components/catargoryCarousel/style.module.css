@@ -1,13 +1,20 @@
 .carouselContainer {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start
+}
+
+.carousel {
+    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
 .carouselItems {
+    margin-left: 10px;
     position: relative;
-    height: 400px;
+    height: 320px;
     width: 1000px;
     display: flex;
     flex-direction: row;
@@ -16,11 +23,24 @@
     overflow: hidden;
 }
 
-.carouselIem {
+.carouselItem {
+    cursor: pointer;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: white;
+    width: 190px;
+    height: 300px;
+    padding: 10px;
+    margin-right: 10px;
     position: absolute;
 }
 
-.carouselContainer button {
+.carouselItem>div {
+    position: absolute;
+    bottom: 0px;
+}
+
+.carousel button {
     z-index: 1;
     cursor: pointer;
     height: 45px;
@@ -29,5 +49,5 @@
 }
 
 .carouselItemThumbnail {
-    width: 200px;
+    width: 100px;
 }

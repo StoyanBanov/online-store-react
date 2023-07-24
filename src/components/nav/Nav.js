@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 import style from './style.module.css'
 import { useContext } from "react"
@@ -7,22 +7,26 @@ import { AuthContext } from "../common/context/AuthContext"
 export const Nav = () => {
     const { user: { verified, roles, _id } } = useContext(AuthContext)
 
+    const ActiveClassNameHandler = ({ isActive }) => (
+        isActive ? style.activeLink : style.inactiveLink
+    )
+
     return (
         <nav className={style.navContainer}>
-            <Link to={'/'}>Home</Link>
-            <Link to={'/catalog'}>Catalog</Link>
+            <NavLink to={'/'} className={ActiveClassNameHandler}>Home</NavLink>
+            <NavLink to={'/catalog'} className={ActiveClassNameHandler}>Catalog</NavLink>
 
             {verified && roles.includes('admin') &&
                 <>
-                    <Link to={'/create/category'}>Create Category</Link>
-                    <Link to={'/create/item'}>Create Item</Link>
+                    <NavLink to={'/create/category'} className={ActiveClassNameHandler}>Create Category</NavLink>
+                    <NavLink to={'/create/item'} className={ActiveClassNameHandler}>Create Item</NavLink>
                 </>
             }
 
             {!_id &&
                 <>
-                    <Link to={'/register'}>Register</Link>
-                    <Link to={'/login'}>Login</Link>
+                    <NavLink to={'/register'} className={ActiveClassNameHandler}>Register</NavLink>
+                    <NavLink to={'/login'} className={ActiveClassNameHandler}>Login</NavLink>
                 </>
             }
 

@@ -5,6 +5,8 @@ import { CategoryCarouselItem } from "./CategoryCarouselItem"
 import style from './style.module.css'
 import { CarouselArrowButton } from "./CarouselArrowButton"
 
+let isSliding = false
+
 export const CategoryCarousel = ({ category }) => {
     const [items, setItems] = useState([])
 
@@ -17,11 +19,16 @@ export const CategoryCarousel = ({ category }) => {
 
     const slideHandler = useCallback((e, direction) => {
         e.preventDefault()
+
+        if (isSliding) return
+
         const items = carouselDiv.current.children
         const carouselDivWidth = carouselDiv.current.offsetWidth
 
         if (direction === 'left' && items[0].offsetLeft === 0) return
         else if (direction === 'right' && items[items.length - 1].offsetLeft < carouselDivWidth && items[items.length - 1].offsetLeft > 0) return
+
+        isSliding = true
 
         const step = carouselDivWidth / 50
 
@@ -32,6 +39,7 @@ export const CategoryCarousel = ({ category }) => {
             if (totalSteps >= carouselDivWidth) {
                 totalSteps = carouselDivWidth
                 clearInterval(interval)
+                isSliding = false
             }
 
             for (const item of items) {
@@ -43,14 +51,20 @@ export const CategoryCarousel = ({ category }) => {
     }, [carouselDiv])
 
     return (
-        <div>
+        <div className={style.carouselContainer}>
             <h2>{category.title}</h2>
 
-            <div className={style.carouselContainer}>
+            <div className={style.carousel}>
                 <CarouselArrowButton slideHandler={slideHandler} direction={'left'} />
 
                 <div ref={carouselDiv} className={style.carouselItems}>
-                    {items.map((item, index) => <CategoryCarouselItem key={index} item={item} index={index} />)}
+                    {items.map((item, index) =>
+                        <CategoryCarouselItem
+                            key={index}
+                            styleRight={carouselDiv.current.offsetWidth - (index + 1) * (carouselDiv.current.offsetWidth / 5) + 'px'}
+                            item={item}
+                        />
+                    )}
                 </div>
 
                 <CarouselArrowButton slideHandler={slideHandler} direction={'right'} />

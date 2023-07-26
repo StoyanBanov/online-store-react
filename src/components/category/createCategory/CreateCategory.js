@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { createCategory } from "../../data/services/itemService"
+import { createCategory } from "../../../data/services/itemService"
 
 export const CreateCategory = () => {
     const [values, setValues] = useState({
@@ -9,6 +9,10 @@ export const CreateCategory = () => {
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
+    }, [])
+
+    const onImageHandler = useCallback(e => {
+        setValues(state => ({ ...state, thumbnail: e.target.files[0] }))
     }, [])
 
     const onSubmitHandler = useCallback(async e => {
@@ -26,6 +30,11 @@ export const CreateCategory = () => {
                 <div>
                     <label htmlFor="cat-title">Title</label>
                     <input id="cat-title" name="title" value={values.title} onChange={onValueChangeHandler} />
+                </div>
+
+                <div>
+                    <label htmlFor="item-thumbnail">Thumbnail</label>
+                    <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
                 </div>
 
                 <div>

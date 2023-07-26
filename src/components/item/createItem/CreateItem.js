@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { createItem, getAllChildCategories } from "../../data/services/itemService"
+import { createItem, getAllChildCategories } from "../../../data/services/itemService"
 import { useNavigate } from "react-router-dom"
 
 export const CreateItem = () => {

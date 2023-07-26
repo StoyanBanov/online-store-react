@@ -4,13 +4,14 @@ import { NonVerified } from "./components/auth/NonVerified";
 import { Register } from "./components/auth/Register";
 import { Catalog } from "./components/catalog/Catalog";
 import { AuthContextProvider } from "./components/common/context/AuthContext";
-import { GuestUserRouteGuard } from "./components/common/guards/GuestUserRouteGuard";
-import { UnverifiedUserRouteGuard } from "./components/common/guards/UnverifiedUserRouteGuard";
-import { VerifiedUserRouteGuard } from "./components/common/guards/VerifiedUserRouteGuard";
-import { CreateCategory } from "./components/createCategory/CreateCategory";
-import { CreateItem } from "./components/createItem/CreateItem";
+import { CreateCategory } from "./components/category/createCategory/CreateCategory";
+import { CreateItem } from "./components/item/createItem/CreateItem";
 import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
+
+import { GuestUserRouteGuard } from "./components/common/guards/GuestUserRouteGuard";
+import { VerifiedUserOrGuestRouteGuard } from "./components/common/guards/VerifiedUserOrGuestRouteGuard";
+import { AdminUserRouteGuard } from "./components/common/guards/AdminUserRouteGuard";
 
 import { Navigate, Route, Routes } from "react-router-dom"
 import { CartContextProvider } from "./components/common/context/CartContext";
@@ -30,7 +31,7 @@ function App() {
                             <Route path="/non-verified" element={<NonVerified />} />
                             <Route path="/logout" element={<Logout />} />
 
-                            <Route element={<UnverifiedUserRouteGuard />}>
+                            <Route element={<VerifiedUserOrGuestRouteGuard />}>
                                 <Route path="/" element={<Home />} />
 
                                 <Route path="/catalog">
@@ -43,7 +44,7 @@ function App() {
                                     </Route>
                                 </Route>
 
-                                <Route element={<VerifiedUserRouteGuard />}>
+                                <Route element={<AdminUserRouteGuard />}>
                                     <Route path="/create">
                                         <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
                                         <Route path="item" element={<CreateItem />} />
@@ -59,7 +60,6 @@ function App() {
                         </Routes>
                     </main>
                 </CartContextProvider>
-
             </AuthContextProvider>
         </div >
     );

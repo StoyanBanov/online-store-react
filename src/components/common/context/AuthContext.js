@@ -1,14 +1,10 @@
-import { createContext, useCallback, useEffect, useState } from "react"
+import { createContext, useCallback, useState } from "react"
 
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
 
-    const [user, setUser] = useState({})
-    useEffect(() => {
-        const user = JSON.parse(window.sessionStorage.getItem('user'))
-        if (user) setUser(user)
-    }, [])
+    const [user, setUser] = useState(JSON.parse(window.sessionStorage.getItem('user')) ?? {})
 
     const setUserData = useCallback(userData => {
         sessionStorage.setItem('user', JSON.stringify(userData))

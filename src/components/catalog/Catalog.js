@@ -1,27 +1,39 @@
 import { useEffect, useState } from "react"
-import { getItems } from "../../data/services/itemService"
+import { getCategoryById, getItems } from "../../data/services/itemService"
 
 import { useParams, useSearchParams } from "react-router-dom"
 import { ItemCard } from "./ItemCard"
 
 import style from './style.module.css'
+import { CategoryCard } from "./CategoryCard"
 
 export const Catalog = () => {
 
-    const [items, setItems] = useState([])
+    const [data, setData] = useState({ list: [], type: '' })
 
     let [searchParams] = useSearchParams();
-    const { categoryId } = useParams()
+    const { catId } = useParams()
 
     useEffect(() => {
-        getItems({ search: searchParams.get('search'), categoryId })
-            .then(setItems)
-    }, [searchParams, categoryId])
-
+        if (catId) {
+            getCategoryById(catId)
+                .then(cat => {
+                    if (cat.childCategories.length) {
+                        setData({ list: cat.childCategories, type: 'categories' })
+                    } else {
+                        getItems({ search: searchParams.get('search'), catId: cat._id })
+                            .then(items => setData({ list: items, type: 'items' }))
+                    }
+                })
+        } else {
+            getItems({ search: searchParams.get('search'), catId })
+                .then(items => setData({ list: items, type: 'items' }))
+        }
+    }, [searchParams, catId])
 
     return (
         <div className={style.catalogContainer}>
-            {items.map(i => <ItemCard key={i._id} item={i} />)}
+            {data.list.map(d => data.type === 'items' ? <ItemCard key={d._id} item={d} /> : <CategoryCard key={d._id} cat={d} />)}
         </div>
     )
 }

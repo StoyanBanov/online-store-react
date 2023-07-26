@@ -11,7 +11,12 @@
 }
 
 .carouselContainer>h2 {
+    cursor: pointer;
     margin: 0;
+}
+
+.carouselContainer>h2:hover {
+    text-decoration: underline;
 }
 
 .carousel {
@@ -44,6 +49,10 @@
     position: absolute;
 }
 
+.carouselItem:last-child {
+    cursor: pointer;
+}
+
 .carouselItem h3,
 img {
     cursor: pointer;
@@ -68,7 +77,7 @@ img {
 
 @media only screen and (max-width: 1200px) {
     .carouselItems {
-        width: 1000px;
+        width: 800px;
     }
 }
 

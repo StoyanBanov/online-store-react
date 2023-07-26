@@ -16,7 +16,7 @@ async function request(method, url, body, json = false) {
     }
 }
 
-function createOptions(method, body, json) {
+function createOptions(method, body, isJson) {
     const options = {
         method,
         headers: {}
@@ -27,7 +27,7 @@ function createOptions(method, body, json) {
         options.headers['Authorization'] = user.accessToken
     }
 
-    if (json && body) {
+    if (isJson && body) {
         options.headers['Content-Type'] = 'application/json'
         body = JSON.stringify(body)
     }

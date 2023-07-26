@@ -4,17 +4,22 @@ import { CategoryCarouselItem } from "./CategoryCarouselItem"
 
 import style from './style.module.css'
 import { CarouselArrowButton } from "./CarouselArrowButton"
+import { useNavigate } from "react-router-dom"
 
 let isSliding = false
 
 export const CategoryCarousel = ({ category }) => {
     const [items, setItems] = useState([])
 
+    const navigate = useNavigate()
+
     const carouselDiv = useRef()
 
     useEffect(() => {
-        getItems({ categoryId: category._id, limit: 15 })
-            .then(i => setItems([...i, ...i, ...i, ...i, ...i, ...i])) //for tests
+        if (carouselDiv.current) {
+            getItems({ categoryId: category._id, limit: 15 })
+                .then(i => setItems([...i, ...i, ...i, ...i, ...i, ...i])) //for tests
+        }
     }, [category, carouselDiv])
 
     const slideHandler = useCallback((e, direction) => {
@@ -52,6 +57,10 @@ export const CategoryCarousel = ({ category }) => {
 
     }, [carouselDiv])
 
+    const categoryClickHandler = useCallback(() => {
+        navigate(`/catalog/${category.title}/${category._id}`)
+    }, [navigate, category])
+
     return (
         <div className={style.carouselContainer}>
             <h2>{category.title}</h2>
@@ -67,6 +76,15 @@ export const CategoryCarousel = ({ category }) => {
                             item={item}
                         />
                     )}
+                    {items.length &&
+                        <div
+                            onClick={categoryClickHandler}
+                            style={{ right: carouselDiv.current.offsetWidth - (items.length) * 200 + 'px' }}
+                            className={style.carouselItem}
+                        >
+                            <h2>{category.title}</h2>
+                        </div>
+                    }
                 </div>
 
                 <CarouselArrowButton slideHandler={slideHandler} direction={'right'} />

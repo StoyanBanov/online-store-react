@@ -9,10 +9,10 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItems({ categoryId, search = '', limit = 10, skip = 0 }) {
+export async function getItems({ catId, search = '', limit = 10, skip = 0 }) {
     const queryParams = []
-    if (categoryId) {
-        queryParams.push(`where=${encodeURIComponent(`category="${categoryId}"`)}`)
+    if (catId) {
+        queryParams.push(`where=${encodeURIComponent(`category="${catId}"`)}`)
     }
     if (search) {
         queryParams.push(`search=${search}`)
@@ -25,7 +25,11 @@ export async function getItemById(itemId) {
 }
 
 export async function createCategory(catData) {
-    return api.post(endpoints.cat, catData, true)
+    return api.post(endpoints.cat, catData)
+}
+
+export async function getCategoryById(id) {
+    return api.get(endpoints.cat + '/' + id)
 }
 
 export async function getAllChildCategories() {

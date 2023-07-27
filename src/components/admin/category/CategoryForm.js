@@ -5,15 +5,27 @@ import { createCategory, editCategoryById, getCategoryById } from "../../../data
 export const CategoryForm = () => {
     const { catId } = useParams()
 
+    const [existingCat, setExistingCat] = useState(null)
+
     const [values, setValues] = useState({
         title: '',
         parentCategory: 'none'
     })
 
     useEffect(() => {
-        if (catId)
+        if (catId) {
             getCategoryById(catId)
-                .then(cat => setValues({ title: cat.title, parentCategory: cat.parentCategory || 'none', thumbnail: cat.thumbnail }))
+                .then(cat => {
+                    setExistingCat(cat)
+                    setValues(
+                        {
+                            title: cat.title,
+                            parentCategory: cat.parentCategory || 'none',
+                            thumbnail: null
+                        }
+                    )
+                })
+        }
     }, [catId])
 
     const onValueChangeHandler = useCallback(e => {

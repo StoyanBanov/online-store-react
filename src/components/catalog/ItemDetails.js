@@ -64,7 +64,7 @@ export const ItemDetails = () => {
                     <p>{item.description}</p>
                     {roles && roles.includes('admin') &&
                         <>
-                            <Link to='edit'>Edit</Link>
+                            <Link to={`/admin/edit/item/${item._id}`}>Edit</Link>
                             <button>Delete</button>
                         </>
                     }

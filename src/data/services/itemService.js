@@ -24,6 +24,10 @@ export async function getItemById(itemId) {
     return api.get(`${endpoints.item}/${itemId}`)
 }
 
+export async function editItemById(itemId, itemData) {
+    return api.put(`${endpoints.item}/${itemId}`, itemData)
+}
+
 export async function createCategory(catData) {
     return api.post(endpoints.cat, catData)
 }

@@ -5,7 +5,7 @@ import { Register } from "./components/auth/Register";
 import { Catalog } from "./components/catalog/Catalog";
 import { AuthContextProvider } from "./components/common/context/AuthContext";
 import { CategoryForm } from "./components/admin/category/CategoryForm";
-import { CreateItem } from "./components/admin/item/CreateItem";
+import { ItemForm } from "./components/admin/item/ItemForm";
 import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
 
@@ -47,13 +47,13 @@ function App() {
                                     <Route path="/admin">
                                         <Route path="create">
                                             <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
-                                            <Route path="item" element={<CreateItem />} />
+                                            <Route path="item" element={<ItemForm />} />
                                             <Route path="category" element={<CategoryForm />} />
                                         </Route>
 
                                         <Route path="edit">
                                             <Route path="category/:catId" element={<CategoryForm />} />
-                                            <Route path="item/:itemId" element={<CreateItem />} />
+                                            <Route path="item/:itemId" element={<ItemForm />} />
                                         </Route>
                                     </Route>
                                 </Route>

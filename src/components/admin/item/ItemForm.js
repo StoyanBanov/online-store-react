@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
-import { createItem, getAllChildCategories } from "../../../data/services/itemService"
-import { useNavigate } from "react-router-dom"
+import { createItem, editItemById, getAllChildCategories, getItemById } from "../../../data/services/itemService"
+import { useNavigate, useParams } from "react-router-dom"
 
-export const CreateItem = () => {
+export const ItemForm = () => {
+    const { itemId } = useParams()
+
+    const [existingItem, setExistingItem] = useState(null)
 
     const navigate = useNavigate()
 
@@ -10,8 +13,6 @@ export const CreateItem = () => {
         title: '',
         price: '',
         description: '',
-        thumbnail: '',
-        images: [],
         category: ''
     })
 
@@ -24,6 +25,24 @@ export const CreateItem = () => {
                 setValues(state => ({ ...state, category: cats[0]?._id }))
             })
     }, [])
+
+    useEffect(() => {
+        if (itemId)
+            getItemById(itemId)
+                .then(
+                    item => {
+                        setExistingItem(item)
+                        setValues(
+                            {
+                                ...item,
+                                thumbnail: null,
+                                images: [],
+                                imagesToRemove: []
+                            }
+                        )
+                    }
+                )
+    }, [itemId])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -41,20 +60,26 @@ export const CreateItem = () => {
         e.preventDefault()
         const formData = new FormData()
         Object.entries(values).forEach(([k, v]) => {
-            if (k === 'images') {
-                for (const file of v) {
-                    formData.append('images', file)
-                }
-            } else formData.append(k, v)
+            if (v) {
+                if (Array.isArray(v)) {
+                    for (const subV of v) {
+                        formData.append(k, subV)
+                    }
+                } else formData.append(k, v)
+            }
         });
 
-        await createItem(formData)
+        if (itemId)
+            await editItemById(itemId, formData)
+        else
+            await createItem(formData)
 
         navigate('/')
     }
 
     return (
         <div>
+            <h1>{itemId ? 'Edit' : 'Create'} Form</h1>
             <form onSubmit={onSubmitHandler} encType="multipart/form-data">
                 <div>
                     <label htmlFor="item-title">Title</label>
@@ -68,7 +93,7 @@ export const CreateItem = () => {
 
                 <div>
                     <label htmlFor="item-description">Description</label>
-                    <input id="item-description" name="description" value={values.description} onChange={onValueChangeHandler} />
+                    <textarea id="item-description" name="description" value={values.description} onChange={onValueChangeHandler} rows={5} />
                 </div>
 
                 <div>
@@ -88,7 +113,7 @@ export const CreateItem = () => {
                     </select>
                 </div>
 
-                <input type="submit" defaultValue={'Create'} />
+                <button type="submit">{itemId ? 'Edit' : 'Create'}</button>
             </form>
         </div>
     )

@@ -6,7 +6,7 @@ export const ItemCard = ({ item }) => {
     const navigate = useNavigate()
 
     const onItemCardClick = useCallback(e => {
-        navigate('/catalog/' + item._id)
+        navigate(`${item._id}`)
     }, [navigate, item])
 
     return (

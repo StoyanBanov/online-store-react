@@ -10,12 +10,17 @@
     margin-top: 20px;
 }
 
-.carouselContainer>h2 {
-    cursor: pointer;
+.carouselContainer a,
+h2 {
     margin: 0;
 }
 
-.carouselContainer>h2:hover {
+.carouselContainer>a {
+    text-decoration: none;
+    color: black;
+}
+
+.carouselContainer>a:hover {
     text-decoration: underline;
 }
 

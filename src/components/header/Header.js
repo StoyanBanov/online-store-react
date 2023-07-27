@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { Nav } from "../nav/Nav"
+import { Nav } from "./nav/Nav"
 import { Search } from "./Search"
 import { ShoppingCart } from "../shoppingCart/ShoppingCart"
 

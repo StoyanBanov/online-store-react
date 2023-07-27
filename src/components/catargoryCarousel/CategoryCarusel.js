@@ -4,7 +4,7 @@ import { CategoryCarouselItem } from "./CategoryCarouselItem"
 
 import style from './style.module.css'
 import { CarouselArrowButton } from "./CarouselArrowButton"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 let isSliding = false
 
@@ -63,7 +63,7 @@ export const CategoryCarousel = ({ category }) => {
 
     return (
         <div className={style.carouselContainer}>
-            <h2>{category.title}</h2>
+            <Link to={`/catalog/${category.title}/${category._id}`}><h2>{category.title}</h2></Link>
 
             <div className={style.carousel}>
                 <CarouselArrowButton slideHandler={slideHandler} direction={'left'} />
@@ -74,6 +74,7 @@ export const CategoryCarousel = ({ category }) => {
                             key={index}
                             styleRight={carouselDiv.current.offsetWidth - (index + 1) * 200 + 'px'}
                             item={item}
+                            cat={category}
                         />
                     )}
                     {items.length &&

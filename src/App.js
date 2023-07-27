@@ -4,8 +4,8 @@ import { NonVerified } from "./components/auth/NonVerified";
 import { Register } from "./components/auth/Register";
 import { Catalog } from "./components/catalog/Catalog";
 import { AuthContextProvider } from "./components/common/context/AuthContext";
-import { CreateCategory } from "./components/category/createCategory/CreateCategory";
-import { CreateItem } from "./components/item/createItem/CreateItem";
+import { CategoryForm } from "./components/admin/category/CategoryForm";
+import { CreateItem } from "./components/admin/item/CreateItem";
 import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
 
@@ -36,7 +36,6 @@ function App() {
 
                                 <Route path="/catalog">
                                     <Route index={true} element={<Catalog />} />
-                                    <Route path=":itemId" element={<ItemDetails />} />
 
                                     <Route path=":catTitle/:catId">
                                         <Route index={true} element={<Catalog />} />
@@ -45,10 +44,17 @@ function App() {
                                 </Route>
 
                                 <Route element={<AdminUserRouteGuard />}>
-                                    <Route path="/create">
-                                        <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
-                                        <Route path="item" element={<CreateItem />} />
-                                        <Route path="category" element={<CreateCategory />} />
+                                    <Route path="/admin">
+                                        <Route path="create">
+                                            <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
+                                            <Route path="item" element={<CreateItem />} />
+                                            <Route path="category" element={<CategoryForm />} />
+                                        </Route>
+
+                                        <Route path="edit">
+                                            <Route path="category/:catId" element={<CategoryForm />} />
+                                            <Route path="item/:itemId" element={<CreateItem />} />
+                                        </Route>
                                     </Route>
                                 </Route>
 

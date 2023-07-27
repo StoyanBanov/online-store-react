@@ -28,6 +28,10 @@ export async function createCategory(catData) {
     return api.post(endpoints.cat, catData)
 }
 
+export async function getAllRootCategories() {
+    return api.get(endpoints.cat + `?where=${encodeURIComponent('parentCategory=null')}`)
+}
+
 export async function getCategoryById(id) {
     return api.get(endpoints.cat + '/' + id)
 }
@@ -38,6 +42,10 @@ export async function getAllChildCategories() {
 
 export async function getTopChildCategories(limit) {
     return api.get(endpoints.cat + `?orderBy=items&asc=-1&limit=${limit}&skip=0`)
+}
+
+export async function editCategoryById(id, catData) {
+    return api.put(endpoints.cat + '/' + id, catData)
 }
 
 export async function addUserRatingForItemId(itemId, rating) {

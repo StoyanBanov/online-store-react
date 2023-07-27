@@ -12,7 +12,9 @@ export const ItemCard = ({ item }) => {
     return (
         <div onClick={onItemCardClick} className={style.itemContainer}>
             <h2>{item.title}</h2>
-            <img height={200} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
+            {item.thumbnail &&
+                <img height={200} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
+            }
         </div>
     )
 }

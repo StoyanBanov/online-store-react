@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getCategoryById, getItems } from "../../data/services/itemService"
+import { getCategoryById, getAllRootCategories, getItems } from "../../data/services/itemService"
 
 import { useParams, useSearchParams } from "react-router-dom"
 import { ItemCard } from "./ItemCard"
@@ -8,7 +8,6 @@ import style from './style.module.css'
 import { CategoryCard } from "./CategoryCard"
 
 export const Catalog = () => {
-
     const [data, setData] = useState({ list: [], type: '' })
 
     let [searchParams] = useSearchParams();
@@ -26,8 +25,8 @@ export const Catalog = () => {
                     }
                 })
         } else {
-            getItems({ search: searchParams.get('search'), catId })
-                .then(items => setData({ list: items, type: 'items' }))
+            getAllRootCategories()
+                .then(cats => setData({ list: cats, type: 'categories' }))
         }
     }, [searchParams, catId])
 

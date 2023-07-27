@@ -1,0 +1,66 @@
+.navContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(248, 93, 93);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.navContainer a,
+p {
+    margin: 0;
+    color: black;
+    display: inline-block;
+    padding: 5px;
+}
+
+.navContainer p {
+    cursor: pointer;
+}
+
+.navContainer>div>a:hover,
+p:hover {
+    background-color: aliceblue;
+}
+
+.navContainer .activeLink {
+    background-color: aliceblue;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.navContainer .inactiveLink {
+    text-decoration: none;
+}
+
+.adminNav {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.allNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.adminDropDown {
+    cursor: auto;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    white-space: nowrap;
+    background-color: white;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    display: none;
+    z-index: 999;
+}
+
+.adminDropDown a:hover {
+    text-decoration: underline;
+}

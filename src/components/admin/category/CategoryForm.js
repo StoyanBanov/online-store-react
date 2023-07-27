@@ -1,11 +1,20 @@
-import { useCallback, useState } from "react"
-import { createCategory } from "../../../data/services/itemService"
+import { useCallback, useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { createCategory, editCategoryById, getCategoryById } from "../../../data/services/itemService"
 
-export const CreateCategory = () => {
+export const CategoryForm = () => {
+    const { catId } = useParams()
+
     const [values, setValues] = useState({
-        title: "",
+        title: '',
         parentCategory: 'none'
     })
+
+    useEffect(() => {
+        if (catId)
+            getCategoryById(catId)
+                .then(cat => setValues({ title: cat.title, parentCategory: cat.parentCategory || 'none', thumbnail: cat.thumbnail }))
+    }, [catId])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -17,15 +26,25 @@ export const CreateCategory = () => {
 
     const onSubmitHandler = useCallback(async e => {
         e.preventDefault()
+
         const formData = new FormData()
-        Object.entries(values.parentCategory === 'none' ? { title: values.title } : values).forEach(([k, v]) => {
-            formData.append(k, v)
+
+        Object.entries(values).forEach(([k, v]) => {
+            if (v) {
+                if (k === 'parentCategory' && v === 'none') return
+                formData.append(k, v)
+            }
         })
-        await createCategory(formData)
-    }, [values])
+
+        if (catId)
+            await editCategoryById(catId, formData)
+        else
+            await createCategory(formData)
+    }, [values, catId])
 
     return (
         <div>
+            <h1>{catId ? 'Edit' : 'Create'} Form</h1>
             <form onSubmit={onSubmitHandler}>
                 <div>
                     <label htmlFor="cat-title">Title</label>
@@ -47,7 +66,7 @@ export const CreateCategory = () => {
                     </select>
                 </div>
 
-                <input type="submit" defaultValue={'Create'} />
+                <button type="submit">{catId ? 'Edit' : 'Create'}</button>
             </form>
         </div>
     )

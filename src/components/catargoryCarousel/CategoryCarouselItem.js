@@ -4,14 +4,14 @@ import style from './style.module.css'
 import { useNavigate } from "react-router-dom"
 import { CartContext } from '../common/context/CartContext'
 
-export const CategoryCarouselItem = ({ item, styleRight }) => {
+export const CategoryCarouselItem = ({ item, styleRight, cat }) => {
     const { addToCart } = useContext(CartContext)
 
     const navigate = useNavigate()
 
     const itemClickHandler = useCallback(() => {
-        navigate(`/catalog/${item._id}`)
-    }, [navigate, item._id])
+        navigate(`/catalog/${cat.title}/${cat._id}/${item._id}`)
+    }, [navigate, item._id, cat])
 
     return (
         <div style={{ right: styleRight }} className={style.carouselItem}>

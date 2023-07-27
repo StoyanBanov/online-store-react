@@ -1,7 +1,10 @@
-import { useCallback } from "react"
+import { useCallback, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../common/context/AuthContext"
 
 export const CategoryCard = ({ cat }) => {
+    const { user: { roles } } = useContext(AuthContext)
+
     const navigate = useNavigate()
 
     const editClickHandler = useCallback(() => {
@@ -14,9 +17,12 @@ export const CategoryCard = ({ cat }) => {
                 <img height={200} src={`http://localhost:3030/static/images/${cat.thumbnail}`} alt={cat.title} />
             }
             <h2>{cat.title}</h2>
-            <div>
-                <button onClick={editClickHandler}>Edit</button>
-            </div>
-        </div>
+            {roles?.includes('admin') &&
+                <div>
+                    <button onClick={editClickHandler}>Edit</button>
+                    <button onClick={editClickHandler}>Delete</button>
+                </div>
+            }
+        </div >
     )
 }

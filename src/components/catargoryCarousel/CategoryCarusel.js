@@ -83,7 +83,16 @@ export const CategoryCarousel = ({ category }) => {
                             style={{ right: carouselDiv.current.offsetWidth - (items.length) * 200 + 'px' }}
                             className={style.carouselItem}
                         >
-                            <h2>{category.title}</h2>
+                            <div>
+                                <img src={`http://localhost:3030/static/images/${category.thumbnail}`} alt={category.title}></img>
+                                <h2>
+                                    <span>{category.title}</span>
+                                    <span>{category.title}</span>
+                                    <span>{category.title}</span>
+                                    <span>{category.title}</span>
+                                    <span>{category.title}</span>
+                                </h2>
+                            </div>
                         </div>
                     }
                 </div>

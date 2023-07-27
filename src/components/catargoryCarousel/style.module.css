@@ -58,6 +58,41 @@ h2 {
     cursor: pointer;
 }
 
+.carouselItem:last-child div {
+    position: relative;
+}
+
+.carouselItem:last-child img {
+    filter: contrast(60%);
+    width: 100%;
+}
+
+.carouselItem:last-child span {
+    display: block;
+}
+
+.carouselItem:last-child h2 {
+    text-transform: uppercase;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    font-weight: 900;
+    font-size: 28px;
+    position: absolute;
+    top: 10px;
+}
+
+.carouselItem:last-child span:first-child,
+.carouselItem:last-child span:nth-child(3),
+.carouselItem:last-child span:nth-child(5) {
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-fill-color: transparent;
+}
+
+.carouselItem:last-child span:nth-child(2),
+.carouselItem:last-child span:nth-child(4) {
+    color: rgb(248, 93, 93);
+}
+
 .carouselItem h3,
 img {
     cursor: pointer;

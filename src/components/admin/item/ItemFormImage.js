@@ -26,17 +26,17 @@ export const ItemFormImage = ({ image, imageHandler, isRemovable = true }) => {
     return (
         <div className={style.formImage} >
             {
-                isRemovable &&
+                isRemovable && (
                     isRemoving
-                    ? <svg onClick={clickHandler} className={style.removeSvg
-                    } >
-                        <line x1="0" y1="0" x2="20" y2="20" />
-                        <line x1="0" y1="20" x2="20" y2="0" />
-                    </svg >
-                    : <svg onClick={clickHandler} className={style.addSvg}>
-                        <line x1="5" y1="10" x2="10" y2="20" />
-                        <line x1="10" y1="20" x2="20" y2="0" />
-                    </svg>
+                        ? <svg onClick={clickHandler} className={style.removeSvg
+                        } >
+                            <line x1="0" y1="0" x2="20" y2="20" />
+                            <line x1="0" y1="20" x2="20" y2="0" />
+                        </svg >
+                        : <svg onClick={clickHandler} className={style.addSvg}>
+                            <line x1="5" y1="10" x2="10" y2="20" />
+                            <line x1="10" y1="20" x2="20" y2="0" />
+                        </svg>)
             }
 
             {

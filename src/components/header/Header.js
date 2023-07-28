@@ -5,12 +5,13 @@ import { ShoppingCart } from "../shoppingCart/ShoppingCart"
 
 import style from './style.module.css'
 
-import { useCallback, useRef } from "react"
+import { useCallback, useContext, useRef } from "react"
+import { CartContext } from "../common/context/CartContext"
 
 export const Header = () => {
     const navigate = useNavigate()
 
-    const cartDiv = useRef()
+    const { cartDropDownRef } = useContext(CartContext)
 
     const cartClickHandler = useCallback(() => {
         navigate('/cart')
@@ -18,11 +19,11 @@ export const Header = () => {
 
     const cartHoverHandler = useCallback(e => {
         if (e.type === 'mouseover') {
-            cartDiv.current.style.display = 'block'
+            cartDropDownRef.current.style.display = 'block'
         } else {
-            cartDiv.current.style.display = 'none'
+            cartDropDownRef.current.style.display = 'none'
         }
-    }, [])
+    }, [cartDropDownRef])
 
     const homeClickHandler = useCallback(() => {
         navigate('/')
@@ -38,24 +39,27 @@ export const Header = () => {
 
                 <Search />
 
-                <div className={style.cartDiv}>
-                    <button
-                        onClick={cartClickHandler}
-                        onMouseOver={cartHoverHandler}
-                        onMouseOut={cartHoverHandler}
-                    >
-                        Cart
-                    </button>
-                    <div
-                        onMouseOver={cartHoverHandler}
-                        onMouseOut={cartHoverHandler}
-                        ref={cartDiv}
-                        style={{ display: 'none' }}
-                    >
-                        <h1>cart</h1>
-                        <ShoppingCart />
+                <div className={style.cartDropContainer}>
+                    <div className={style.cartDiv}>
+                        <button
+                            onClick={cartClickHandler}
+                            onMouseOver={cartHoverHandler}
+                            onMouseOut={cartHoverHandler}
+                        >
+                            Cart
+                        </button>
+                        <div
+                            ref={cartDropDownRef}
+                            onMouseOver={cartHoverHandler}
+                            onMouseOut={cartHoverHandler}
+                            style={{ display: 'none' }}
+                        >
+                            <h1>cart</h1>
+                            <ShoppingCart />
+                        </div>
                     </div>
                 </div>
+
             </div>
             <Nav />
         </>

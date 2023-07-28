@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useCallback } from "react";
+import { createContext, useContext, useEffect, useReducer, useCallback, useRef } from "react";
 import { getCartBydId, addToCartBydId, removeFromCartBydId, emptyCartBydId } from "../../../data/services/shoppingCartService"
 import { AuthContext } from "./AuthContext";
 
@@ -8,6 +8,8 @@ const cartInitialState = { items: [], totalPrice: 0 }
 
 export const CartContextProvider = ({ children }) => {
     const { user: { shoppingCart, _id } } = useContext(AuthContext)
+
+    const cartDropDownRef = useRef()
 
     const reducer = useCallback((state, action) => {
         let changedCart
@@ -84,6 +86,9 @@ export const CartContextProvider = ({ children }) => {
             await addToCartBydId(cart._id, { item: item._id, count })
 
         dispatch({ type: 'addToCart', itemObj: { item, count } })
+
+        cartDropDownRef.current.style.display = 'block'
+
     }, [cart._id, _id])
 
     const removeFromCart = useCallback(async (itemObj) => {
@@ -108,7 +113,7 @@ export const CartContextProvider = ({ children }) => {
     }, [cart._id, _id])
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, removeFromCart, emptyCart, changeItemCount }}>
+        <CartContext.Provider value={{ cart, addToCart, removeFromCart, emptyCart, changeItemCount, cartDropDownRef }}>
             {children}
         </CartContext.Provider>
     )

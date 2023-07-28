@@ -1,13 +1,19 @@
+.cartDropContainer {
+    position: fixed;
+    z-index: 999;
+    right: 5%;
+}
+
 .cartDiv {
-    flex-grow: 1;
+    /* flex-grow: 1; */
     display: flex;
     justify-content: flex-end;
     position: relative;
+    position: sticky;
 }
 
 .cartDiv>div {
     top: 20px;
-    z-index: 999;
     padding: 1vh;
     border: 1px solid gray;
     border-radius: 2px;
@@ -37,7 +43,7 @@
     margin-right: 5%;
     display: flex;
     flex-direction: row;
-    align-items: center
+    align-items: center;
 }
 
 .searchContainer>div {

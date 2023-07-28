@@ -11,18 +11,22 @@ export const CategoryCard = ({ cat }) => {
         navigate(`/admin/edit/category/${cat._id}`)
     }, [navigate, cat])
 
+    const catDetailsHandler = useCallback(() => {
+        navigate(`/catalog/${cat.title}/${cat._id}`)
+    }, [navigate, cat])
+
     return (
         <div>
             {cat.thumbnail &&
                 <img height={200} src={`http://localhost:3030/static/images/${cat.thumbnail}`} alt={cat.title} />
             }
-            <h2>{cat.title}</h2>
+            <h2 onClick={catDetailsHandler}>{cat.title}</h2>
             {roles?.includes('admin') &&
                 <div>
                     <button onClick={editClickHandler}>Edit</button>
                     <button onClick={editClickHandler}>Delete</button>
                 </div>
             }
-        </div >
+        </div>
     )
 }

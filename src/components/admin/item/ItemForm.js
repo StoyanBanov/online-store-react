@@ -12,11 +12,10 @@ export const ItemForm = () => {
 
     const [values, setValues] = useState({
         title: '',
-        price: '',
-        count: 0,
         description: '',
-        category: '',
-        images: []
+        price: 0,
+        count: 0,
+        category: ''
     })
 
     const [categories, setCategories] = useState([])
@@ -40,7 +39,8 @@ export const ItemForm = () => {
                                 ...item,
                                 thumbnail: null,
                                 images: [],
-                                imagesToRemove: []
+                                imagesToRemove: [],
+                                imageNamesToRemove: []
                             }
                         )
                     }
@@ -59,18 +59,18 @@ export const ItemForm = () => {
         }
     }, [])
 
-    const addImageToRemoveHandler = useCallback(imageName => {
-        setValues(state => ({ ...state, imagesToRemove: [...state.imagesToRemove, imageName] }))
-    }, [])
-
-    const removeImageToRemoveHandler = useCallback(imageName => {
-        setValues(state => ({ ...state, imagesToRemove: state.imagesToRemove.filter(i => i !== imageName) }))
+    const imageHandler = useCallback((image, isRemoving) => {
+        let key = typeof image === 'string' ? 'imageNamesToRemove' : 'imagesToRemove'
+        if (isRemoving)
+            setValues(state => ({ ...state, [key]: [...state[key], image] }))
+        else
+            setValues(state => ({ ...state, [key]: state[key].filter(i => i !== image) }))
     }, [])
 
     const onSubmitHandler = async e => {
         e.preventDefault()
         const formData = new FormData()
-        Object.entries(values).forEach(([k, v]) => {
+        Object.entries({ ...values, images: values.images.filter(i => !values.imagesToRemove.includes(i)), imagesToRemove: [] }).forEach(([k, v]) => {
             if (v) {
                 if (Array.isArray(v)) {
                     for (const subV of v) {
@@ -89,6 +89,7 @@ export const ItemForm = () => {
     }
 
     return (
+        values &&
         <div>
             <h1>{itemId ? 'Edit' : 'Create'} Form</h1>
             <form onSubmit={onSubmitHandler} encType="multipart/form-data">
@@ -116,7 +117,7 @@ export const ItemForm = () => {
                     <label htmlFor="item-thumbnail">Thumbnail</label>
                     {
                         existingItem &&
-                        <ItemFormImage imageName={existingItem.thumbnail} addImageHandler={addImageToRemoveHandler} removeImageHandler={removeImageToRemoveHandler} />
+                        <ItemFormImage image={existingItem.thumbnail} imageHandler={imageHandler} isRemovable={false} />
                     }
                     <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
                 </div>
@@ -125,7 +126,13 @@ export const ItemForm = () => {
                     <label htmlFor="item-images">Images</label>
                     {
                         existingItem &&
-                        existingItem.images.map(i => <ItemFormImage key={i} imageName={i} addImageHandler={addImageToRemoveHandler} removeImageHandler={removeImageToRemoveHandler} />)
+                        existingItem.images.concat(...values.images).map((img, i) =>
+                            <ItemFormImage
+                                key={i}
+                                image={img}
+                                imageHandler={imageHandler}
+                            />
+                        )
                     }
                     <input type="file" id="item-images" name="images" onChange={onImageHandler} multiple />
                 </div>

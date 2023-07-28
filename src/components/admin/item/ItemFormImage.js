@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import style from '../style.module.css'
 
-export const ItemFormImage = ({ imageName, addImageHandler }) => {
+export const ItemFormImage = ({ imageName, addImageHandler, removeImageHandler }) => {
     const [isRemoving, setIsRemoving] = useState(false)
 
     const clickHandler = e => {
         if (!isRemoving)
             addImageHandler(imageName)
         else
-            addImageHandler(imageName)
+            removeImageHandler(imageName)
 
         setIsRemoving(state => !state)
     }

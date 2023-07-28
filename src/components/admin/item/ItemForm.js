@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { createItem, editItemById, getAllChildCategories, getItemById } from "../../../data/services/itemService"
 import { useNavigate, useParams } from "react-router-dom"
+import { ItemFormImage } from "./ItemFormImage"
 
 export const ItemForm = () => {
     const { itemId } = useParams()
@@ -12,8 +13,10 @@ export const ItemForm = () => {
     const [values, setValues] = useState({
         title: '',
         price: '',
+        count: 0,
         description: '',
-        category: ''
+        category: '',
+        images: []
     })
 
     const [categories, setCategories] = useState([])
@@ -50,10 +53,18 @@ export const ItemForm = () => {
 
     const onImageHandler = useCallback(e => {
         if (e.target.name === 'thumbnail') {
-            setValues(state => ({ ...state, thumbnail: e.target.files[0] }))
+            setValues(state => ({ ...state, [e.target.name]: e.target.files[0] }))
         } else {
-            setValues(state => ({ ...state, images: [...e.target.files] }))
+            setValues(state => ({ ...state, [e.target.name]: e.target.files.length > 1 ? [...state[e.target.name], ...e.target.files] : [...state[e.target.name], e.target.files[0]] }))
         }
+    }, [])
+
+    const addImageToRemoveHandler = useCallback(imageName => {
+        setValues(state => ({ ...state, imagesToRemove: [...state.imagesToRemove, imageName] }))
+    }, [])
+
+    const removeImageToRemoveHandler = useCallback(imageName => {
+        setValues(state => ({ ...state, imagesToRemove: state.imagesToRemove.filter(i => i !== imageName) }))
     }, [])
 
     const onSubmitHandler = async e => {
@@ -97,12 +108,25 @@ export const ItemForm = () => {
                 </div>
 
                 <div>
+                    <label htmlFor="item-count">Count</label>
+                    <input type="number" min={0} id="item-count" name="count" value={values.count} onChange={onValueChangeHandler} rows={5} />
+                </div>
+
+                <div>
                     <label htmlFor="item-thumbnail">Thumbnail</label>
+                    {
+                        existingItem &&
+                        <ItemFormImage imageName={existingItem.thumbnail} addImageHandler={addImageToRemoveHandler} removeImageHandler={removeImageToRemoveHandler} />
+                    }
                     <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
                 </div>
 
                 <div>
                     <label htmlFor="item-images">Images</label>
+                    {
+                        existingItem &&
+                        existingItem.images.map(i => <ItemFormImage key={i} imageName={i} addImageHandler={addImageToRemoveHandler} removeImageHandler={removeImageToRemoveHandler} />)
+                    }
                     <input type="file" id="item-images" name="images" onChange={onImageHandler} multiple />
                 </div>
 

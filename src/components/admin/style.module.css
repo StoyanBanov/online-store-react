@@ -1,0 +1,29 @@
+.formImage {
+    display: inline-block;
+    position: relative;
+}
+
+.formImage svg {
+    border: 2px solid black;
+    padding: 2px;
+    background: white;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.addSvg line {
+    stroke: green;
+    stroke-width: 3px;
+}
+
+.removeSvg line {
+    stroke: red;
+    stroke-width: 3px;
+}
+
+.formImage svg:hover {
+    background: rgb(255, 229, 229);
+}

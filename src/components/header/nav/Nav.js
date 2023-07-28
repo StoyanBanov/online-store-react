@@ -10,13 +10,10 @@ export const Nav = () => {
     const adminUlRef = useRef()
     const adminPRef = useRef()
 
-    const ActiveClassNameHandler = ({ isActive }) => (
-        isActive ? style.activeLink : style.inactiveLink
-    )
+    const ActiveClassNameHandler = ({ isActive }) => isActive ? style.activeLink : style.inactiveLink
 
     const adminNavHandler = useCallback(e => {
         adminUlRef.current.style.display = e.type === 'click' || e.type === 'mouseover' ? 'block' : 'none'
-        if (e.type === 'click' && e.target.tagName === 'A') adminPRef.current.style.backgroundColor = 'aliceblue'
     }, [])
 
     return (

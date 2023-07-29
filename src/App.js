@@ -20,6 +20,7 @@ import { CartContextProvider } from "./components/common/context/CartContext";
 import { Header } from "./components/header/Header";
 
 import style from './style.module.css'
+import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
 
 function App() {
     return (
@@ -35,6 +36,8 @@ function App() {
 
                             <Route element={<VerifiedUserOrGuestRouteGuard />}>
                                 <Route path="/" element={<Home />} />
+
+                                <Route path="/cart" element={<ShoppingCart />} />
 
                                 <Route path="/catalog">
                                     <Route index={true} element={<Catalog />} />

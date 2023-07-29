@@ -54,7 +54,6 @@ export const Header = () => {
                             onMouseOut={cartHoverHandler}
                             style={{ display: 'none' }}
                         >
-                            <h1>cart</h1>
                             <ShoppingCart />
                         </div>
                     </div>

@@ -73,3 +73,13 @@ export async function addUserRatingForItemId(itemId, rating) {
 export async function getUserRatingForItemId(itemId, userId) {
     return api.get(`${endpoints.item}/rating?where=${encodeURIComponent(`item="${itemId}"&_creator="${userId}"`)}`)
 }
+
+//reviews
+
+export async function getItemReviewsById(itemId) {
+    return api.get(`${endpoints.item}/review?where${encodeURIComponent(`item="${itemId}"`)}`)
+}
+
+export async function addItemReviewById(itemId, text) {
+    return api.post(`${endpoints.item}/review`, { item: itemId, text }, true)
+}

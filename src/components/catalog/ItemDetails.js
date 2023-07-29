@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { addUserRatingForItemId, getItemById, getUserRatingForItemId } from '../../data/services/itemService'
+import { useNavigate, useParams } from 'react-router-dom'
+import { addUserRatingForItemId, deleteItemById, getItemById, getUserRatingForItemId } from '../../data/services/itemService'
 
 import { AuthContext } from '../common/context/AuthContext'
 
@@ -9,6 +9,8 @@ import { CartContext } from '../common/context/CartContext'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
+
+    const navigate = useNavigate()
 
     const { addToCart } = useContext(CartContext)
 
@@ -55,6 +57,11 @@ export const ItemDetails = () => {
         } else window.alert('login or register to vote')
     }, [_id, item, userRating])
 
+    const deleteClickHandler = useCallback(async () => {
+        await deleteItemById(item._id)
+        navigate('/')
+    }, [navigate, item])
+
     return (
         <div>
             {item._id &&
@@ -64,8 +71,8 @@ export const ItemDetails = () => {
                     <p>{item.description}</p>
                     {roles && roles.includes('admin') &&
                         <>
-                            <Link to={`/admin/edit/item/${item._id}`}>Edit</Link>
-                            <button>Delete</button>
+                            <button onClick={() => navigate(`/admin/edit/item/${item._id}`)}>Edit</button>
+                            <button onClick={deleteClickHandler}>Delete</button>
                         </>
                     }
                     {(!roles || (roles.includes('user') && !roles.includes('admin'))) &&

@@ -5,6 +5,8 @@ const endpoints = {
     cat: '/category'
 }
 
+//item
+
 export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
@@ -27,6 +29,12 @@ export async function getItemById(itemId) {
 export async function editItemById(itemId, itemData) {
     return api.put(`${endpoints.item}/${itemId}`, itemData)
 }
+
+export async function deleteItemById(itemId) {
+    return api.del(`${endpoints.item}/${itemId}`)
+}
+
+//cat
 
 export async function createCategory(catData) {
     return api.post(endpoints.cat, catData)
@@ -55,6 +63,8 @@ export async function getTopChildCategories(limit) {
 export async function editCategoryById(id, catData) {
     return api.put(endpoints.cat + '/' + id, catData)
 }
+
+//rating
 
 export async function addUserRatingForItemId(itemId, rating) {
     return api.post(`${endpoints.item}/rating`, { item: itemId, rating }, true)

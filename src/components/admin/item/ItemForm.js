@@ -47,7 +47,7 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
         e.preventDefault()
 
         const formData = new FormData()
-        Object.entries({ ...values, images: values.images.filter(i => !values.imagesToRemove.includes(i)), imagesToRemove: [] }).forEach(([k, v]) => {
+        Object.entries({ ...values, images: values.images?.filter(i => !values.imagesToRemove.includes(i)), imagesToRemove: [] }).forEach(([k, v]) => {
             if (v) {
                 if (Array.isArray(v)) {
                     for (const subV of v) {

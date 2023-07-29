@@ -1,4 +1,4 @@
-import { editItemById } from '../../../data/services/itemService'
+import { createItem } from '../../../data/services/itemService'
 import { ItemForm } from './ItemForm'
 
 export const CreateItem = () => {
@@ -12,6 +12,6 @@ export const CreateItem = () => {
     }
 
     return (
-        <ItemForm defValues={values} submitCallback={editItemById} title={'Create'} />
+        <ItemForm defValues={values} submitCallback={createItem} title={'Create'} />
     )
 }

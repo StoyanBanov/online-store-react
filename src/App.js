@@ -4,8 +4,10 @@ import { NonVerified } from "./components/auth/NonVerified";
 import { Register } from "./components/auth/Register";
 import { Catalog } from "./components/catalog/Catalog";
 import { AuthContextProvider } from "./components/common/context/AuthContext";
-import { CategoryForm } from "./components/admin/category/CategoryForm";
-import { ItemForm } from "./components/admin/item/ItemForm";
+import { CreateCategory } from "./components/admin/category/CreateCategory";
+import { EditCategory } from "./components/admin/category/EditCategory";
+import { CreateItem } from "./components/admin/item/CreateItem";
+import { EditItem } from "./components/admin/item/EditItem";
 import { ItemDetails } from "./components/catalog/ItemDetails";
 import { Home } from "./components/home/Home";
 
@@ -47,13 +49,13 @@ function App() {
                                     <Route path="/admin">
                                         <Route path="create">
                                             <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
-                                            <Route path="item" element={<ItemForm />} />
-                                            <Route path="category" element={<CategoryForm />} />
+                                            <Route path="item" element={<CreateItem />} />
+                                            <Route path="category" element={<CreateCategory />} />
                                         </Route>
 
                                         <Route path="edit">
-                                            <Route path="category/:catId" element={<CategoryForm />} />
-                                            <Route path="item/:itemId" element={<ItemForm />} />
+                                            <Route path="category/:catId" element={<EditCategory />} />
+                                            <Route path="item/:itemId" element={<EditItem />} />
                                         </Route>
                                     </Route>
                                 </Route>

@@ -17,7 +17,7 @@ export const CategoryCarousel = ({ category }) => {
 
     useEffect(() => {
         if (carouselDiv.current) {
-            getItems({ categoryId: category._id, limit: 15 })
+            getItems({ catId: category._id, limit: 15 })
                 .then(i => setItems([...i, ...i, ...i, ...i, ...i, ...i])) //for tests
         }
     }, [category, carouselDiv])

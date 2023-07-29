@@ -1,24 +1,19 @@
 import { useCallback, useEffect, useState } from "react"
-import { createItem, editItemById, getAllChildCategories, getItemById } from "../../../data/services/itemService"
-import { useNavigate, useParams } from "react-router-dom"
+import { getAllChildCategories } from "../../../data/services/itemService"
+import { useNavigate } from "react-router-dom"
 import { ItemFormImage } from "./ItemFormImage"
 
-export const ItemForm = () => {
-    const { itemId } = useParams()
-
-    const [existingItem, setExistingItem] = useState(null)
+export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => {
 
     const navigate = useNavigate()
 
-    const [values, setValues] = useState({
-        title: '',
-        description: '',
-        price: 0,
-        count: 0,
-        category: ''
-    })
+    const [values, setValues] = useState(null)
 
     const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        setValues(defValues)
+    }, [defValues])
 
     useEffect(() => {
         getAllChildCategories()
@@ -27,25 +22,6 @@ export const ItemForm = () => {
                 setValues(state => ({ ...state, category: cats[0]?._id }))
             })
     }, [])
-
-    useEffect(() => {
-        if (itemId)
-            getItemById(itemId)
-                .then(
-                    item => {
-                        setExistingItem(item)
-                        setValues(
-                            {
-                                ...item,
-                                thumbnail: null,
-                                images: [],
-                                imagesToRemove: [],
-                                imageNamesToRemove: []
-                            }
-                        )
-                    }
-                )
-    }, [itemId])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -69,6 +45,7 @@ export const ItemForm = () => {
 
     const onSubmitHandler = async e => {
         e.preventDefault()
+
         const formData = new FormData()
         Object.entries({ ...values, images: values.images.filter(i => !values.imagesToRemove.includes(i)), imagesToRemove: [] }).forEach(([k, v]) => {
             if (v) {
@@ -80,10 +57,7 @@ export const ItemForm = () => {
             }
         });
 
-        if (itemId)
-            await editItemById(itemId, formData)
-        else
-            await createItem(formData)
+        submitCallback(formData)
 
         navigate('/')
     }
@@ -91,7 +65,7 @@ export const ItemForm = () => {
     return (
         values &&
         <div>
-            <h1>{itemId ? 'Edit' : 'Create'} Form</h1>
+            <h1>{title} Form</h1>
             <form onSubmit={onSubmitHandler} encType="multipart/form-data">
                 <div>
                     <label htmlFor="item-title">Title</label>
@@ -140,11 +114,11 @@ export const ItemForm = () => {
                 <div>
                     <label htmlFor="item-category">Category</label>
                     <select id="item-category" name="category" onChange={onValueChangeHandler} value={values.category}>
-                        {categories.map((c, i) => <option key={c._id} value={c._id}>{c.title}</option>)}
+                        {categories.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
                     </select>
                 </div>
 
-                <button type="submit">{itemId ? 'Edit' : 'Create'}</button>
+                <button type="submit">{title}</button>
             </form>
         </div>
     )

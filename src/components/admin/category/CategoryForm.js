@@ -1,39 +1,27 @@
 import { useCallback, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { createCategory, editCategoryById, getCategoryById } from "../../../data/services/itemService"
+import { getAllParentCategories } from "../../../data/services/itemService"
 
-export const CategoryForm = () => {
-    const { catId } = useParams()
+export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) => {
 
-    const [existingCat, setExistingCat] = useState(null)
+    const [values, setValues] = useState(null)
 
-    const [values, setValues] = useState({
-        title: '',
-        parentCategory: 'none'
-    })
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        if (catId) {
-            getCategoryById(catId)
-                .then(cat => {
-                    setExistingCat(cat)
-                    setValues(
-                        {
-                            title: cat.title,
-                            parentCategory: cat.parentCategory || 'none',
-                            thumbnail: null
-                        }
-                    )
-                })
-        }
-    }, [catId])
+        setValues(defValues)
+    }, [defValues])
+
+    useEffect(() => {
+        getAllParentCategories()
+            .then(cats => setCategories(cats.filter(c => c._id !== existingCat._id)))
+    }, [existingCat])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
     }, [])
 
     const onImageHandler = useCallback(e => {
-        setValues(state => ({ ...state, thumbnail: e.target.files[0] }))
+        setValues(state => ({ ...state, [e.target.name]: e.target.files[0] }))
     }, [])
 
     const onSubmitHandler = useCallback(async e => {
@@ -43,20 +31,17 @@ export const CategoryForm = () => {
 
         Object.entries(values).forEach(([k, v]) => {
             if (v) {
-                if (k === 'parentCategory' && v === 'none') return
                 formData.append(k, v)
             }
         })
 
-        if (catId)
-            await editCategoryById(catId, formData)
-        else
-            await createCategory(formData)
-    }, [values, catId])
+        submitCallback(formData)
+    }, [values, submitCallback])
 
     return (
+        values &&
         <div>
-            <h1>{catId ? 'Edit' : 'Create'} Form</h1>
+            <h1>{title} Form</h1>
             <form onSubmit={onSubmitHandler}>
                 <div>
                     <label htmlFor="cat-title">Title</label>
@@ -65,20 +50,22 @@ export const CategoryForm = () => {
 
                 <div>
                     <label htmlFor="item-thumbnail">Thumbnail</label>
+                    {
+                        existingCat &&
+                        <img src={`http://localhost:3030/static/images/${existingCat.thumbnail}`} alt={existingCat.title} />
+                    }
                     <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
                 </div>
 
                 <div>
                     <label htmlFor="item-category">Category</label>
                     <select id="item-category" name="parentCategory" onChange={onValueChangeHandler}>
-                        <option>none</option>
-                        <option value={1}>1</option>
-                        <option value={2}>2</option>
-                        <option value={3}>3</option>
+                        <option value={'all'}>none</option>
+                        {categories.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
                     </select>
                 </div>
 
-                <button type="submit">{catId ? 'Edit' : 'Create'}</button>
+                <button type="submit">{title}</button>
             </form>
         </div>
     )

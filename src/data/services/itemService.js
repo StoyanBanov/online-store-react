@@ -36,16 +36,20 @@ export async function getAllRootCategories() {
     return api.get(endpoints.cat + `?where=${encodeURIComponent('parentCategory=null')}`)
 }
 
+export async function getAllParentCategories() {
+    return api.get(endpoints.cat + `?where=${encodeURIComponent('items=[]')}`)
+}
+
 export async function getCategoryById(id) {
     return api.get(endpoints.cat + '/' + id)
 }
 
 export async function getAllChildCategories() {
-    return api.get(endpoints.cat + `?where=${encodeURIComponent('childrenCount="0"')}`)
+    return api.get(endpoints.cat + `?where=${encodeURIComponent('childCategories=[]')}`)
 }
 
 export async function getTopChildCategories(limit) {
-    return api.get(endpoints.cat + `?orderBy=items&asc=-1&limit=${limit}&skip=0`)
+    return api.get(endpoints.cat + `?where=${encodeURIComponent('childCategories=[]')}&orderBy=items&asc=-1&limit=${limit}&skip=0`)
 }
 
 export async function editCategoryById(id, catData) {

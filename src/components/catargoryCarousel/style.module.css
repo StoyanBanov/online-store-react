@@ -103,12 +103,30 @@
     bottom: 10px;
 }
 
-.carousel button {
+.carousel>button {
     z-index: 1;
-    cursor: pointer;
-    height: 45px;
-    width: 45px;
-    padding: 5px;
+    height: 60px;
+    width: 40px;
+    padding: 2px;
+    padding-top: 12px;
+}
+
+.carousel>button:hover {
+    background-color: #eeeef7;
+    border-color: transparent;
+    border-radius: 2px;
+    border: 1px solid rgb(255, 255, 255);
+    padding-left: 3px;
+}
+
+.carouselItem button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 1;
+    height: 40px;
+    width: 50px;
+    padding: 2px;
 }
 
 .carouselItemThumbnail {

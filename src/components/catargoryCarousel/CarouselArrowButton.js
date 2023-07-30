@@ -8,11 +8,11 @@ export const CarouselArrowButton = ({ direction, slideHandler }) => {
     })
 
     const btnHoverHandler = () => {
-        setArrowStyle(state => ({ ...state, fill: 'gray', }))
+        setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'gray' }))
     }
 
     const btnMouseOutHandler = () => {
-        setArrowStyle(state => ({ ...state, fill: 'white', }))
+        setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'black' }))
     }
 
     return (

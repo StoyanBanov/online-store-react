@@ -24,6 +24,9 @@ export const Catalog = () => {
                             .then(items => setData({ list: items, type: 'items' }))
                     }
                 })
+        } else if (searchParams.size) {
+            getItems({ search: searchParams.get('search') })
+                .then(items => setData({ list: items, type: 'items' }))
         } else {
             getAllRootCategories()
                 .then(cats => setData({ list: cats, type: 'categories' }))

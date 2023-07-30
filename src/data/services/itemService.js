@@ -11,13 +11,16 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItems({ catId, search = '', limit = 10, skip = 0 }) {
+export async function getItems({ catId, search = '', limit = 1, skip = 0, count }) {
     const queryParams = []
     if (catId) {
         queryParams.push(`where=${encodeURIComponent(`category="${catId}"`)}`)
     }
     if (search) {
         queryParams.push(`search=${search}`)
+    }
+    if (count) {
+        queryParams.push(`count=true`)
     }
     return api.get(endpoints.item + `?${queryParams.join('&')}&limit=${limit}&skip=${skip}`)
 }

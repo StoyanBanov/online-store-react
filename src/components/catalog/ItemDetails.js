@@ -103,6 +103,9 @@ export const ItemDetails = () => {
                                             .split('')
                                             .map((r, i) => <span id={i} key={i} className={`${style.ratingStar}${userRating > i ? ' ' + style.userRatingStar : ''}`}>{r}</span>)
                                     }
+                                    {/* <svg id="svgelem" width="19" height="18" xmlns="http://www.w3.org/2000/svg">
+                                        <polygon points="10,0 4,18 19,6 1,6 16,18" fill="blue" />
+                                    </svg> */}
                                 </span>
                                 ({item.totalRatingVotes})
                             </p>

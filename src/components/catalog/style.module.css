@@ -15,3 +15,11 @@
 .userRatingStar {
     border: 1px solid gold;
 }
+
+.paginationContainer {
+    margin-top: 5vh;
+}
+
+.paginationContainer a {
+    margin-right: 5px;
+}

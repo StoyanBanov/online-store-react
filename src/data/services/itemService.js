@@ -11,8 +11,10 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItems({ catId, search = '', limit = 1, skip = 0, count }) {
-    const queryParams = []
+export async function getItems({ catId, search, limit, skip = 0, count, sortBy = { field: 'title', order: 'desc' } }) {
+    const queryParams = [
+        `sortBy=${encodeURIComponent(`${sortBy.field}="${sortBy.order}"`)}`
+    ]
     if (catId) {
         queryParams.push(`where=${encodeURIComponent(`category="${catId}"`)}`)
     }
@@ -22,7 +24,10 @@ export async function getItems({ catId, search = '', limit = 1, skip = 0, count 
     if (count) {
         queryParams.push(`count=true`)
     }
-    return api.get(endpoints.item + `?${queryParams.join('&')}&limit=${limit}&skip=${skip}`)
+    if (limit) {
+        queryParams.push(`limit=${limit}&skip=${skip}`)
+    }
+    return api.get(endpoints.item + `?${queryParams.join('&')}`)
 }
 
 export async function getItemById(itemId) {

@@ -8,7 +8,9 @@ export const CreateItem = () => {
         description: '',
         price: 0,
         count: 0,
-        category: ''
+        thumbnail: null,
+        images: [],
+        imagesToRemove: []
     }
 
     return (

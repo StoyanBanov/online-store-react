@@ -12,16 +12,17 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        setValues(defValues)
+        setValues(state => ({ ...state, ...defValues }))
     }, [defValues])
 
     useEffect(() => {
         getAllChildCategories()
             .then(cats => {
                 setCategories(cats)
-                setValues(state => ({ ...state, category: cats[0]?._id }))
+                if (!values?.category)
+                    setValues(state => ({ ...state, category: cats[0]?._id }))
             })
-    }, [])
+    }, [values])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -99,14 +100,21 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
                 <div>
                     <label htmlFor="item-images">Images</label>
                     {
-                        existingItem &&
-                        existingItem.images.concat(...values.images).map((img, i) =>
-                            <ItemFormImage
-                                key={i}
-                                image={img}
-                                imageHandler={imageHandler}
-                            />
-                        )
+                        existingItem
+                            ? existingItem.images.concat(...values.images).map((img, i) =>
+                                <ItemFormImage
+                                    key={i}
+                                    image={img}
+                                    imageHandler={imageHandler}
+                                />
+                            )
+                            : values.images.map((img, i) =>
+                                <ItemFormImage
+                                    key={i}
+                                    image={img}
+                                    imageHandler={imageHandler}
+                                />
+                            )
                     }
                     <input type="file" id="item-images" name="images" onChange={onImageHandler} multiple />
                 </div>

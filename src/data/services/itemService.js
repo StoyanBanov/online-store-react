@@ -11,9 +11,9 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItems({ catId, search, limit, skip = 0, count, sortBy = { field: 'title', order: 'desc' } }) {
+export async function getItems({ catId, search, itemsPerPage = 1, page = 1, count, sortBy = 'rating', order = 'desc' }) {
     const queryParams = [
-        `sortBy=${encodeURIComponent(`${sortBy.field}="${sortBy.order}"`)}`
+        `sortBy=${encodeURIComponent(`${sortBy}="${order}"`)}`
     ]
     if (catId) {
         queryParams.push(`where=${encodeURIComponent(`category="${catId}"`)}`)
@@ -24,8 +24,8 @@ export async function getItems({ catId, search, limit, skip = 0, count, sortBy =
     if (count) {
         queryParams.push(`count=true`)
     }
-    if (limit) {
-        queryParams.push(`limit=${limit}&skip=${skip}`)
+    if (itemsPerPage) {
+        queryParams.push(`limit=${itemsPerPage}&skip=${page - 1}`)
     }
     return api.get(endpoints.item + `?${queryParams.join('&')}`)
 }

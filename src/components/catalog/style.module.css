@@ -32,13 +32,20 @@
     height: 500px;
 }
 
+
+.catalogContainer img {
+    object-fit: contain;
+}
+
 .catalogContainer .categoryContainer img {
-    width: 300px;
+    height: 400px;
+    width: 350px;
 }
 
 .catalogContainer .itemContainer img {
     cursor: pointer;
     height: 200px;
+    width: 250px;
 }
 
 .catalogContainer .itemContainer img:hover {
@@ -80,6 +87,7 @@
 }
 
 .filterForm {
+    border-radius: 10px;
     background-color: white;
     display: flex;
     flex-direction: row;
@@ -92,4 +100,70 @@
 
 .filterForm div {
     margin-right: 2%;
+}
+
+
+
+/* item details */
+
+.itemDetailsTop {
+    display: flex;
+    flex-direction: row;
+}
+
+.itemDetailsContainer {
+    margin-top: 3vh;
+}
+
+.itemDetailsContainer .itemImages>img {
+    width: 500px;
+    height: 500px;
+    object-fit: contain;
+}
+
+.detailsImageCarousel {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    width: 500px;
+    height: 105px;
+    padding: 10px;
+}
+
+.detailsImageCarousel>img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.detailsImageCarousel>img:hover {
+    cursor: pointer;
+    opacity: 70%;
+    width: 103px;
+    height: 103px;
+    object-fit: contain;
+}
+
+.detailsImageCarousel svg {
+    width: 20px;
+    height: 40px;
+    background-color: rgb(151, 151, 151);
+    opacity: 50%;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 3px;
+    position: absolute;
+}
+
+.detailsImageCarousel svg:hover {
+    opacity: 75%;
+}
+
+.detailsImageCarousel svg:first-child {
+    left: 0;
+}
+
+.detailsImageCarousel svg:last-child {
+    right: 26px;
 }

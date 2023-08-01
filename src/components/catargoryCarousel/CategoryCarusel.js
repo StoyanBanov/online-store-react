@@ -22,6 +22,8 @@ export const CategoryCarousel = ({ category }) => {
         }
     }, [category, carouselDiv])
 
+    const [displayCarouselButtons, setDisplayCarouselButtons] = useState({ left: false, right: true })
+
     const slideHandler = useCallback((e, direction) => {
         e.preventDefault()
 
@@ -53,6 +55,13 @@ export const CategoryCarousel = ({ category }) => {
                 item.style.left = item.offsetLeft + (direction === 'left' ? step : -step) + 'px'
             }
 
+            if (!isSliding) {
+                setDisplayCarouselButtons({
+                    left: items[0].offsetLeft !== 0,
+                    right: !(items[items.length - 1].offsetLeft < carouselDivWidth && items[items.length - 1].offsetLeft > 0)
+                })
+            }
+
         }, 10)
 
     }, [carouselDiv])
@@ -66,7 +75,9 @@ export const CategoryCarousel = ({ category }) => {
             <Link to={`/catalog/${category.title}/${category._id}`}><h2>{category.title}</h2></Link>
 
             <div className={style.carousel}>
-                <CarouselArrowButton slideHandler={slideHandler} direction={'left'} />
+                {displayCarouselButtons.left &&
+                    <CarouselArrowButton slideHandler={slideHandler} direction={'left'} />
+                }
 
                 <div ref={carouselDiv} className={style.carouselItems}>
                     {items.map((item, index) =>
@@ -97,7 +108,9 @@ export const CategoryCarousel = ({ category }) => {
                     }
                 </div>
 
-                <CarouselArrowButton slideHandler={slideHandler} direction={'right'} />
+                {displayCarouselButtons.right &&
+                    <CarouselArrowButton slideHandler={slideHandler} direction={'right'} />
+                }
             </div>
         </div>
     )

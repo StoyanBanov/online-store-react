@@ -24,11 +24,14 @@ export const ItemDetails = () => {
 
     const [newUserReview, setNewUserReview] = useState('')
 
+    const [image, setImage] = useState('image')
+
     useEffect(() => {
         getItemById(itemId)
             .then(async i => {
                 setItem(i)
                 setItemRating(i.rating)
+                setImage(i.thumbnail)
 
                 if (_id) {
                     getUserRatingForItemId(i._id, _id)
@@ -76,13 +79,56 @@ export const ItemDetails = () => {
         await addItemReviewById(item._id, newUserReview)
     }, [item, newUserReview])
 
+    const carouselImgHoverHandler = useCallback(e => {
+        setImage(e.target.src.split('/').slice(-1)[0])
+    }, [])
+
     return (
-        <div>
+        <div className={style.itemDetailsContainer}>
             {item._id &&
                 <>
-                    <h2>{item.title}</h2>
-                    <img width={100} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title}></img>
-                    <p>{item.description}</p>
+                    <div className={style.itemDetailsTop}>
+                        <div className={style.itemImages}>
+                            <img src={`http://localhost:3030/static/images/${image}`} alt={item.title} />
+
+                            <div className={style.detailsImageCarousel}>
+                                <img onMouseOver={carouselImgHoverHandler} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
+                                {
+                                    item.images.map(i => <img key={i} onMouseOver={carouselImgHoverHandler} src={`http://localhost:3030/static/images/${i}`} alt={i} />)
+                                }
+
+                                <svg>
+                                    <line x1={0} y1={20} x2={20} y2={0} stroke='black' strokeWidth={5} />
+                                    <line x1={0} y1={20} x2={20} y2={40} stroke='black' strokeWidth={5} />
+                                </svg>
+
+                                <svg>
+                                    <line x1={0} y1={0} x2={20} y2={20} stroke='black' strokeWidth={5} />
+                                    <line x1={0} y1={40} x2={20} y2={20} stroke='black' strokeWidth={5} />
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <h2>{item.title}</h2>
+
+                            <h3 style={{ color: item.count ? 'green' : 'red' }}>{item.count ? 'In stock' : 'Sold out'}</h3>
+
+                            <p>Price: {item.price.toFixed(2)} $</p>
+
+                            <div>
+                                <button onClick={() => addToCart(item, 1)}>Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>
+                        <strong>
+                            Description:
+                        </strong>
+                        <br />
+                        {item.description}
+                    </p>
+
                     {roles && roles.includes('admin') &&
                         <>
                             <button onClick={() => navigate(`/admin/edit/item/${item._id}`)}>Edit</button>
@@ -110,12 +156,6 @@ export const ItemDetails = () => {
                                 ({item.totalRatingVotes})
                             </p>
 
-                            <p>Price: {item.price}</p>
-
-                            <div>
-                                <button onClick={() => addToCart(item, 1)}>Add To Cart</button>
-                            </div>
-
                             <button onClick={loadReviewsHandler}>Read reviews</button>
                             {reviews &&
                                 <>
@@ -132,7 +172,7 @@ export const ItemDetails = () => {
                                     }
                                     <div>
                                         {
-                                            reviews.map(r => <p key={r._id}>{r._creator.fname} {r._creator.lname}: {'\n'}{r.text}</p>)
+                                            reviews.map(r => <p key={r._id}><b>{r._creator.fname} {r._creator.lname}:</b> {'\n'}{r.text}</p>)
                                         }
                                     </div>
                                 </>

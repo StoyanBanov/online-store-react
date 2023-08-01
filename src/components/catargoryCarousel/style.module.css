@@ -29,6 +29,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .carouselItems {
@@ -52,6 +53,10 @@
     padding: 10px;
     margin-right: 10px;
     position: absolute;
+}
+
+.carouselItem:hover {
+    box-shadow: 0px 0px 5px rgb(223, 223, 223);
 }
 
 .carouselItem:last-child {
@@ -98,17 +103,34 @@
     cursor: pointer;
 }
 
+.carouselItem h3:hover {
+    text-decoration: underline;
+}
+
+.carouselItem img:hover {
+    opacity: 90%;
+}
+
 .carouselItem>div {
     position: absolute;
     bottom: 10px;
 }
 
 .carousel>button {
+    position: absolute;
     z-index: 1;
     height: 60px;
     width: 40px;
     padding: 2px;
     padding-top: 12px;
+}
+
+.carousel>button:first-child {
+    left: -40px;
+}
+
+.carousel>button:last-child {
+    right: -40px;
 }
 
 .carousel>button:hover {
@@ -124,13 +146,23 @@
     flex-direction: row;
     align-items: center;
     z-index: 1;
-    height: 40px;
-    width: 50px;
-    padding: 2px;
+    height: 30px;
+    width: 170px;
+}
+
+.carouselItem button>div {
+    width: 28px;
+}
+
+.carouselItem button>span {
+    color: red;
+    flex-grow: 1;
 }
 
 .carouselItemThumbnail {
-    width: 100px;
+    width: 170px;
+    height: 170px;
+    object-fit: contain;
 }
 
 @media only screen and (max-width: 1200px) {

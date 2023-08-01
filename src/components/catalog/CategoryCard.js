@@ -2,6 +2,8 @@ import { useCallback, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../common/context/AuthContext"
 
+import style from './style.module.css'
+
 export const CategoryCard = ({ cat }) => {
     const { user: { roles } } = useContext(AuthContext)
 
@@ -16,11 +18,15 @@ export const CategoryCard = ({ cat }) => {
     }, [navigate, cat])
 
     return (
-        <div>
-            {cat.thumbnail &&
-                <img height={200} src={`http://localhost:3030/static/images/${cat.thumbnail}`} alt={cat.title} />
-            }
-            <h2 onClick={catDetailsHandler}>{cat.title}</h2>
+        <div className={style.categoryContainer} onClick={catDetailsHandler}>
+            <div>
+                {cat.thumbnail &&
+                    <img src={`http://localhost:3030/static/images/${cat.thumbnail}`} alt={cat.title} />
+                }
+            </div>
+
+            <h2>{cat.title}</h2>
+
             {roles?.includes('admin') &&
                 <div>
                     <button onClick={editClickHandler}>Edit</button>

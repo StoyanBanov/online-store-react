@@ -13,7 +13,7 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
 
     useEffect(() => {
         getAllParentCategories()
-            .then(cats => setCategories(cats.filter(c => c._id !== existingCat._id)))
+            .then(cats => setCategories(cats.filter(c => c._id !== existingCat?._id)))
     }, [existingCat])
 
     const onValueChangeHandler = useCallback(e => {

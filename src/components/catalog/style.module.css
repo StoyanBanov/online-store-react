@@ -1,10 +1,65 @@
 .catalogContainer {
+    padding-top: 3vh;
     display: flex;
     flex-wrap: wrap;
 }
 
+.catalogContainer>div {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 2vh;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.catalogContainer>div>div:first-child {
+    height: 100%;
+}
+
 .catalogContainer .itemContainer {
-    width: 400px;
+    width: 250px;
+    height: 400px;
+}
+
+.catalogContainer .categoryContainer {
+    cursor: pointer;
+    width: 350px;
+    height: 500px;
+}
+
+.catalogContainer .categoryContainer img {
+    width: 300px;
+}
+
+.catalogContainer .itemContainer img {
+    cursor: pointer;
+    height: 200px;
+}
+
+.catalogContainer .itemContainer img:hover {
+    opacity: 90%;
+}
+
+.catalogContainer .itemContainer h2 {
+    cursor: pointer;
+}
+
+.catalogContainer .itemContainer h2:hover {
+    text-decoration: underline;
+}
+
+.catalogContainer .categoryContainer:hover {
+    text-decoration: underline;
+    opacity: 70%;
+}
+
+.catalogContainer .itemContainer:hover {
+    box-shadow: 0px 1px 12px rgb(194, 194, 194);
 }
 
 .ratingStar {

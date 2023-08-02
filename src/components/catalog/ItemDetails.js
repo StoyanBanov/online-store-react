@@ -19,6 +19,7 @@ export const ItemDetails = () => {
     const [item, setItem] = useState({})
     const [itemRating, setItemRating] = useState(0)
     const [userRating, setUserRating] = useState(0)
+    const [totalRating, setTotalRating] = useState(0)
 
     const [reviews, setReviews] = useState(null)
 
@@ -31,6 +32,7 @@ export const ItemDetails = () => {
             .then(async i => {
                 setItem(i)
                 setItemRating(i.rating)
+                setTotalRating(i.totalRatingVotes)
                 setImage(i.thumbnail)
 
                 if (_id) {
@@ -55,8 +57,11 @@ export const ItemDetails = () => {
             let averagedUserRating = uRating
             if (userRating) {
                 averagedUserRating -= userRating
-                averagedUserRating /= item.totalRatingVotes
-            } else averagedUserRating /= item.totalRatingVotes + 1
+                averagedUserRating /= totalRating
+            } else {
+                averagedUserRating /= totalRating + 1
+                setTotalRating(state => state + 1)
+            }
 
             setUserRating(uRating)
             setItemRating(state => state + averagedUserRating)
@@ -145,7 +150,7 @@ export const ItemDetails = () => {
                                     onClick={ratingStarClickHandler}
                                 >
                                     {
-                                        ('★'.repeat(itemRating) + '☆'.repeat(5 - itemRating))
+                                        ('★'.repeat(Math.round(itemRating)) + '☆'.repeat(5 - Math.round(itemRating)))
                                             .split('')
                                             .map((r, i) => <span id={i} key={i} className={`${style.ratingStar}${userRating > i ? ' ' + style.userRatingStar : ''}`}>{r}</span>)
                                     }
@@ -153,7 +158,7 @@ export const ItemDetails = () => {
                                         <polygon points="10,0 4,18 19,6 1,6 16,18" fill="blue" />
                                     </svg> */}
                                 </span>
-                                ({item.totalRatingVotes})
+                                ({totalRating})
                             </p>
 
                             <button onClick={loadReviewsHandler}>Read reviews</button>

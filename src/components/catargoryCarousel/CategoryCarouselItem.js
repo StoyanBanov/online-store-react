@@ -18,7 +18,7 @@ export const CategoryCarouselItem = ({ item, styleRight, cat }) => {
     }, [addToCart, item])
 
     return (
-        <div style={{ right: styleRight }} className={style.carouselItem}>
+        <div className={style.carouselItem}>
             <img onClick={itemClickHandler} className={style.carouselItemThumbnail} src={'http://localhost:3030/static/images/' + item.thumbnail} alt={`${item.title} thumbnail`} />
             <div>
                 <h3 onClick={itemClickHandler}>{item.title}</h3>

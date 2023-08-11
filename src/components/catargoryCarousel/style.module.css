@@ -32,17 +32,19 @@
     position: relative;
 }
 
-.carouselItems {
-    margin-left: 10px;
-    margin-right: 10px;
+.carouselItemsContainer {
     position: relative;
     height: 320px;
     width: 1400px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+}
+
+.carouselItems {
+    left: 0;
+    /* position: relative; */
+    position: absolute;
+    height: 100%;
+    display: flex;
 }
 
 .carouselItem {
@@ -53,7 +55,7 @@
     height: 310px;
     padding: 10px;
     margin-right: 10px;
-    position: absolute;
+    /* position: absolute; */
 }
 
 .carouselItem:hover {
@@ -167,19 +169,19 @@
 }
 
 @media only screen and (max-width: 1200px) {
-    .carouselItems {
+    .carouselItemsContainer {
         width: 800px;
     }
 }
 
 @media only screen and (max-width: 992px) {
-    .carouselItems {
+    .carouselItemsContainer {
         width: 600px;
     }
 }
 
 @media only screen and (max-width: 600px) {
-    .carouselItems {
+    .carouselItemsContainer {
         width: 200px;
     }
 }

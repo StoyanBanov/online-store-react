@@ -5,7 +5,7 @@ import { ShoppingCart } from "../shoppingCart/ShoppingCart"
 
 import style from './style.module.css'
 
-import { useCallback, useContext, useRef } from "react"
+import { useCallback, useContext } from "react"
 import { CartContext } from "../common/context/CartContext"
 
 export const Header = () => {

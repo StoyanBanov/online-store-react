@@ -67,7 +67,7 @@ export const ItemDetails = () => {
             setItemRating(state => state + averagedUserRating)
             await addUserRatingForItemId(item._id, uRating)
         } else window.alert('login or register to vote')
-    }, [_id, item, userRating])
+    }, [_id, item, userRating, totalRating])
 
     const deleteClickHandler = useCallback(async () => {
         await deleteItemById(item._id)

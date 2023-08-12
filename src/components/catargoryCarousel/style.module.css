@@ -1,5 +1,5 @@
 .carouselContainer {
-    margin-top: 70px;
+    margin-top: 50px;
     margin-bottom: 30px;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,6 @@
 
 .carouselItems {
     left: 0;
-    /* position: relative; */
     position: absolute;
     height: 100%;
     display: flex;
@@ -52,10 +51,10 @@
     border-radius: 4px;
     background-color: white;
     width: 190px;
-    height: 310px;
+    height: 100%;
     padding: 10px;
-    margin-right: 10px;
-    /* position: absolute; */
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .carouselItem:hover {
@@ -129,11 +128,11 @@
 }
 
 .carousel>button:first-child {
-    left: -40px;
+    left: -50px;
 }
 
 .carousel>button:last-child {
-    right: -40px;
+    right: -50px;
 }
 
 .carousel>button:hover {
@@ -145,12 +144,34 @@
 }
 
 .carouselItem button {
+    border: 1px solid gray;
+    border-radius: 4px;
     display: flex;
     flex-direction: row;
     align-items: center;
     z-index: 1;
     height: 30px;
     width: 170px;
+    position: relative;
+}
+
+.carouselItem button::before {
+    content: "";
+    position: absolute;
+    border-radius: 3px;
+    left: 0;
+    width: 32%;
+    height: 100%;
+    background: rgb(252, 46, 46);
+}
+
+.carouselItem button:hover {
+    opacity: 80%;
+}
+
+.carouselItem button svg,
+.carouselItem button div {
+    z-index: 2;
 }
 
 .carouselItem button>div {

@@ -22,7 +22,7 @@ export const CategoryCarouselItem = ({ item, styleRight, cat }) => {
             <img onClick={itemClickHandler} className={style.carouselItemThumbnail} src={'http://localhost:3030/static/images/' + item.thumbnail} alt={`${item.title} thumbnail`} />
             <div>
                 <h3 onClick={itemClickHandler}>{item.title}</h3>
-                <p>Price: {item.price}</p>
+                <p>Price: {item.price.toFixed(2)}$</p>
                 <button onClick={addToCartHandler}>
                     <svg width={15} height={13}>
                         <line x1={1} y1={2} x2={8} y2={8} strokeWidth={3} stroke='black' />

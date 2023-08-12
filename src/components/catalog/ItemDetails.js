@@ -6,6 +6,7 @@ import { AuthContext } from '../common/context/AuthContext'
 
 import style from './style.module.css'
 import { CartContext } from '../common/context/CartContext'
+import { ItemDetailsImages } from './ItemDetailsImages'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
@@ -25,15 +26,12 @@ export const ItemDetails = () => {
 
     const [newUserReview, setNewUserReview] = useState('')
 
-    const [image, setImage] = useState('image')
-
     useEffect(() => {
         getItemById(itemId)
-            .then(async i => {
+            .then(i => {
                 setItem(i)
                 setItemRating(i.rating)
                 setTotalRating(i.totalRatingVotes)
-                setImage(i.thumbnail)
 
                 if (_id) {
                     getUserRatingForItemId(i._id, _id)
@@ -84,35 +82,13 @@ export const ItemDetails = () => {
         await addItemReviewById(item._id, newUserReview)
     }, [item, newUserReview])
 
-    const carouselImgHoverHandler = useCallback(e => {
-        setImage(e.target.src.split('/').slice(-1)[0])
-    }, [])
-
     return (
         <div className={style.itemDetailsContainer}>
             {item._id &&
                 <>
                     <div className={style.itemDetailsTop}>
-                        <div className={style.itemImages}>
-                            <img src={`http://localhost:3030/static/images/${image}`} alt={item.title} />
+                        <ItemDetailsImages {...item} />
 
-                            <div className={style.detailsImageCarousel}>
-                                <img onMouseOver={carouselImgHoverHandler} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
-                                {
-                                    item.images.map(i => <img key={i} onMouseOver={carouselImgHoverHandler} src={`http://localhost:3030/static/images/${i}`} alt={i} />)
-                                }
-
-                                <svg>
-                                    <line x1={0} y1={20} x2={20} y2={0} stroke='black' strokeWidth={5} />
-                                    <line x1={0} y1={20} x2={20} y2={40} stroke='black' strokeWidth={5} />
-                                </svg>
-
-                                <svg>
-                                    <line x1={0} y1={0} x2={20} y2={20} stroke='black' strokeWidth={5} />
-                                    <line x1={0} y1={40} x2={20} y2={20} stroke='black' strokeWidth={5} />
-                                </svg>
-                            </div>
-                        </div>
                         <div>
                             <h2>{item.title}</h2>
 

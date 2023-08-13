@@ -113,6 +113,7 @@
 
 .itemDetailsContainer {
     margin-top: 3vh;
+    width: 80%;
 }
 
 .itemDetailsContainer .itemImages>img {
@@ -135,32 +136,34 @@
 
 .detailsImageCarouselContainer {
     width: 500px;
-    height: 100px;
+    height: 110px;
     overflow: hidden;
     position: relative;
 }
 
 .detailsImageCarouselItems {
+    opacity: 80%;
     position: absolute;
     left: 0;
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 10px;
 }
 
 .detailsImageCarouselItems>img {
     width: 100px;
     height: 100px;
+    margin-right: 3px;
+    margin-left: 3px;
     object-fit: contain;
 }
 
 .detailsImageCarouselItems>img:hover {
     cursor: pointer;
-    opacity: 70%;
-    width: 103px;
-    height: 103px;
-    object-fit: contain;
+    width: 106px;
+    height: 106px;
+    margin-right: 0;
+    margin-left: 0;
 }
 
 .detailsImageCarousel svg {

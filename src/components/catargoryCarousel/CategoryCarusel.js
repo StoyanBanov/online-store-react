@@ -19,7 +19,13 @@ export const CategoryCarousel = ({ category }) => {
             .then(i => setItems([...i, ...i, ...i, ...i, ...i, ...i])) //for tests
     }, [category])
 
-    const [slideHandler, displayCarouselButtons] = useCarousel(carouselDiv)
+    const [slideHandler, displayCarouselButtons, setInitialWidth] = useCarousel(carouselDiv)
+
+    useEffect(() => {
+        if (carouselDiv.current) {
+            setInitialWidth()
+        }
+    }, [carouselDiv, setInitialWidth, items])
 
     const categoryClickHandler = useCallback(() => {
         navigate(`/catalog/${category.title}/${category._id}`)

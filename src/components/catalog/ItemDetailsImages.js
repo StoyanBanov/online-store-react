@@ -11,11 +11,15 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
         setImage(thumbnail)
     }, [thumbnail])
 
+    const [slideHandler, displayCarouselButtons, setInitialWidth] = useCarousel(carouselRef)
+
+    useEffect(() => {
+        setInitialWidth()
+    }, [setInitialWidth, thumbnail, images])
+
     const carouselImgHoverHandler = useCallback(e => {
         setImage(e.target.src.split('/').slice(-1)[0])
     }, [])
-
-    const [slideHandler, displayCarouselButtons] = useCarousel(carouselRef)
 
     return (
         <div className={style.itemImages}>

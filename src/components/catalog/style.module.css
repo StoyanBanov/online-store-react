@@ -22,13 +22,11 @@
 }
 
 .catalogContainer .itemContainer {
-    width: 250px;
     height: 400px;
 }
 
 .catalogContainer .categoryContainer {
     cursor: pointer;
-    width: 350px;
     height: 500px;
 }
 
@@ -111,6 +109,10 @@
     flex-direction: row;
 }
 
+.itemDetailsTop>div:first-child {
+    margin-right: 3vw;
+}
+
 .itemDetailsContainer {
     margin-top: 3vh;
     width: 80%;
@@ -151,8 +153,8 @@
 }
 
 .detailsImageCarouselItems>img {
-    width: 100px;
-    height: 100px;
+    width: 94px;
+    height: 94px;
     margin-right: 3px;
     margin-left: 3px;
     object-fit: contain;
@@ -160,8 +162,8 @@
 
 .detailsImageCarouselItems>img:hover {
     cursor: pointer;
-    width: 106px;
-    height: 106px;
+    width: 100px;
+    height: 100px;
     margin-right: 0;
     margin-left: 0;
 }
@@ -170,14 +172,14 @@
     width: 20px;
     height: 40px;
     background-color: rgb(151, 151, 151);
-    opacity: 50%;
+    opacity: 70%;
     cursor: pointer;
     border-radius: 3px;
     position: absolute;
 }
 
 .detailsImageCarousel svg:hover {
-    opacity: 75%;
+    opacity: 90%;
 }
 
 .detailsCarouselLeftBtn {

@@ -11,3 +11,7 @@ main {
     flex-direction: row;
     justify-content: center;
 }
+
+section {
+    width: 80%;
+}

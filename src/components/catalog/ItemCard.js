@@ -10,13 +10,13 @@ export const ItemCard = ({ item }) => {
     }, [navigate, item])
 
     return (
-        <div onClick={onItemCardClick} className={style.itemContainer}>
+        <div className={style.itemContainer}>
             <div>
                 {item.thumbnail &&
-                    <img src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
+                    <img onClick={onItemCardClick} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
                 }
             </div>
-            <h2>{item.title}</h2>
+            <h2 onClick={onItemCardClick}>{item.title}</h2>
         </div>
     )
 }

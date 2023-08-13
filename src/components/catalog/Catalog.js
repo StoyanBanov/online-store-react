@@ -47,7 +47,7 @@ export const Catalog = () => {
     }, [catId, searchParams, searchParamsObj])
 
     return (
-        <div>
+        <section>
             {data.type === 'items' &&
                 <ItemFiltersForm />
             }
@@ -59,6 +59,6 @@ export const Catalog = () => {
             {data.count &&
                 <Pagination currentPage={Number(searchParamsObj?.page) || 2 - 1} count={Math.ceil(data.count / (Number(searchParamsObj?.itemsPerPage) || 1))} />
             }
-        </div>
+        </section>
     )
 }

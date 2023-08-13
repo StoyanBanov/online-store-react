@@ -5,13 +5,12 @@
 
 .formImage svg {
     border: 2px solid black;
-    padding: 2px;
     background: white;
     position: absolute;
     top: 0;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
 
 .addSvg line {

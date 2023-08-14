@@ -1,6 +1,29 @@
+.formContainer {
+    width: 90%;
+}
+
+.formContainer form>div {
+    display: flex;
+    flex-direction: row;
+}
+
+.formImagesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .formImage {
     display: inline-block;
     position: relative;
+    margin: 2px;
+    border: 3px solid green;
+}
+
+.formImage img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
 }
 
 .formImage svg {

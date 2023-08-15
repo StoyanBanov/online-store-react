@@ -56,7 +56,7 @@ export const CartContextProvider = ({ children }) => {
         changedCart.totalPrice = changedCart.items.reduce((total, i) => total + i.item.price * i.count, 0)
         changedCart._id = state._id
 
-        if (!_id) sessionStorage.setItem('cart', JSON.stringify(changedCart))
+        if (!_id) localStorage.setItem('cart', JSON.stringify(changedCart))
 
         return changedCart
     }, [_id])
@@ -68,14 +68,14 @@ export const CartContextProvider = ({ children }) => {
             getCartBydId(shoppingCart)
                 .then(userCart => {
                     dispatch({ type: 'setCart', cart: userCart })
-                    sessionStorage.removeItem('cart')
+                    localStorage.removeItem('cart')
                 })
         } else {
-            let guestCart = JSON.parse(sessionStorage.getItem('cart'))
+            let guestCart = JSON.parse(localStorage.getItem('cart'))
             if (guestCart) {
                 dispatch({ type: 'setCart', cart: guestCart })
             } else {
-                sessionStorage.setItem('cart', JSON.stringify({ ...cartInitialState }))
+                localStorage.setItem('cart', JSON.stringify({ ...cartInitialState }))
                 dispatch({ type: 'setCart', cart: { ...cartInitialState } })
             }
         }

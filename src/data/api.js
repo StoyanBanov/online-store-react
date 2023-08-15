@@ -2,7 +2,7 @@ const host = 'http://localhost:3030'
 
 async function request(method, url, body, isJson = false) {
     try {
-        const response = await fetch(host + url, createOptions(method, body, isJson))
+        const response = await fetch((url.startsWith('http') || url.startsWith('https') ? '' : host) + url, createOptions(method, body, isJson))
         if (!response.ok) throw new Error((await response.json()).message)
 
         try {

@@ -21,6 +21,7 @@ import { Header } from "./components/header/Header";
 
 import style from './style.module.css'
 import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
+import { CreatePurchase } from "./components/purchase/CreatePurchase";
 
 function App() {
     return (
@@ -38,6 +39,8 @@ function App() {
                                 <Route path="/" element={<Home />} />
 
                                 <Route path="/cart" element={<ShoppingCart />} />
+
+                                <Route path="/purchase" element={<CreatePurchase />} />
 
                                 <Route path="/catalog">
                                     <Route index={true} element={<Catalog />} />

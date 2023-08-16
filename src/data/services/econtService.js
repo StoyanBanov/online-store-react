@@ -9,7 +9,7 @@ export function getCities() {
 }
 
 export function getOffices(cityId) {
-    return post(endpoint + '.getCities.json', {
+    return post(endpoint + '.getOffices.json', {
         "countryCode": "BGR",
         "cityID": cityId
     }, true)

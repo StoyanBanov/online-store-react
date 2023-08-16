@@ -1,19 +1,25 @@
-import { useCallback, useContext, useEffect, useState } from "react"
-import { CartContext } from "../common/context/CartContext"
-import { getCities } from "../../data/services/econtService"
+import { useCallback, useState } from "react"
+import { getCities, getOffices } from "../../data/services/econtService"
+
+import style from './style.module.css'
 
 export const CreatePurchase = () => {
-    const { cart } = useContext(CartContext)
-
     const [values, setValues] = useState({
         paymentMethod: 'cash',
         deliverTo: 'address',
-        city: ''
+        city: '',
+        office: ''
     })
 
     const [cities, setCities] = useState([])
 
-    const [showCities, setShowCities] = useState([])
+    const [showCities, setShowCities] = useState(false)
+
+    const [cityId, setCityId] = useState('')
+
+    const [offices, setOffices] = useState([])
+
+    const [showOffices, setShowOffices] = useState(false)
 
     const changeValueHandler = useCallback(e => {
         const key = e.target.name
@@ -28,8 +34,31 @@ export const CreatePurchase = () => {
                     .then(data => setCities(data.cities))
             }
             setShowCities(true)
-        } else setShowCities(false)
+        }
     }
+
+    const showOfficesHandler = e => {
+        if (e.type === 'focus') {
+            if (!offices.length) {
+                getOffices(cityId)
+                    .then(data => {
+                        setOffices(data.offices)
+                    })
+            }
+            setShowOffices(true)
+        }
+    }
+
+    const chooseCityHandler = useCallback(e => {
+        setValues(state => ({ ...state, city: e.target.textContent }))
+        setCityId(e.target.id)
+        setShowCities(false)
+    }, [])
+
+    const chooseOfficeHandler = useCallback(e => {
+        setValues(state => ({ ...state, office: e.target.textContent }))
+        setShowOffices(false)
+    }, [])
 
     const submitHandler = () => {
 
@@ -59,20 +88,41 @@ export const CreatePurchase = () => {
 
                     {
                         values.deliverTo === 'office' &&
-                        <div>
-                            <label>City</label>
-                            <input name="city" value={values.city} onChange={changeValueHandler} onFocus={showCitiesHandler} onBlur={showCitiesHandler} />
+                        <>
+                            <div className={style.purchaseDropDown}>
+                                <label>City</label>
+                                <input name="city" value={values.city} onChange={changeValueHandler} onFocus={showCitiesHandler} onBlur={showCitiesHandler} />
 
-                            {showCities &&
-                                <ul>
-                                    {
-                                        cities.filter(c => c.nameEn.toLowerCase().startsWith(values.city.toLowerCase())).map(c => <li key={c.id} id={c.id}>{c.nameEn}</li>)
-                                    }
-                                </ul>
-                            }
-                        </div>
+                                {showCities &&
+                                    <ul className={style.econtCities}>
+                                        {
+                                            cities
+                                                .filter(c => c.nameEn.toLowerCase().startsWith(values.city.toLowerCase()))
+                                                .map(c => <li key={c.id} id={c.id} onClick={chooseCityHandler}>{c.nameEn}</li>)
+                                        }
+                                    </ul>
+                                }
+                            </div>
+
+                            <div className={style.purchaseDropDown}>
+                                <label>Office</label>
+                                <input name="office" value={values.office} onChange={changeValueHandler} onFocus={showOfficesHandler} onBlur={showOfficesHandler} disabled={!cityId} />
+
+                                {showOffices &&
+                                    <ul className={style.econtCities}>
+                                        {
+                                            offices
+                                                .filter(c => c.nameEn.toLowerCase().startsWith(values.office.toLowerCase()))
+                                                .map(c => <li key={c.id} id={c.id} onClick={chooseOfficeHandler}>{c.nameEn}</li>)
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </>
                     }
                 </div>
+
+                <button>Finalize purchase</button>
             </form>
         </div>
     )

@@ -1,11 +1,52 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { getAllParentCategories } from "../../../data/services/itemService"
+
+import style from '../style.module.css'
+import { ItemField } from "./ItemField"
 
 export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) => {
 
     const [values, setValues] = useState(null)
 
     const [categories, setCategories] = useState([])
+
+    const [fields, setFields] = useState({})
+
+    const [fieldKeys, setFieldKeys] = useState([])
+
+    const fieldsCount = useRef(0)
+
+    const changeField = useCallback((name, values) => {
+        setFields(state => ({ ...state, [name]: values }))
+    }, [])
+
+    const addFieldClickHandler = useCallback(() => {
+        setFieldKeys(state => [...state, ++fieldsCount.current])
+    }, [])
+
+    const removeFieldClickHandler = useCallback((index, name) => {
+        setFields(state => {
+            const current = { ...state }
+            delete current[name]
+            return current
+        })
+
+        setFieldKeys(state => state.filter((_, i) => i !== index))
+    }, [])
+
+    useEffect(() => {
+        if (existingCat?.itemFields) {
+            let fieldsObj = {}
+            let currentFieldKeys = []
+            for (const [k, v] of Object.entries(existingCat.itemFields)) {
+                fieldsObj[`field${++fieldsCount.current}`] = { name: k, type: v }
+                currentFieldKeys.push(fieldsCount.current)
+            }
+            console.log(fieldsObj);
+            setFields(fieldsObj)
+            setFieldKeys(currentFieldKeys)
+        }
+    }, [existingCat])
 
     useEffect(() => {
         setValues(defValues)
@@ -24,7 +65,7 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
         setValues(state => ({ ...state, [e.target.name]: e.target.files[0] }))
     }, [])
 
-    const onSubmitHandler = useCallback(async e => {
+    const onSubmitHandler = e => {
         e.preventDefault()
 
         const formData = new FormData()
@@ -35,12 +76,17 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
             }
         })
 
+        for (const { name, type } of Object.values(fields)) {
+            formData.append(name, type)
+        }
+
+        console.log(Object.fromEntries(formData));
         submitCallback(formData)
-    }, [values, submitCallback])
+    }
 
     return (
         values &&
-        <div>
+        <div className={style.formContainer}>
             <h1>{title} Form</h1>
             <form onSubmit={onSubmitHandler}>
                 <div>
@@ -60,10 +106,32 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
                 <div>
                     <label htmlFor="item-category">Category</label>
                     <select id="item-category" name="parentCategory" onChange={onValueChangeHandler}>
-                        <option value={'all'}>none</option>
+                        <option value={''}>none</option>
                         {categories.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
                     </select>
                 </div>
+
+                {
+                    <>
+                        {
+                            fieldKeys?.map((a, i) =>
+                                <ItemField
+                                    key={a}
+                                    defValues={fields[`field${a}`]}
+                                    removeFieldClickHandler={removeFieldClickHandler.bind(null, i, `field${a}`)}
+                                    changeField={changeField.bind(null, `field${a}`)}
+                                />
+                            )
+                        }
+
+                        <div>
+                            <svg onClick={addFieldClickHandler} width={22} height={22} stroke="black" strokeWidth={1}>
+                                <line x1={11} y1={2} x2={11} y2={20} />
+                                <line x1={2} y1={11} x2={20} y2={11} />
+                            </svg>
+                        </div>
+                    </>
+                }
 
                 <button type="submit">{title}</button>
             </form>

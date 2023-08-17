@@ -13,8 +13,9 @@ export const CategoryCard = ({ cat }) => {
         navigate(`/admin/edit/category/${cat._id}`)
     }, [navigate, cat])
 
-    const catDetailsHandler = useCallback(() => {
-        navigate(`/catalog/${cat.title}/${cat._id}`)
+    const catDetailsHandler = useCallback(e => {
+        if (e.target.tagName !== 'BUTTON')
+            navigate(`/catalog/${cat.title}/${cat._id}`)
     }, [navigate, cat])
 
     return (

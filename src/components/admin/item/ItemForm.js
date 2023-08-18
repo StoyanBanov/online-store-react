@@ -28,13 +28,13 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
     }, [defValues])
 
     useEffect(() => {
-        if (!defValues?.category && values?.category) {
+        if (values?.category) {
             getCategoryById(values.category)
                 .then(cat => {
                     setValues(state => ({ ...state, categoryFields: cat.itemFields }))
                 })
         }
-    }, [defValues, values?.category])
+    }, [values?.category])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -60,15 +60,21 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
         e.preventDefault()
 
         const formData = new FormData()
-        Object.entries({ ...values, images: values.images?.filter(i => !values.imagesToRemove.includes(i)), imagesToRemove: [] }).forEach(([k, v]) => {
-            if (v) {
-                if (Array.isArray(v)) {
-                    for (const subV of v) {
-                        formData.append(k, subV)
-                    }
-                } else formData.append(k, v)
-            }
-        });
+        Object.entries({
+            ...values,
+            images: values.images?.filter(i => !values.imagesToRemove.includes(i)),
+            imagesToRemove: [],
+            categoryFields: null
+        })
+            .forEach(([k, v]) => {
+                if (v) {
+                    if (Array.isArray(v)) {
+                        for (const subV of v) {
+                            formData.append(k, subV)
+                        }
+                    } else formData.append(k, v)
+                }
+            });
 
         submitCallback(formData)
 
@@ -99,7 +105,7 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
                                     .map(([k, v]) =>
                                         <div key={k}>
                                             <label htmlFor={"item-" + k}>{k}</label>
-                                            <input type={v} id={"item-" + k} name={k} value={values[k]} onChange={onValueChangeHandler} />
+                                            <input type={v} id={"item-" + k} name={k} value={values[k] || ''} onChange={onValueChangeHandler} />
                                         </div>
                                     )
                             }
@@ -129,7 +135,7 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
 
                         <div>
                             <label htmlFor="item-thumbnail">Thumbnail</label>
-                            {existingItem &&
+                            {(existingItem && existingItem.thumbnail) &&
                                 <ItemFormImage image={existingItem.thumbnail} imageHandler={imageHandler} isRemovable={false} />
                             }
                             <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />

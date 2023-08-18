@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addItemReviewById, addUserRatingForItemId, deleteItemById, getItemById, getItemReviewsById, getUserRatingForItemId } from '../../data/services/itemService'
+import { addItemReviewById, addUserRatingForItemId, deleteItemById, getCategoryById, getItemById, getItemReviewsById, getUserRatingForItemId } from '../../data/services/itemService'
 
 import { AuthContext } from '../common/context/AuthContext'
 
@@ -32,6 +32,9 @@ export const ItemDetails = () => {
                 setItem(i)
                 setItemRating(i.rating)
                 setTotalRating(i.totalRatingVotes)
+
+                getCategoryById(i.category)
+                    .then(cat => setItem(state => ({ ...state, category: cat })))
 
                 if (_id) {
                     getUserRatingForItemId(i._id, _id)
@@ -95,6 +98,10 @@ export const ItemDetails = () => {
                             <h3 style={{ color: item.count ? 'green' : 'red' }}>{item.count ? 'In stock' : 'Sold out'}</h3>
 
                             <p>Price: {item.price.toFixed(2)}$</p>
+
+                            {item.category.itemFields &&
+                                Object.keys(item.category.itemFields).map(k => <p>{k}: {item[k]}</p>)
+                            }
 
                             <div>
                                 <button onClick={() => addToCart(item, 1)}>Add To Cart</button>

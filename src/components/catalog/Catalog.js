@@ -56,7 +56,7 @@ export const Catalog = () => {
                 {data.list.map(d => data.type === 'items' ? <ItemCard key={d._id} item={d} /> : <CategoryCard key={d._id} cat={d} />)}
             </div>
 
-            {data.count &&
+            {data.count > 0 &&
                 <Pagination currentPage={Number(searchParamsObj?.page) || 2 - 1} count={Math.ceil(data.count / (Number(searchParamsObj?.itemsPerPage) || 1))} />
             }
         </section>

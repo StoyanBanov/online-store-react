@@ -1,0 +1,42 @@
+.itemFilters {
+    width: calc(var(--catalogItemWidth) * 1.5 + 10px);
+    padding: 10px;
+    height: max-content;
+    background-color: white;
+}
+
+.priceRange {
+    position: relative;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.priceRange span {
+    position: absolute;
+    top: -3px;
+}
+
+.priceRange span:last-child {
+    position: absolute;
+    right: 0;
+}
+
+.priceRange input {
+    position: absolute;
+    top: 0;
+    left: 5rem;
+    width: 55%;
+}
+
+.priceRange input::-webkit-slider-runnable-track {
+    background: gray;
+    height: 5px;
+    border-radius: 3px;
+}
+
+.priceRange input::-webkit-slider-thumb {
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    top: -5px;
+}

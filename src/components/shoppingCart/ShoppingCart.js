@@ -10,7 +10,7 @@ export const ShoppingCart = () => {
         <div className={style.cart}>
             <h1>cart</h1>
             {cart?.items?.map((itemObj) => <ShoppingCartItem key={itemObj.item._id} itemObj={itemObj} />)}
-            <p>Total: {cart.totalPrice}</p>
+            <p>Total: {cart.totalPrice}$</p>
             <button onClick={purchaseClickHandler}>Purchase</button>
             <button onClick={emptyCartClickHandler}>Empty</button>
         </div>

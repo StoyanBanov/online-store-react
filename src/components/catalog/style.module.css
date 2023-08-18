@@ -1,5 +1,10 @@
-.catalogContainer {
+.catalogBottomContainer {
+    display: flex;
+    flex-direction: row;
     padding-top: 3vh;
+}
+
+.catalogContainer {
     display: flex;
     flex-wrap: wrap;
 }
@@ -14,7 +19,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: var(--catalogItemPadding);
 }
 
 .catalogContainer>div>div:first-child {
@@ -22,12 +27,14 @@
 }
 
 .catalogContainer .itemContainer {
-    height: 400px;
+    height: var(--catalogItemHeight);
+    width: var(--catalogItemWidth);
 }
 
 .catalogContainer .categoryContainer {
     cursor: pointer;
-    height: 500px;
+    height: calc(var(--catalogItemHeight) * 1.2);
+    width: calc(var(--catalogItemWidth) * 1.2);
 }
 
 
@@ -36,14 +43,14 @@
 }
 
 .catalogContainer .categoryContainer img {
-    height: 400px;
-    width: 350px;
+    height: calc(var(--catalogItemHeight) * 0.9);
+    width: calc(var(--catalogItemWidth) * 1.2 - var(--catalogItemPadding) * 2);
 }
 
 .catalogContainer .itemContainer img {
     cursor: pointer;
-    height: 200px;
-    width: 250px;
+    height: calc(var(--catalogItemHeight) * 0.5);
+    width: calc(var(--catalogItemWidth) - var(--catalogItemPadding) * 2);
 }
 
 .catalogContainer .itemContainer img:hover {

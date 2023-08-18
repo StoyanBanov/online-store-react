@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import style from './style.module.css'
 import { useQueryParams } from '../common/hooks/useQeryParams'
 
-export const ItemFiltersForm = () => {
+export const ItemOrderForm = () => {
 
-    const [searchParams, searchParamsObj, setSearchParams] = useQueryParams()
+    const { searchParamsObj, setSearchParams } = useQueryParams()
 
     const [filterValues, setFilterValues] = useState({
         itemsPerPage: 1,

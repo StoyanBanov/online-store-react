@@ -3,7 +3,10 @@
 }
 
 :root {
-    --width: 80%
+    --width: 80%;
+    --catalogItemWidth: 250px;
+    --catalogItemHeight: 400px;
+    --catalogItemPadding: 1vw;
 }
 
 main {

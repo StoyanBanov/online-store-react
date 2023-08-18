@@ -1,4 +1,5 @@
 import * as api from "../api"
+import { createQueryParamsString } from "../util"
 
 const endpoints = {
     item: '/item',
@@ -11,23 +12,8 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItems({ catId, search, itemsPerPage = 1, page = 1, count, sortBy = 'rating', order = 'desc' }) {
-    const queryParams = [
-        `sortBy=${encodeURIComponent(`${sortBy}="${order}"`)}`
-    ]
-    if (catId) {
-        queryParams.push(`where=${encodeURIComponent(`category="${catId}"`)}`)
-    }
-    if (search) {
-        queryParams.push(`search=${search}`)
-    }
-    if (count) {
-        queryParams.push(`count=true`)
-    }
-    if (itemsPerPage) {
-        queryParams.push(`limit=${itemsPerPage}&skip=${page - 1}`)
-    }
-    return api.get(endpoints.item + `?${queryParams.join('&')}`)
+export async function getItems({ catId, search, itemsPerPage = 1, page = 1, count, sortBy = 'rating', order = 'desc', minPrice, maxPrice, ...ranges }) {
+    return api.get(endpoints.item + createQueryParamsString({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice }))
 }
 
 export async function getItemById(itemId) {
@@ -40,6 +26,24 @@ export async function editItemById(itemId, itemData) {
 
 export async function deleteItemById(itemId) {
     return api.del(`${endpoints.item}/${itemId}`)
+}
+
+export async function getFilterRanges({ catId, search, minPrice, maxPrice, ...ranges }) {
+    const itemsListPrice = await api.get(endpoints.item + createQueryParamsString({ catId, search }))
+
+    const filterRanges = {
+        minPrice: itemsListPrice[0].price,
+        maxPrice: itemsListPrice[0].price
+    }
+
+    for (const item of itemsListPrice) {
+        if (item.price < filterRanges.minPrice)
+            filterRanges.minPrice = item.price
+        if (item.price > filterRanges.maxPrice)
+            filterRanges.maxPrice = item.price
+    }
+
+    return filterRanges
 }
 
 //cat

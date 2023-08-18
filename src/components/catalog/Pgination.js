@@ -6,7 +6,7 @@ export const Pagination = ({ count = 1, currentPage }) => {
 
     const [searchParams] = useSearchParams()
 
-    const searchParamsStr = [...searchParams.entries()].filter(p => p[0] !== 'page').map(p => `&${p[0]}=${p[1]}`).join('')
+    const searchParamsStr = [...searchParams?.entries()].filter(p => p[0] !== 'page').map(p => `&${p[0]}=${p[1]}`).join('')
 
     return (
         <div className={style.paginationContainer}>

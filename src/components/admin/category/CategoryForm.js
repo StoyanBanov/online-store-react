@@ -42,7 +42,6 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
                 fieldsObj[`field${++fieldsCount.current}`] = { name: k, type: v }
                 currentFieldKeys.push(fieldsCount.current)
             }
-            console.log(fieldsObj);
             setFields(fieldsObj)
             setFieldKeys(currentFieldKeys)
         }
@@ -80,7 +79,6 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
             formData.append(name, type)
         }
 
-        console.log(Object.fromEntries(formData));
         submitCallback(formData)
     }
 

@@ -23,7 +23,7 @@ export const ItemField = ({ defValues, removeFieldClickHandler, changeField }) =
             <input placeholder="name" value={values.name} onChange={changeValueHandler} />
 
             <select value={values.type} onChange={changeValueHandler}>
-                <option>numeric</option>
+                <option>number</option>
                 <option>text</option>
             </select>
 

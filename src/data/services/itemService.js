@@ -65,7 +65,7 @@ export async function getAllChildCategories() {
 }
 
 export async function getTopChildCategories(limit) {
-    return api.get(endpoints.cat + `?where=${encodeURIComponent('childCategories=[]')}&orderBy=items&asc=-1&limit=${limit}&skip=0`)
+    return api.get(endpoints.cat + `?where=${encodeURIComponent('childCategories=[]')}&orderBy=items&asc=-1&limit=${1}&skip=0`)
 }
 
 export async function editCategoryById(id, catData) {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { getAllChildCategories } from "../../../data/services/itemService"
+import { getAllChildCategories, getCategoryById } from "../../../data/services/itemService"
 import { useNavigate } from "react-router-dom"
 import { ItemFormImage } from "./ItemFormImage"
 
@@ -18,13 +18,23 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
     }, [defValues])
 
     useEffect(() => {
-        getAllChildCategories()
-            .then(cats => {
-                setCategories(cats)
-                if (!values?.category)
+        if (defValues && !defValues.category) {
+            getAllChildCategories()
+                .then(cats => {
+                    setCategories(cats)
                     setValues(state => ({ ...state, category: cats[0]?._id }))
-            })
-    }, [values])
+                })
+        }
+    }, [defValues])
+
+    useEffect(() => {
+        if (!defValues?.category && values?.category) {
+            getCategoryById(values.category)
+                .then(cat => {
+                    setValues(state => ({ ...state, categoryFields: cat.itemFields }))
+                })
+        }
+    }, [defValues, values?.category])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -72,6 +82,31 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
             <form onSubmit={onSubmitHandler} encType="multipart/form-data">
                 <div>
                     <div>
+
+                        {!existingItem &&
+                            <div>
+                                <label htmlFor="item-category">Category</label>
+                                <select id="item-category" name="category" onChange={onValueChangeHandler} value={values.category}>
+                                    {categories.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
+                                </select>
+                            </div>
+                        }
+
+                        <strong>Category fields</strong>
+                        <div>
+                            {values.categoryFields &&
+                                Object.entries(values.categoryFields)
+                                    .map(([k, v]) =>
+                                        <div key={k}>
+                                            <label htmlFor={"item-" + k}>{k}</label>
+                                            <input type={v} id={"item-" + k} name={k} value={values[k]} onChange={onValueChangeHandler} />
+                                        </div>
+                                    )
+                            }
+                        </div>
+
+                        <strong>Item fields</strong>
+
                         <div>
                             <label htmlFor="item-title">Title</label>
                             <input id="item-title" name="title" value={values.title} onChange={onValueChangeHandler} />
@@ -89,24 +124,15 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
 
                         <div>
                             <label htmlFor="item-count">Count</label>
-                            <input type="number" min={0} id="item-count" name="count" value={values.count} onChange={onValueChangeHandler} rows={5} />
+                            <input type="number" min={0} id="item-count" name="count" value={values.count} onChange={onValueChangeHandler} />
                         </div>
 
                         <div>
                             <label htmlFor="item-thumbnail">Thumbnail</label>
-                            {
-                                existingItem &&
+                            {existingItem &&
                                 <ItemFormImage image={existingItem.thumbnail} imageHandler={imageHandler} isRemovable={false} />
                             }
                             <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
-                        </div>
-
-
-                        <div>
-                            <label htmlFor="item-category">Category</label>
-                            <select id="item-category" name="category" onChange={onValueChangeHandler} value={values.category}>
-                                {categories.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
-                            </select>
                         </div>
                     </div>
 

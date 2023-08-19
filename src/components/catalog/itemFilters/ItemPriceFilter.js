@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useRef } from 'react'
-import style from './style.module.css'
 import { useQueryParams } from '../../common/hooks/useQeryParams'
+
+import style from './style.module.css'
+import { calcPriceTooltipLeft } from './util'
 
 export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
     const minPriceRef = useRef()
     const maxPriceRef = useRef()
+
+    const minPriceSpanRef = useRef()
+    const maxPriceSpanRef = useRef()
 
     const { searchParamsObj } = useQueryParams()
 
@@ -27,6 +32,15 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
 
             minPriceRef.current.value = minValue
             maxPriceRef.current.value = maxValue
+
+            minPriceSpanRef.current.textContent = minPrice
+            maxPriceSpanRef.current.textContent = maxPrice
+
+            minPriceSpanRef.current.textContent = minValue
+            minPriceSpanRef.current.parentElement.style.left = calcPriceTooltipLeft(minValue, maxPrice, minPrice)
+
+            maxPriceSpanRef.current.textContent = maxValue
+            maxPriceSpanRef.current.parentElement.style.left = calcPriceTooltipLeft(maxValue, maxPrice, minPrice)
 
             if (minValue === maxValue || minValue === maxValue - 1) {
                 minPriceRef.current.disabled = true
@@ -57,11 +71,30 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
         } else if (e.target === maxPriceRef.current && Number(minPriceRef.current.value) > Number(maxPriceRef.current.value) - 10) {
             e.target.value = Number(minPriceRef.current.value) + 10
         }
-    }, [])
+
+        if (e.target === minPriceRef.current) {
+            minPriceSpanRef.current.textContent = minPriceRef.current.value
+
+            minPriceSpanRef.current.parentElement.style.left = calcPriceTooltipLeft(minPriceRef.current.value, maxPrice, minPrice)
+        } else {
+            maxPriceSpanRef.current.textContent = maxPriceRef.current.value
+
+            maxPriceSpanRef.current.parentElement.style.left = calcPriceTooltipLeft(maxPriceRef.current.value, maxPrice, minPrice)
+        }
+    }, [maxPrice, minPrice])
 
     return (
         <div className={style.priceRange}>
-            <span>{minPrice}</span>
+            <span className={style.priceBorder}>{minPrice}$</span>
+
+            <div className={style.priceCurrentValue}>
+                <span ref={minPriceSpanRef}></span>
+            </div>
+
+            <div className={style.priceCurrentValue} >
+                <span ref={maxPriceSpanRef}></span>
+            </div>
+
             <input
                 ref={minPriceRef}
                 name='minPrice'
@@ -83,7 +116,8 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
                 max={maxPrice}
                 type='range'
             />
-            <span>{maxPrice}</span>
+
+            <span className={style.priceBorder}>{maxPrice}$</span>
         </div>
     )
 }

@@ -34,6 +34,7 @@ export const ItemFilters = () => {
 
     const updateFilters = useCallback((...elements) => {
         const newFilters = { ...searchParamsObj }
+        newFilters.page = 1
         for (const e of elements) {
             if (e.name.includes('Price') || !searchParamsObj[e.name])
                 newFilters[e.name] = e.value

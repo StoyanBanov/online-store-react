@@ -30,7 +30,7 @@ export async function deleteItemById(itemId) {
 
 // filters
 
-export async function getFilterRanges({ catId, search, minPrice, maxPrice, ...ranges }) {
+export async function getFilterRanges({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, ...ranges }) {
     const itemsListPrice = await api.get(endpoints.item + createQueryParamsString({ catId, search, ranges }))
 
     const filterRanges = {
@@ -45,7 +45,7 @@ export async function getFilterRanges({ catId, search, minPrice, maxPrice, ...ra
             filterRanges.maxPrice = item.price
     }
 
-    const categoryFields = Object.keys((await getCategoryById(catId)).itemFields)
+    const categoryFields = Object.keys((await getCategoryById(catId)).itemFields ?? {})
 
     for (const field of categoryFields) {
         const rangesField = Object.fromEntries(Object.entries(ranges).filter(r => r[0] !== field))

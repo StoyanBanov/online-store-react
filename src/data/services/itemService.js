@@ -49,7 +49,7 @@ export async function getFilterRanges({ catId, search, minPrice, maxPrice, ...ra
 
     for (const field of categoryFields) {
         const rangesField = Object.fromEntries(Object.entries(ranges).filter(r => r[0] !== field))
-        const itemsListField = await api.get(endpoints.item + createQueryParamsString({ catId, search, minPrice, maxPrice, rangesField }))
+        const itemsListField = await api.get(endpoints.item + createQueryParamsString({ catId, search, minPrice, maxPrice, ranges: rangesField }))
 
         filterRanges[field] = new Set()
 
@@ -84,7 +84,7 @@ export async function getAllChildCategories() {
 }
 
 export async function getTopChildCategories(limit) {
-    return api.get(endpoints.cat + `?where=${encodeURIComponent('childCategories=[]')}&orderBy=items&asc=-1&limit=${1}&skip=0`)
+    return api.get(endpoints.cat + `?where=${encodeURIComponent('childCategories=[]')}&orderBy=items&asc=-1&limit=${limit}&skip=0`)
 }
 
 export async function editCategoryById(id, catData) {

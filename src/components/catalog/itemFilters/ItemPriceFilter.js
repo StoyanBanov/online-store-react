@@ -13,17 +13,29 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
             const min = Number(searchParamsObj.minPrice) ?? minPrice
             const max = Number(searchParamsObj.maxPrice) ?? maxPrice
 
-            minPriceRef.current.value = min
+            const minValue = min
                 && min >= minPrice
-                && min <= (max ?? maxPrice)
+                && min <= max
                 ? min
                 : minPrice
 
-            maxPriceRef.current.value = max
+            const maxValue = max
                 && max <= maxPrice
-                && max >= (min ?? minPrice)
+                && max >= min
                 ? max
                 : maxPrice
+
+            minPriceRef.current.value = minValue
+            maxPriceRef.current.value = maxValue
+
+            if (minValue === maxValue || minValue === maxValue - 1) {
+                minPriceRef.current.disabled = true
+                maxPriceRef.current.disabled = true
+            } else if (minPriceRef.current.disabled) {
+                minPriceRef.current.disabled = false
+                maxPriceRef.current.disabled = false
+            }
+
         }
     }, [minPrice, maxPrice, searchParamsObj])
 

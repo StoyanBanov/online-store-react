@@ -76,7 +76,7 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
                 }
             });
 
-        submitCallback(formData)
+        await submitCallback(formData)
 
         navigate('/')
     }

@@ -20,6 +20,13 @@ export const ItemFilters = () => {
         if (catId && searchParamsObj) {
             getFilterRanges({ catId, ...searchParamsObj })
                 .then(data => {
+                    for (const [k, v] of Object.entries(searchParamsObj)) {
+                        if (data[k] && !k.includes('Price')) {
+                            for (const a of v.split(',')) {
+                                data[k].add(a)
+                            }
+                        }
+                    }
                     setFilterRanges(data)
                 })
         }
@@ -53,7 +60,7 @@ export const ItemFilters = () => {
                         <span>{k}</span>
                         <ul>
                             {
-                                [...v].map(a =>
+                                [...v].sort().map(a =>
                                     <li onClick={() => updateFilters({ name: k, value: a })} key={a}>
                                         {a}
                                         {searchParamsObj[k]?.includes(a) &&

@@ -7,8 +7,7 @@ export const useQueryParams = () => {
     const [searchParamsObj, setSearchParamsObject] = useState({})
 
     useEffect(() => {
-        if (searchParams.size)
-            setSearchParamsObject(Object.fromEntries(searchParams.entries()))
+        setSearchParamsObject(Object.fromEntries(searchParams.entries()))
     }, [searchParams])
 
     return { searchParams, searchParamsObj, setSearchParams }

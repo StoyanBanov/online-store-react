@@ -100,7 +100,7 @@ export const ItemDetails = () => {
                             <p>Price: {item.price.toFixed(2)}$</p>
 
                             {item.category.itemFields &&
-                                Object.keys(item.category.itemFields).map(k => <p>{k}: {item[k]}</p>)
+                                Object.keys(item.category.itemFields).map((k, i) => <p key={i}>{k}: {item[k]}</p>)
                             }
 
                             <div>

@@ -7,11 +7,6 @@ import { useQueryParams } from '../../common/hooks/useQeryParams'
 import { getFilterRanges } from '../../../data/services/itemService'
 
 export const ItemFilters = () => {
-    const [filters, setFilters] = useState({
-        minPrice: 0,
-        maxPrice: 0
-    })
-
     const [filterRanges, setFilterRanges] = useState({
         minPrice: 0,
         maxPrice: 0
@@ -26,25 +21,56 @@ export const ItemFilters = () => {
             getFilterRanges({ catId, ...searchParamsObj })
                 .then(data => {
                     setFilterRanges(data)
-                    setFilters({ ...searchParamsObj, minPrice: data.minPrice, maxPrice: data.maxPrice })
                 })
         }
     }, [catId, searchParamsObj])
 
-    const updateFilters = useCallback((elements) => {
-        const newFilters = {}
+    const updateFilters = useCallback((...elements) => {
+        const newFilters = { ...searchParamsObj }
         for (const e of elements) {
-            newFilters[e.name] = e.value
+            if (e.name.includes('Price') || !searchParamsObj[e.name])
+                newFilters[e.name] = e.value
+            else {
+                if (searchParamsObj[e.name].includes(e.value)) {
+                    newFilters[e.name] = searchParamsObj[e.name].split(',').filter(s => s !== e.value).join(',')
+                    if (!newFilters[e.name]) {
+                        delete newFilters[e.name]
+                    }
+                }
+                else
+                    newFilters[e.name] = searchParamsObj[e.name] + ',' + e.value
+            }
         }
 
-        setSearchParams({ ...filters, ...newFilters })
-    }, [setSearchParams, filters])
+        setSearchParams(newFilters)
+    }, [setSearchParams, searchParamsObj])
 
     return (
         <div className={style.itemFilters}>
-            <span>Price</span>
+            {
+                Object.entries(filterRanges).filter(r => !r[0].includes('Price')).map(([k, v]) =>
+                    <div key={k}>
+                        <span>{k}</span>
+                        <ul>
+                            {
+                                [...v].map(a =>
+                                    <li onClick={() => updateFilters({ name: k, value: a })} key={a}>
+                                        {a}
+                                        {searchParamsObj[k]?.includes(a) &&
+                                            <svg width={20} height={20} stroke='black' strokeWidth={1}>
+                                                <line x1={2} y1={2} x2={18} y2={18} />
+                                                <line x1={2} y1={18} x2={18} y2={2} />
+                                            </svg>
+                                        }
+                                    </li>)
+                            }
+                        </ul>
+                    </div>
+                )
+            }
 
-            <ItemPriceFilter minPrice={Math.floor(filters.minPrice)} maxPrice={Math.ceil(filters.maxPrice)} updateFilters={updateFilters} />
+            <span>Price</span>
+            <ItemPriceFilter minPrice={Math.floor(filterRanges.minPrice)} maxPrice={Math.ceil(filterRanges.maxPrice)} updateFilters={updateFilters} />
         </div>
     )
 }

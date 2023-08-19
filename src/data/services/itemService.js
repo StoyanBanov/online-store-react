@@ -13,7 +13,7 @@ export async function createItem(itemData) {
 }
 
 export async function getItems({ catId, search, itemsPerPage = 1, page = 1, count, sortBy = 'rating', order = 'desc', minPrice, maxPrice, ...ranges }) {
-    return api.get(endpoints.item + createQueryParamsString({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice }))
+    return api.get(endpoints.item + createQueryParamsString({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, ranges }))
 }
 
 export async function getItemById(itemId) {
@@ -28,12 +28,14 @@ export async function deleteItemById(itemId) {
     return api.del(`${endpoints.item}/${itemId}`)
 }
 
+// filters
+
 export async function getFilterRanges({ catId, search, minPrice, maxPrice, ...ranges }) {
-    const itemsListPrice = await api.get(endpoints.item + createQueryParamsString({ catId, search }))
+    const itemsListPrice = await api.get(endpoints.item + createQueryParamsString({ catId, search, ranges }))
 
     const filterRanges = {
-        minPrice: itemsListPrice[0].price,
-        maxPrice: itemsListPrice[0].price
+        minPrice: itemsListPrice[0]?.price ?? 0,
+        maxPrice: itemsListPrice[0]?.price ?? 0
     }
 
     for (const item of itemsListPrice) {
@@ -41,6 +43,19 @@ export async function getFilterRanges({ catId, search, minPrice, maxPrice, ...ra
             filterRanges.minPrice = item.price
         if (item.price > filterRanges.maxPrice)
             filterRanges.maxPrice = item.price
+    }
+
+    const categoryFields = Object.keys((await getCategoryById(catId)).itemFields)
+
+    for (const field of categoryFields) {
+        const rangesField = Object.fromEntries(Object.entries(ranges).filter(r => r[0] !== field))
+        const itemsListField = await api.get(endpoints.item + createQueryParamsString({ catId, search, minPrice, maxPrice, rangesField }))
+
+        filterRanges[field] = new Set()
+
+        for (const item of itemsListField) {
+            filterRanges[field].add(item[field])
+        }
     }
 
     return filterRanges

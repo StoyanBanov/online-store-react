@@ -1,12 +1,24 @@
-export function createQueryParamsString({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice }) {
+export function createQueryParamsString({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, ranges }) {
     const queryParams = []
+    const queryParamsWhere = []
 
     if (sortBy) {
         queryParams.push(`sortBy=${encodeURIComponent(`${sortBy}="${order}"`)}`)
     }
+
     if (catId) {
-        queryParams.push(`where=${encodeURIComponent(`category="${catId}"`)}`)
+        queryParamsWhere.push(encodeURIComponent(`category="${catId}"`))
     }
+
+    if (ranges) {
+        Object.entries(ranges).forEach(([k, v]) => {
+            if (v.includes(','))
+                queryParamsWhere.push(encodeURIComponent(`${k}=[${v.split(',').map(a => `"${a}"`).join(',')}]`))
+            else
+                queryParamsWhere.push(encodeURIComponent(`${k}="${v}"`))
+        })
+    }
+
     if (search) {
         queryParams.push(`search=${search}`)
     }
@@ -23,5 +35,5 @@ export function createQueryParamsString({ catId, search, itemsPerPage, page, cou
         queryParams.push(`maxPrice=${maxPrice}`)
     }
 
-    return `?${queryParams.join('&')}`
+    return `?${queryParamsWhere.length ? `where=${queryParamsWhere.join(encodeURIComponent('&'))}&` : ''}${queryParams.join('&')}`
 }

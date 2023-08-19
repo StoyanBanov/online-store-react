@@ -3,7 +3,7 @@ import style from './style.module.css'
 import { useCarousel } from '../common/hooks/useCarousel'
 
 export const ItemDetailsImages = ({ thumbnail, images }) => {
-    const [image, setImage] = useState('image')
+    const [image, setImage] = useState()
 
     const carouselRef = useRef()
 
@@ -23,7 +23,9 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
 
     return (
         <div className={style.itemImages}>
-            <img src={`http://localhost:3030/static/images/${image}`} alt={image} />
+            {image &&
+                <img src={`http://localhost:3030/static/images/${image}`} alt={image} />
+            }
 
             <div className={style.detailsImageCarousel}>
                 <div className={style.detailsImageCarouselContainer}>

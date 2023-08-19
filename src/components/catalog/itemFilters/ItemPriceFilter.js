@@ -31,7 +31,7 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
         window.removeEventListener('mouseup', dragEndHandler)
         window.removeEventListener('touchend', dragEndHandler)
 
-        updateFilters([minPriceRef.current, maxPriceRef.current])
+        updateFilters(minPriceRef.current, maxPriceRef.current)
     }, [updateFilters])
 
     const startDraggingHandler = useCallback(e => {

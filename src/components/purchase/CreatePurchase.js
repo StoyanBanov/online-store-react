@@ -39,12 +39,11 @@ export const CreatePurchase = () => {
 
     const showOfficesHandler = e => {
         if (e.type === 'focus') {
-            if (!offices.length) {
-                getOffices(cityId)
-                    .then(data => {
-                        setOffices(data.offices)
-                    })
-            }
+            getOffices(cityId)
+                .then(data => {
+                    setOffices(data.offices)
+                })
+
             setShowOffices(true)
         }
     }

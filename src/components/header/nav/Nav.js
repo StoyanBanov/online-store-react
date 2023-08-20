@@ -42,7 +42,6 @@ export const Nav = () => {
                                 <NavLink to={'/admin/create/item'} className={ActiveClassNameHandler}>Create Item</NavLink>
                             </li>
                         </ul>
-
                     </div>
                 </>
             }
@@ -59,7 +58,16 @@ export const Nav = () => {
                 }
 
                 {
-                    _id && <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
+                    _id &&
+                    <>
+                        <NavLink to={'/profile'} className={ActiveClassNameHandler}>
+                            <svg height={20} width={20}>
+                                <circle cx="10" cy="7" r="5" />
+                                <circle cx="10" cy="23" r="10" />
+                            </svg>
+                        </NavLink>
+                        <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
+                    </>
                 }
             </div>
 

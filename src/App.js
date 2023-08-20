@@ -18,10 +18,12 @@ import { AdminUserRouteGuard } from "./components/common/guards/AdminUserRouteGu
 import { Navigate, Route, Routes } from "react-router-dom"
 import { CartContextProvider } from "./components/common/context/CartContext";
 import { Header } from "./components/header/Header";
-
-import style from './style.module.css'
 import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
 import { CreatePurchase } from "./components/purchase/CreatePurchase";
+
+import style from './style.module.css'
+import { Profile } from "./components/profile/Profile";
+import { LoggedUserRouteGuard } from "./components/common/guards/LoggedUserRouteGuard";
 
 function App() {
     return (
@@ -63,6 +65,14 @@ function App() {
                                             <Route path="category/:catId" element={<EditCategory />} />
                                             <Route path="item/:itemId" element={<EditItem />} />
                                         </Route>
+                                    </Route>
+                                </Route>
+
+                                <Route element={<LoggedUserRouteGuard />}>
+                                    <Route path="/profile" element={<Profile />}>
+                                        <Route path="userPurchases" element={<div>userPurchases</div>} />
+                                        <Route path="userAddresses" element={<div>userAddresses</div>} />
+                                        <Route path="userData" element={<div>userData</div>} />
                                     </Route>
                                 </Route>
 

@@ -27,65 +27,69 @@ import { LoggedUserRouteGuard } from "./components/common/guards/LoggedUserRoute
 import { UserPurchases } from "./components/profile/UserPurchases";
 import { UserAddresses } from "./components/profile/UserAddresses";
 import { UserData } from "./components/profile/UserData";
+import { DimensionsContextProvider } from "./components/common/context/DimensionsContext";
 
 function App() {
     return (
         <div>
             <AuthContextProvider>
                 <CartContextProvider>
-                    <Header />
+                    <DimensionsContextProvider>
+                        <Header />
 
-                    <main>
-                        <Routes>
-                            <Route path="/non-verified" element={<NonVerified />} />
-                            <Route path="/logout" element={<Logout />} />
+                        <main>
+                            <Routes>
+                                <Route path="/non-verified" element={<NonVerified />} />
+                                <Route path="/logout" element={<Logout />} />
 
-                            <Route element={<VerifiedUserOrGuestRouteGuard />}>
-                                <Route path="/" element={<Home />} />
+                                <Route element={<VerifiedUserOrGuestRouteGuard />}>
+                                    <Route path="/" element={<Home />} />
 
-                                <Route path="/cart" element={<ShoppingCart />} />
+                                    <Route path="/cart" element={<ShoppingCart />} />
 
-                                <Route path="/purchase" element={<CreatePurchase />} />
+                                    <Route path="/purchase" element={<CreatePurchase />} />
 
-                                <Route path="/catalog">
-                                    <Route index={true} element={<Catalog />} />
-
-                                    <Route path=":catTitle/:catId">
+                                    <Route path="/catalog">
                                         <Route index={true} element={<Catalog />} />
-                                        <Route path=":itemId" element={<ItemDetails />} />
-                                    </Route>
-                                </Route>
 
-                                <Route element={<AdminUserRouteGuard />}>
-                                    <Route path="/admin">
-                                        <Route path="create">
-                                            <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
-                                            <Route path="item" element={<CreateItem />} />
-                                            <Route path="category" element={<CreateCategory />} />
-                                        </Route>
-
-                                        <Route path="edit">
-                                            <Route path="category/:catId" element={<EditCategory />} />
-                                            <Route path="item/:itemId" element={<EditItem />} />
+                                        <Route path=":catTitle/:catId">
+                                            <Route index={true} element={<Catalog />} />
+                                            <Route path=":itemId" element={<ItemDetails />} />
                                         </Route>
                                     </Route>
-                                </Route>
 
-                                <Route element={<LoggedUserRouteGuard />}>
-                                    <Route path="/profile" element={<Profile />}>
-                                        <Route path="userPurchases" element={<UserPurchases />} />
-                                        <Route path="userAddresses" element={<UserAddresses />} />
-                                        <Route path="userData" element={<UserData />} />
+                                    <Route element={<AdminUserRouteGuard />}>
+                                        <Route path="/admin">
+                                            <Route path="create">
+                                                <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
+                                                <Route path="item" element={<CreateItem />} />
+                                                <Route path="category" element={<CreateCategory />} />
+                                            </Route>
+
+                                            <Route path="edit">
+                                                <Route path="category/:catId" element={<EditCategory />} />
+                                                <Route path="item/:itemId" element={<EditItem />} />
+                                            </Route>
+                                        </Route>
+                                    </Route>
+
+                                    <Route element={<LoggedUserRouteGuard />}>
+                                        <Route path="/profile" element={<Profile />}>
+                                            <Route path="userPurchases" element={<UserPurchases />} />
+                                            <Route path="userAddresses" element={<UserAddresses />} />
+                                            <Route path="userData" element={<UserData />} />
+                                        </Route>
+                                    </Route>
+
+                                    <Route element={<GuestUserRouteGuard />}>
+                                        <Route path="/login" element={<Login />} />
+                                        <Route path="/register" element={<Register />} />
                                     </Route>
                                 </Route>
+                            </Routes>
+                        </main>
 
-                                <Route element={<GuestUserRouteGuard />}>
-                                    <Route path="/login" element={<Login />} />
-                                    <Route path="/register" element={<Register />} />
-                                </Route>
-                            </Route>
-                        </Routes>
-                    </main>
+                    </DimensionsContextProvider>
                 </CartContextProvider>
             </AuthContextProvider>
         </div >

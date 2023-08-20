@@ -7,11 +7,14 @@ import style from './style.module.css'
 
 import { useCallback, useContext } from "react"
 import { CartContext } from "../common/context/CartContext"
+import { DimensionsContext } from "../common/context/DimensionsContext"
 
 export const Header = () => {
     const navigate = useNavigate()
 
     const { cartDropDownRef } = useContext(CartContext)
+
+    const { scrollY } = useContext(DimensionsContext)
 
     const cartClickHandler = useCallback(() => {
         navigate('/cart')
@@ -39,9 +42,10 @@ export const Header = () => {
 
                 <Search />
 
-                <div className={style.cartDropContainer}>
+                <div className={style.cartDropContainer} style={scrollY > 20 ? { marginTop: '70px' } : {}}>
                     <div className={style.cartDiv}>
                         <button
+                            style={scrollY > 20 ? { boxShadow: '0 0 2px 0.5px white' } : {}}
                             onClick={cartClickHandler}
                             onMouseOver={cartHoverHandler}
                             onMouseOut={cartHoverHandler}

@@ -47,19 +47,21 @@ export const Nav = () => {
             }
 
             <div className={style.allNav}>
-                <NavLink to={'/'} className={ActiveClassNameHandler}>Home</NavLink>
-                <NavLink to={'/catalog'} className={ActiveClassNameHandler}>Catalog</NavLink>
+                <div className={style.navMidContainer}>
+                    <NavLink to={'/'} className={ActiveClassNameHandler}>Home</NavLink>
+                    <NavLink to={'/catalog'} className={ActiveClassNameHandler}>Catalog</NavLink>
+                </div>
 
                 {!_id &&
-                    <>
-                        <NavLink to={'/register'} className={ActiveClassNameHandler}>Register</NavLink>
+                    <div className={style.navRightContainer}>
                         <NavLink to={'/login'} className={ActiveClassNameHandler}>Login</NavLink>
-                    </>
+                        <NavLink to={'/register'} className={ActiveClassNameHandler}>Register</NavLink>
+                    </div>
                 }
 
                 {
                     _id &&
-                    <>
+                    <div className={style.navRightContainer}>
                         <NavLink to={'/profile'} className={ActiveClassNameHandler}>
                             <svg height={20} width={20}>
                                 <circle cx="10" cy="7" r="5" />
@@ -67,7 +69,7 @@ export const Nav = () => {
                             </svg>
                         </NavLink>
                         <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
-                    </>
+                    </div>
                 }
             </div>
 

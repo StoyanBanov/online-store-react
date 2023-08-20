@@ -1,0 +1,20 @@
+.profileContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 2vh;
+}
+
+.profileContainer aside {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    background-color: white;
+    padding: 1vw;
+    height: min-content;
+}
+
+.profileContainer aside ul {
+    padding: 0;
+    list-style: none;
+}

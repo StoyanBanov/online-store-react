@@ -1,8 +1,20 @@
 import { NavLink, Outlet } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { getUserData } from "../../data/services/userService"
+
+import style from './style.module.css'
 
 export const Profile = () => {
+    const [userData, setUserData] = useState()
+
+    useEffect(() => {
+        getUserData()
+            .then(setUserData)
+    }, [])
+
+
     return (
-        <div>
+        <div className={style.profileContainer}>
             <aside>
                 <ul>
                     <li><NavLink to={'userPurchases'}>My Purchases</NavLink></li>
@@ -11,7 +23,7 @@ export const Profile = () => {
                 </ul>
             </aside>
 
-            <Outlet />
+            <Outlet context={userData} />
         </div>
     )
 }

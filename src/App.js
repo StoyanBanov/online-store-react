@@ -24,6 +24,9 @@ import { CreatePurchase } from "./components/purchase/CreatePurchase";
 import style from './style.module.css'
 import { Profile } from "./components/profile/Profile";
 import { LoggedUserRouteGuard } from "./components/common/guards/LoggedUserRouteGuard";
+import { UserPurchases } from "./components/profile/UserPurchases";
+import { UserAddresses } from "./components/profile/UserAddresses";
+import { UserData } from "./components/profile/UserData";
 
 function App() {
     return (
@@ -70,9 +73,9 @@ function App() {
 
                                 <Route element={<LoggedUserRouteGuard />}>
                                     <Route path="/profile" element={<Profile />}>
-                                        <Route path="userPurchases" element={<div>userPurchases</div>} />
-                                        <Route path="userAddresses" element={<div>userAddresses</div>} />
-                                        <Route path="userData" element={<div>userData</div>} />
+                                        <Route path="userPurchases" element={<UserPurchases />} />
+                                        <Route path="userAddresses" element={<UserAddresses />} />
+                                        <Route path="userData" element={<UserData />} />
                                     </Route>
                                 </Route>
 

@@ -33,6 +33,7 @@ export const AddressForm = ({ address, changeUserData }) => {
         changeUserData(newAddress)
 
         setValues(state => Object.fromEntries(Object.entries(state).map(e => [e[0], ''])))
+
     }, [address, values, changeUserData])
 
     return (

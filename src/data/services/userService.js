@@ -2,7 +2,8 @@ import * as api from "../api";
 
 const endpoints = {
     user: '/user',
-    address: '/user/address'
+    address: '/user/address',
+    purchase: '/user/purchase'
 }
 
 export async function getUserData() {
@@ -20,5 +21,5 @@ export async function editUserAddress(id, data) {
 
 // purchase
 export async function addUserPurchase(data) {
-    return api.post(`${endpoints.address}`, data, true)
+    return api.post(`${endpoints.purchase}`, data, true)
 }

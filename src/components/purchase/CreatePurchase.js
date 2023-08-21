@@ -1,12 +1,17 @@
-import { useCallback, useState } from "react"
+import { useCallback, useContext, useState } from "react"
 import { getCities, getOffices } from "../../data/services/econtService"
 
 import style from './style.module.css'
+import { addUserPurchase } from "../../data/services/userService"
+import { CartContext } from "../common/context/CartContext"
 
 export const CreatePurchase = () => {
+    const { cart: { items }, emptyCart } = useContext(CartContext)
+
     const [values, setValues] = useState({
         paymentMethod: 'cash',
         deliverTo: 'address',
+        address: '',
         city: '',
         office: ''
     })
@@ -59,8 +64,25 @@ export const CreatePurchase = () => {
         setShowOffices(false)
     }, [])
 
-    const submitHandler = () => {
+    const valueAddressChangeHandler = useCallback(e => {
+        console.log(values);
+        setValues(state => ({ ...state, address: { ...state.address, [e.target.name]: e.target.value } }))
+    }, [])
 
+    const submitHandler = async e => {
+        e.preventDefault()
+
+        await addUserPurchase({
+            paymentMethod: values.paymentMethod,
+            deliverTo: values.deliverTo,
+            address:
+                values.address
+                    ? Object.entries(values.address).map(([k, v]) => `${k}: ${v}`).join(', ')
+                    : `City: ${values.city}, Office: ${values.office}`,
+            items
+        })
+
+        await emptyCart()
     }
 
     return (
@@ -116,6 +138,36 @@ export const CreatePurchase = () => {
                                         }
                                     </ul>
                                 }
+                            </div>
+                        </>
+                    }
+
+                    {
+                        values.deliverTo === 'address' &&
+                        <>
+                            <div>
+                                <label htmlFor="inputStreet">Street</label>
+                                <input id="inputStreet" name="street" value={values.street} onChange={valueAddressChangeHandler} />
+                            </div>
+
+                            <div>
+                                <label htmlFor="inputStreet">City</label>
+                                <input id="inputStreet" name="city" value={values.city} onChange={valueAddressChangeHandler} />
+                            </div>
+
+                            <div>
+                                <label htmlFor="inputStreet">ZIP Code</label>
+                                <input id="inputStreet" name="zipCode" value={values.zipCode} onChange={valueAddressChangeHandler} />
+                            </div>
+
+                            <div>
+                                <label htmlFor="inputStreet">County</label>
+                                <input id="inputStreet" name="county" value={values.county} onChange={valueAddressChangeHandler} />
+                            </div>
+
+                            <div>
+                                <label htmlFor="inputStreet">Country</label>
+                                <input id="inputStreet" name="country" value={values.country} onChange={valueAddressChangeHandler} />
                             </div>
                         </>
                     }

@@ -1,7 +1,7 @@
 import { useOutletContext } from "react-router-dom"
 
 export const UserData = () => {
-    const userData = useOutletContext()
+    const { userData, changeUserData } = useOutletContext()
 
     return (
         <div>

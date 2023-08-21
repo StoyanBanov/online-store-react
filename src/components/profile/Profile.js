@@ -1,17 +1,20 @@
 import { NavLink, Outlet } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { getUserData } from "../../data/services/userService"
 
 import style from './style.module.css'
 
 export const Profile = () => {
-    const [userData, setUserData] = useState()
+    const [userData, setUserData] = useState({})
 
     useEffect(() => {
         getUserData()
             .then(setUserData)
     }, [])
 
+    const changeUserData = useCallback((key, value) => {
+        setUserData(state => ({ ...state, [key]: value }))
+    }, [])
 
     return (
         <div className={style.profileContainer}>
@@ -23,7 +26,7 @@ export const Profile = () => {
                 </ul>
             </aside>
 
-            <Outlet context={userData} />
+            <Outlet context={{ userData, changeUserData }} />
         </div>
     )
 }

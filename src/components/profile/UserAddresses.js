@@ -2,27 +2,23 @@ import { useOutletContext } from "react-router-dom"
 import { AddressForm } from "./AddressForm"
 
 export const UserAddresses = () => {
-    const userData = useOutletContext()
+    const { userData: { address, secondAddress }, changeUserData } = useOutletContext()
 
     return (
         <div>
-            {userData &&
+            {
+                address &&
+                <AddressForm address={address} changeUserData={changeUserData.bind(null, 'address')} />
+            }
+
+            {secondAddress &&
+                <AddressForm address={secondAddress} changeUserData={changeUserData.bind(null, 'secondAddress')} />
+            }
+
+            {(!address || !secondAddress) &&
                 <>
-                    {
-                        userData.address &&
-                        <AddressForm address={userData.address} />
-                    }
-
-                    {userData.secondAddress &&
-                        <AddressForm address={userData.secondAddress} />
-                    }
-
-                    {(!userData.address || !userData.secondAddress) &&
-                        <>
-                            <h2>Add {userData.address ? 'second' : ''} address</h2>
-                            <AddressForm />
-                        </>
-                    }
+                    <h2>Add {address ? 'second' : ''} address</h2>
+                    <AddressForm changeUserData={changeUserData.bind(null, (address ? 'secondAddress' : 'address'))} />
                 </>
             }
         </div>

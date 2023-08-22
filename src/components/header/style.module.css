@@ -4,12 +4,21 @@
     right: 5%;
 }
 
+.cartDropContainerMobile {
+    z-index: 999;
+    position: sticky;
+    display: flex;
+    width: 100%;
+    height: 0;
+    justify-content: flex-end;
+    top: 30px
+}
+
 .cartDiv {
-    /* flex-grow: 1; */
+    margin: 1vh;
     display: flex;
     justify-content: flex-end;
     position: relative;
-    position: sticky;
 }
 
 .cartDiv>div {
@@ -103,4 +112,10 @@
 
 .searchBar svg path {
     stroke: #888888;
+}
+
+@media screen and (max-width: 500px) {
+    .searchBar input {
+        width: 200px;
+    }
 }

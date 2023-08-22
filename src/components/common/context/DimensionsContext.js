@@ -1,24 +1,34 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 export const DimensionsContext = createContext()
 
 export const DimensionsContextProvider = ({ children }) => {
-    const [scrollY, setScrollY] = useState(0)
+    const [dimensions, setDimensions] = useState({
+        scrollY: 0,
+        windowWidth: 0
+    })
+
+    const scrollHandler = useCallback(function () {
+        setDimensions(state => ({ ...state, scrollY: this.scrollY }))
+    }, [])
+
+    const widthHandler = useCallback(function () {
+        setDimensions(state => ({ ...state, windowWidth: this.innerWidth }))
+    }, [])
+
 
     useEffect(() => {
         window.addEventListener('scroll', scrollHandler)
+        window.addEventListener('resize', widthHandler)
 
         return () => {
             window.removeEventListener('scroll', scrollHandler)
+            window.removeEventListener('resize', widthHandler)
         }
-    }, [])
-
-    function scrollHandler() {
-        setScrollY(this.scrollY)
-    }
+    }, [scrollHandler, widthHandler])
 
     return (
-        <DimensionsContext.Provider value={{ scrollY }}>
+        <DimensionsContext.Provider value={dimensions}>
             {children}
         </DimensionsContext.Provider >
     )

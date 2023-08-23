@@ -196,3 +196,45 @@
 .detailsCarouselRightBtn {
     right: 0;
 }
+
+@media screen and (max-width: 1000px) {
+    .itemDetailsContainer .itemImages>img {
+        width: 40vw;
+        height: 40vw;
+    }
+
+    .detailsImageCarouselContainer {
+        width: 40vw;
+    }
+
+    .detailsImageCarouselItems>img {
+        width: 7.5vw;
+        height: 7.5vw;
+    }
+
+    .detailsImageCarouselItems>img:hover {
+        width: 8vw;
+        height: 8vw;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .itemDetailsContainer .itemImages>img {
+        width: 70vw;
+        height: 70vw;
+    }
+
+    .detailsImageCarouselContainer {
+        width: 70vw;
+    }
+
+    .detailsImageCarouselItems>img {
+        width: 13.5vw;
+        height: 13.5vw;
+    }
+
+    .detailsImageCarouselItems>img:hover {
+        width: 14vw;
+        height: 14vw;
+    }
+}

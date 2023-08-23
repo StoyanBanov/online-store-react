@@ -126,8 +126,8 @@
 }
 
 .itemDetailsContainer .itemImages>img {
-    width: 500px;
-    height: 500px;
+    width: 25vw;
+    height: 25vw;
     object-fit: contain;
     background-color: white;
     border: 1px solid black;
@@ -144,7 +144,7 @@
 }
 
 .detailsImageCarouselContainer {
-    width: 500px;
+    width: 25vw;
     height: 110px;
     overflow: hidden;
     position: relative;
@@ -160,17 +160,17 @@
 }
 
 .detailsImageCarouselItems>img {
-    width: 94px;
-    height: 94px;
-    margin-right: 3px;
-    margin-left: 3px;
+    width: 4.5vw;
+    height: 4.5vw;
+    margin-right: 0.25vw;
+    margin-left: 0.25vw;
     object-fit: contain;
 }
 
 .detailsImageCarouselItems>img:hover {
     cursor: pointer;
-    width: 100px;
-    height: 100px;
+    width: 5vw;
+    height: 5vw;
     margin-right: 0;
     margin-left: 0;
 }

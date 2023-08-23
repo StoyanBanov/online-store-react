@@ -1,18 +1,27 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { DimensionsContext } from "../common/context/DimensionsContext"
 
 export const CarouselArrowButton = ({ direction, slideHandler }) => {
+    const { windowWidth } = useContext(DimensionsContext)
+
     const [arrowStyle, setArrowStyle] = useState({
-        fill: 'white',
-        stroke: 'black',
+        fill: windowWidth > 350 ? 'white' : 'transparent',
+        stroke: windowWidth > 350 ? 'black' : '',
         strokeWidth: 1
     })
 
     const btnHoverHandler = () => {
-        setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'gray' }))
+        if (windowWidth > 350)
+            setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'gray' }))
+        else
+            setArrowStyle(state => ({ ...state, fill: 'transparent', stroke: 'gray' }))
     }
 
     const btnMouseOutHandler = () => {
-        setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'black' }))
+        if (windowWidth > 350)
+            setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'black' }))
+        else
+            setArrowStyle(state => ({ ...state, fill: 'transparent', stroke: '' }))
     }
 
     return (

@@ -5,7 +5,7 @@ export const DimensionsContext = createContext()
 export const DimensionsContextProvider = ({ children }) => {
     const [dimensions, setDimensions] = useState({
         scrollY: 0,
-        windowWidth: 0
+        windowWidth: window.innerWidth
     })
 
     const scrollHandler = useCallback(function () {

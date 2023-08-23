@@ -206,3 +206,21 @@
         width: 200px;
     }
 }
+
+@media only screen and (max-width: 350px) {
+    .carousel>button:first-child {
+        height: 100%;
+        width: 50%;
+        background: transparent;
+        border: none;
+        left: 0;
+    }
+
+    .carousel>button:last-child {
+        height: 100%;
+        width: 50%;
+        background: transparent;
+        border: none;
+        right: 0;
+    }
+}

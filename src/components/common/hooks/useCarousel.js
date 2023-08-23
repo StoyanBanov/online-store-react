@@ -30,17 +30,18 @@ export const useCarousel = (refCarousel) => {
 
         const step = carouselDivWidth / 50
 
+        const initialPosition = refCarousel.current.offsetLeft
+
         let totalSteps = 0
         const interval = setInterval(() => {
             totalSteps += step
+            refCarousel.current.style.left = refCarousel.current.offsetLeft + (direction === 'left' ? step : -step) + 'px'
 
             if (totalSteps >= carouselDivWidth) {
-                totalSteps = carouselDivWidth
+                refCarousel.current.style.left = initialPosition + + (direction === 'left' ? carouselDivWidth : -carouselDivWidth) + 'px'
                 clearInterval(interval)
                 isSliding = false
             }
-
-            refCarousel.current.style.left = refCarousel.current.offsetLeft + (direction === 'left' ? step : -step) + 'px'
 
             if (!isSliding) {
                 setDisplayCarouselButtons({

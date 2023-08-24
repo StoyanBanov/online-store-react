@@ -51,6 +51,7 @@ function App() {
 
                                     <Route path="/catalog">
                                         <Route index={true} element={<Catalog />} />
+                                        <Route path=":itemId" element={<ItemDetails />} />
 
                                         <Route path=":catTitle/:catId">
                                             <Route index={true} element={<Catalog />} />

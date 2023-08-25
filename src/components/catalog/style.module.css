@@ -114,6 +114,7 @@
 .itemDetailsTop {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .itemDetailsTop>div:first-child {
@@ -219,22 +220,26 @@
 }
 
 @media screen and (max-width: 700px) {
+    .itemDetailsTop>div:first-child {
+        margin: 0;
+    }
+
     .itemDetailsContainer .itemImages>img {
-        width: 70vw;
-        height: 70vw;
+        width: 80vw;
+        height: 80vw;
     }
 
     .detailsImageCarouselContainer {
-        width: 70vw;
+        width: 80vw;
     }
 
     .detailsImageCarouselItems>img {
-        width: 13.5vw;
-        height: 13.5vw;
+        width: 15.5vw;
+        height: 15.5vw;
     }
 
     .detailsImageCarouselItems>img:hover {
-        width: 14vw;
-        height: 14vw;
+        width: 16vw;
+        height: 16vw;
     }
 }

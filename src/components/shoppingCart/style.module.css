@@ -1,13 +1,79 @@
 .cartItemContainer {
+    width: 100%;
     margin-top: 10px;
     display: flex;
     flex-direction: row;
 }
 
-.cart h1 {
+.cart h2 {
     margin-top: 0;
+    text-transform: uppercase;
+    position: relative;
 }
 
 .cart h4 {
     margin: 0;
+}
+
+.cartItemContainer input[type=number] {
+    width: 45px;
+}
+
+.cartItemContainer img {
+    object-fit: contain;
+    width: 6vw;
+    height: 100%;
+}
+
+.cartItemContainer {
+    border-bottom: 1px solid gray;
+    display: flex;
+    width: 40vw;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cartItemContainer .cartItemTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+
+.cartItemContainer .cartItemBot {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cartItemBot button,
+.cartEmptyBtn {
+    border: none;
+    background: none;
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.cartItemBot button {
+    margin-left: 5%;
+}
+
+.cartEmptyBtn {
+    color: black;
+    position: absolute;
+    right: 1vw;
+    top: 1vh;
+}
+
+.cartEmptyBtn:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 300px) {
+    .cartItemContainer input[type=number] {
+        width: 40px;
+    }
 }

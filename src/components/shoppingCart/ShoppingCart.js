@@ -8,11 +8,18 @@ export const ShoppingCart = () => {
 
     return (
         <div className={style.cart}>
-            <h1>cart</h1>
+            <h2>Cart</h2>
+
             {cart?.items?.map((itemObj) => <ShoppingCartItem key={itemObj.item._id} itemObj={itemObj} />)}
-            <p>Total: {cart.totalPrice.toFixed(2)}$</p>
-            <button onClick={purchaseClickHandler}>Purchase</button>
-            <button onClick={emptyCartClickHandler}>Empty</button>
+
+            <p><strong>Total: {cart.totalPrice.toFixed(2)}$</strong></p>
+
+            {cart.items && cart.items.length > 0 &&
+                <>
+                    <button onClick={purchaseClickHandler}>Purchase</button>
+                    <button className={style.cartEmptyBtn} onClick={emptyCartClickHandler}>Empty</button>
+                </>
+            }
         </div>
     )
 }

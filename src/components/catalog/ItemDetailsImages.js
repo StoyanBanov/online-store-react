@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import style from './style.module.css'
 import { useCarousel } from '../common/hooks/useCarousel'
+import { imagesDir } from '../../constants'
 
 export const ItemDetailsImages = ({ thumbnail, images }) => {
     const [image, setImage] = useState()
@@ -24,14 +25,14 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
     return (
         <div className={style.itemImages}>
             {image &&
-                <img src={`http://localhost:3030/static/images/${image}`} alt={image} />
+                <img src={`${imagesDir}/${image}`} alt={image} />
             }
 
             <div className={style.detailsImageCarousel}>
                 <div className={style.detailsImageCarouselContainer}>
                     <div ref={carouselRef} className={style.detailsImageCarouselItems}>
                         {
-                            [thumbnail, ...images].map(i => <img key={i} onMouseOver={carouselImgHoverHandler} src={`http://localhost:3030/static/images/${i}`} alt={i} />)
+                            [thumbnail, ...images].map(i => <img key={i} onMouseOver={carouselImgHoverHandler} src={`${imagesDir}/${i}`} alt={i} />)
                         }
                     </div>
                 </div>

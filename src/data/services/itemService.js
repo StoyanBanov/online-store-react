@@ -103,10 +103,18 @@ export async function getUserRatingForItemId(itemId, userId) {
 
 //reviews
 
-export async function getItemReviewsById(itemId) {
-    return api.get(`${endpoints.item}/review?where${encodeURIComponent(`item="${itemId}"`)}`)
+export async function getItemReviewsById(itemId, skip = 0) {
+    return api.get(`${endpoints.item}/review?where${encodeURIComponent(`item="${itemId}"`)}&limit=20&skip=${skip}`)
 }
 
 export async function addItemReviewById(itemId, text) {
     return api.post(`${endpoints.item}/review`, { item: itemId, text }, true)
+}
+
+export async function addLikeByReviewId(reviewId) {
+    return api.post(`${endpoints.item}/review/likes`, { reviewId }, true)
+}
+
+export async function removeLikeByReviewId(reviewId) {
+    return api.del(`${endpoints.item}/review/likes`, { reviewId }, true)
 }

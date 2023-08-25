@@ -1,12 +1,13 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addItemReviewById, addUserRatingForItemId, deleteItemById, getCategoryById, getItemById, getItemReviewsById, getUserRatingForItemId } from '../../data/services/itemService'
+import { addUserRatingForItemId, deleteItemById, getCategoryById, getItemById, getUserRatingForItemId } from '../../data/services/itemService'
 
 import { AuthContext } from '../common/context/AuthContext'
 
 import style from './style.module.css'
 import { CartContext } from '../common/context/CartContext'
 import { ItemDetailsImages } from './ItemDetailsImages'
+import { ItemReviews } from './itemDetails/ItemReviews'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
@@ -21,10 +22,6 @@ export const ItemDetails = () => {
     const [itemRating, setItemRating] = useState(0)
     const [userRating, setUserRating] = useState(0)
     const [totalRating, setTotalRating] = useState(0)
-
-    const [reviews, setReviews] = useState(null)
-
-    const [newUserReview, setNewUserReview] = useState('')
 
     useEffect(() => {
         getItemById(itemId)
@@ -74,16 +71,6 @@ export const ItemDetails = () => {
         await deleteItemById(item._id)
         navigate('/')
     }, [navigate, item])
-
-    const loadReviewsHandler = useCallback(async () => {
-        getItemReviewsById()
-            .then(setReviews)
-    }, [])
-
-    const submitReviewHandler = useCallback(async e => {
-        e.preventDefault()
-        await addItemReviewById(item._id, newUserReview)
-    }, [item, newUserReview])
 
     return (
         <div className={style.itemDetailsContainer}>
@@ -144,27 +131,7 @@ export const ItemDetails = () => {
                                 ({totalRating})
                             </p>
 
-                            <button onClick={loadReviewsHandler}>Read reviews</button>
-                            {reviews &&
-                                <>
-                                    {
-                                        _id &&
-                                        <div>
-                                            <button>{reviews.length ? 'Leave a review' : 'Leave the first review'}</button>
-                                            <form onSubmit={submitReviewHandler}>
-                                                <label htmlFor='reviewTextArea'>Review</label>
-                                                <textarea rows={4} placeholder='My review...' value={newUserReview} onChange={e => setNewUserReview(e.target.value)} />
-                                                <button>Send</button>
-                                            </form>
-                                        </div>
-                                    }
-                                    <div>
-                                        {
-                                            reviews.map(r => <p key={r._id}><b>{r._creator.fname} {r._creator.lname}:</b> {'\n'}{r.text}</p>)
-                                        }
-                                    </div>
-                                </>
-                            }
+                            <ItemReviews itemId={item._id} />
                         </>
                     }
                 </>

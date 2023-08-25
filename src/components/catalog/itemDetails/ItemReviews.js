@@ -5,18 +5,21 @@ import { AuthContext } from "../../common/context/AuthContext"
 export const ItemReviews = ({ itemId }) => {
     const { user: { _id } } = useContext(AuthContext)
 
-    const [reviews, setReviews] = useState(null)
+    const [reviews, setReviews] = useState([])
 
     const [newUserReview, setNewUserReview] = useState('')
 
     const loadReviewsHandler = useCallback(async () => {
-        getItemReviewsById()
+        getItemReviewsById({ item: itemId, itemsPerPage: 2 })
             .then(setReviews)
-    }, [])
+    }, [itemId])
 
     const submitReviewHandler = useCallback(async e => {
         e.preventDefault()
-        await addItemReviewById(itemId, newUserReview)
+        const newReview = await addItemReviewById(itemId, newUserReview)
+        setReviews(state => [...state, { ...newReview, _creator: { _id: newReview._creator } }])
+
+        setNewUserReview('')
     }, [itemId, newUserReview])
 
     const likeHandler = useCallback(async id => {
@@ -50,7 +53,7 @@ export const ItemReviews = ({ itemId }) => {
         <>
             <button onClick={loadReviewsHandler}>Read reviews</button>
             {
-                reviews &&
+                reviews.length > 0 &&
                 <>
                     {
                         _id &&
@@ -65,8 +68,30 @@ export const ItemReviews = ({ itemId }) => {
                     }
                     <div>
                         {
-                            reviews.map(r => <p key={r._id}><b>{r._creator.fname} {r._creator.lname}:</b> {r.text} <span onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>({r.likes.length})</p>)
+                            reviews.map(r =>
+                                <div style={{ wordBreak: 'break-word', background: 'white', padding: '1vw', borderRadius: '4px', marginTop: '1vh' }} key={r._id}>
+                                    <b>
+                                        {r._creator._id === _id
+                                            ? 'you: '
+                                            : `${r._creator.fname} ${r._creator.lname}: `
+                                        }
+                                    </b>
+
+                                    <div>
+                                        <span>{r.text}</span>
+                                    </div>
+
+                                    <div>
+                                        <span onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
+                                        ({r.likes.length})
+                                    </div>
+                                </div>
+                            )
                         }
+
+                        <div>
+
+                        </div>
                     </div>
                 </>
             }

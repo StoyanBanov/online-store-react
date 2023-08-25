@@ -11,7 +11,7 @@ export const useCarousel = (refCarousel) => {
         const carouselDivWidth = refCarousel.current.parentElement.offsetWidth
         setDisplayCarouselButtons({
             left: refCarousel.current.offsetLeft !== 0,
-            right: refCarousel.current.offsetLeft + width > carouselDivWidth
+            right: refCarousel.current.offsetLeft + width >= carouselDivWidth
         })
     }, [refCarousel, width])
 

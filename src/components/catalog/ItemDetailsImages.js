@@ -25,7 +25,9 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
     return (
         <div className={style.itemImages}>
             {image &&
-                <img src={`${imagesDir}/${image}`} alt={image} />
+                <div className={style.mainImageContainer}>
+                    <img src={`${imagesDir}/${image}`} alt={image} />
+                </div>
             }
 
             <div className={style.detailsImageCarousel}>

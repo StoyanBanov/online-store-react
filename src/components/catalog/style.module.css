@@ -126,13 +126,22 @@
     width: 80%;
 }
 
-.itemDetailsContainer .itemImages>img {
+.mainImageContainer {
     width: 25vw;
-    height: 25vw;
-    object-fit: contain;
+    padding-top: 100%;
+    position: relative;
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
+}
+
+.mainImageContainer img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 /* carousel */
@@ -199,9 +208,8 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .itemDetailsContainer .itemImages>img {
+    .mainImageContainer {
         width: 40vw;
-        height: 40vw;
     }
 
     .detailsImageCarouselContainer {
@@ -220,26 +228,29 @@
 }
 
 @media screen and (max-width: 700px) {
+    .itemImages {
+        width: 100%;
+    }
+
     .itemDetailsTop>div:first-child {
         margin: 0;
     }
 
-    .itemDetailsContainer .itemImages>img {
-        width: 80vw;
-        height: 80vw;
+    .mainImageContainer {
+        width: 100%;
     }
 
     .detailsImageCarouselContainer {
-        width: 80vw;
+        width: 100%;
     }
 
     .detailsImageCarouselItems>img {
-        width: 15.5vw;
-        height: 15.5vw;
+        width: 15vw;
+        height: 15vw;
     }
 
     .detailsImageCarouselItems>img:hover {
-        width: 16vw;
-        height: 16vw;
+        width: 15.5vw;
+        height: 15.5vw;
     }
 }

@@ -16,13 +16,14 @@ export const ItemReviews = ({ itemId }) => {
         getItemReviewsById({ item: itemId, itemsPerPage: 2, page })
             .then(setReviews)
         getItemReviewsById({ item: itemId, count: true })
-            .then(count => setTotalPages(count / 2))
+            .then(count => setTotalPages(Math.ceil(count / 2)))
     }, [itemId, page])
 
     const submitReviewHandler = useCallback(async e => {
         e.preventDefault()
+
         const newReview = await addItemReviewById(itemId, newUserReview)
-        setReviews(state => [...state, { ...newReview, _creator: { _id: newReview._creator } }])
+        setReviews(state => [{ ...newReview, _creator: { _id: newReview._creator } }, ...state])
 
         setNewUserReview('')
     }, [itemId, newUserReview])
@@ -64,7 +65,7 @@ export const ItemReviews = ({ itemId }) => {
                 reviews.length > 0 &&
                 <>
                     {
-                        _id &&
+                        (_id && page === 1) &&
                         <div>
                             <span>{reviews.length ? 'Leave a review' : 'Leave the first review'}</span>
                             <form onSubmit={submitReviewHandler}>
@@ -98,6 +99,13 @@ export const ItemReviews = ({ itemId }) => {
                         }
 
                         <div>
+                            {page > 2 &&
+                                <>
+                                    <span onClick={changePageHandler}>{page - 2}</span>
+                                    <span> ... </span>
+                                </>
+                            }
+
                             {page > 1 &&
                                 <span onClick={changePageHandler}>{page - 1}</span>
                             }

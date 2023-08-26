@@ -137,7 +137,7 @@ export const ItemDetails = () => {
                                 ({totalRating})
                             </p>
 
-                            <button onClick={showReviewsHandler}>Read reviews</button>
+                            <button onClick={showReviewsHandler}>{showReviews ? 'Hide ' : 'Read'} reviews</button>
                             {showReviews &&
                                 <ItemReviews itemId={item._id} />
                             }

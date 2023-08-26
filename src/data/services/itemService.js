@@ -103,8 +103,8 @@ export async function getUserRatingForItemId(itemId, userId) {
 
 //reviews
 
-export async function getItemReviewsById({ item, page = 1, itemsPerPage }) {
-    return api.get(`${endpoints.item}/review` + createQueryParamsString({ itemsPerPage, page, ranges: { item } }))
+export async function getItemReviewsById({ item, page = 1, itemsPerPage, count }) {
+    return api.get(`${endpoints.item}/review` + createQueryParamsString({ itemsPerPage, page, count, ranges: { item } }))
 }
 
 export async function addItemReviewById(itemId, text) {

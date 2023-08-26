@@ -1,18 +1,23 @@
-import { useCallback, useContext, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { addLikeByReviewId, removeLikeByReviewId, addItemReviewById, getItemReviewsById } from "../../../data/services/itemService"
 import { AuthContext } from "../../common/context/AuthContext"
 
 export const ItemReviews = ({ itemId }) => {
     const { user: { _id } } = useContext(AuthContext)
 
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
+
     const [reviews, setReviews] = useState([])
 
     const [newUserReview, setNewUserReview] = useState('')
 
-    const loadReviewsHandler = useCallback(async () => {
-        getItemReviewsById({ item: itemId, itemsPerPage: 2 })
+    useEffect(() => {
+        getItemReviewsById({ item: itemId, itemsPerPage: 2, page })
             .then(setReviews)
-    }, [itemId])
+        getItemReviewsById({ item: itemId, count: true })
+            .then(count => setTotalPages(count / 2))
+    }, [itemId, page])
 
     const submitReviewHandler = useCallback(async e => {
         e.preventDefault()
@@ -49,9 +54,12 @@ export const ItemReviews = ({ itemId }) => {
 
     }, [reviews, _id])
 
+    const changePageHandler = useCallback(e => {
+        setPage(Number(e.target.textContent))
+    }, [])
+
     return (
         <>
-            <button onClick={loadReviewsHandler}>Read reviews</button>
             {
                 reviews.length > 0 &&
                 <>
@@ -90,7 +98,22 @@ export const ItemReviews = ({ itemId }) => {
                         }
 
                         <div>
+                            {page > 1 &&
+                                <span onClick={changePageHandler}>{page - 1}</span>
+                            }
 
+                            <span onClick={changePageHandler}><strong>{page}</strong></span>
+
+                            {totalPages > page &&
+                                <span onClick={changePageHandler}>{page + 1}</span>
+                            }
+
+                            {totalPages > page + 1 &&
+                                <>
+                                    <span> ... </span>
+                                    <span onClick={changePageHandler}>{totalPages}</span>
+                                </>
+                            }
                         </div>
                     </div>
                 </>

@@ -23,6 +23,8 @@ export const ItemDetails = () => {
     const [userRating, setUserRating] = useState(0)
     const [totalRating, setTotalRating] = useState(0)
 
+    const [showReviews, setShowReviews] = useState(false)
+
     useEffect(() => {
         getItemById(itemId)
             .then(i => {
@@ -71,6 +73,10 @@ export const ItemDetails = () => {
         await deleteItemById(item._id)
         navigate('/')
     }, [navigate, item])
+
+    const showReviewsHandler = useCallback(() => {
+        setShowReviews(state => !state)
+    }, [])
 
     return (
         <div className={style.itemDetailsContainer}>
@@ -131,7 +137,10 @@ export const ItemDetails = () => {
                                 ({totalRating})
                             </p>
 
-                            <ItemReviews itemId={item._id} />
+                            <button onClick={showReviewsHandler}>Read reviews</button>
+                            {showReviews &&
+                                <ItemReviews itemId={item._id} />
+                            }
                         </>
                     }
                 </>

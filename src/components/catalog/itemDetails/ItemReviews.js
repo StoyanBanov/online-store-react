@@ -2,6 +2,8 @@ import { useCallback, useContext, useEffect, useState } from "react"
 import { addLikeByReviewId, removeLikeByReviewId, addItemReviewById, getItemReviewsById } from "../../../data/services/itemService"
 import { AuthContext } from "../../common/context/AuthContext"
 
+import style from './style.module.css'
+
 export const ItemReviews = ({ itemId }) => {
     const { user: { _id } } = useContext(AuthContext)
 
@@ -59,6 +61,13 @@ export const ItemReviews = ({ itemId }) => {
         setPage(Number(e.target.textContent))
     }, [])
 
+    const pages = []
+    if (page > 2) pages.push(1, ' ... ')
+    if (page > 1) pages.push(page - 1)
+    pages.push(page)
+    if (totalPages > page) pages.push(page + 1)
+    if (page > 1) pages.push(' ... ', totalPages)
+
     return (
         <>
             {
@@ -78,10 +87,10 @@ export const ItemReviews = ({ itemId }) => {
                     <div>
                         {
                             reviews.map(r =>
-                                <div style={{ wordBreak: 'break-word', background: 'white', padding: '1vw', borderRadius: '4px', marginTop: '1vh' }} key={r._id}>
+                                <div className={style.reviewContainer} key={r._id}>
                                     <b>
                                         {r._creator._id === _id
-                                            ? 'you: '
+                                            ? 'You: '
                                             : `${r._creator.fname} ${r._creator.lname}: `
                                         }
                                     </b>
@@ -99,28 +108,8 @@ export const ItemReviews = ({ itemId }) => {
                         }
 
                         <div>
-                            {page > 2 &&
-                                <>
-                                    <span onClick={changePageHandler}>{page - 2}</span>
-                                    <span> ... </span>
-                                </>
-                            }
-
-                            {page > 1 &&
-                                <span onClick={changePageHandler}>{page - 1}</span>
-                            }
-
-                            <span onClick={changePageHandler}><strong>{page}</strong></span>
-
-                            {totalPages > page &&
-                                <span onClick={changePageHandler}>{page + 1}</span>
-                            }
-
-                            {totalPages > page + 1 &&
-                                <>
-                                    <span> ... </span>
-                                    <span onClick={changePageHandler}>{totalPages}</span>
-                                </>
+                            {
+                                pages.map(p => !isNaN(p) ? <span onClick={changePageHandler}>{p === page ? <strong>{p}</strong> : p}</span> : <span>{p}</span>)
                             }
                         </div>
                     </div>

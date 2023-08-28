@@ -3,6 +3,8 @@ import { addLikeByReviewId, removeLikeByReviewId, addItemReviewById, getItemRevi
 import { AuthContext } from "../../common/context/AuthContext"
 
 import style from './style.module.css'
+import { makePages } from "../../../util"
+import { PaginationPages } from "../../common/helpers/PaginationPages"
 
 export const ItemReviews = ({ itemId }) => {
     const { user: { _id } } = useContext(AuthContext)
@@ -61,15 +63,8 @@ export const ItemReviews = ({ itemId }) => {
         setPage(Number(e.target.textContent))
     }, [])
 
-    const pages = []
-    if (page > 2) pages.push(1, ' ... ')
-    if (page > 1) pages.push(page - 1)
-    pages.push(page)
-    if (totalPages > page) pages.push(page + 1)
-    if (page > 1) pages.push(' ... ', totalPages)
-
     return (
-        <>
+        <div className={style.reviewsContainer}>
             {
                 reviews.length > 0 &&
                 <>
@@ -100,7 +95,7 @@ export const ItemReviews = ({ itemId }) => {
                                     </div>
 
                                     <div>
-                                        <span onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
+                                        <span className={style.likeButton} onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
                                         ({r.likes.length})
                                     </div>
                                 </div>
@@ -109,12 +104,16 @@ export const ItemReviews = ({ itemId }) => {
 
                         <div>
                             {
-                                pages.map(p => !isNaN(p) ? <span onClick={changePageHandler}>{p === page ? <strong>{p}</strong> : p}</span> : <span>{p}</span>)
+                                <PaginationPages
+                                    currentPage={page}
+                                    totalPages={totalPages}
+                                    pageWrap={({ children }) => <span className={style.page} onClick={changePageHandler}>{children}</span>}
+                                />
                             }
                         </div>
                     </div>
                 </>
             }
-        </>
+        </div>
     )
 }

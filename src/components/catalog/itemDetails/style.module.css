@@ -1,0 +1,35 @@
+.reviewContainer {
+    word-break: break-word;
+    background: white;
+    padding: 1vw;
+    border-radius: 4px;
+    margin-bottom: 1vh;
+}
+
+.reviewsContainer {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.likeButton,
+.page {
+    cursor: pointer;
+}
+
+.likeButton {
+    border-radius: 50%;
+    padding: 2px;
+    padding-bottom: 4px;
+}
+
+.likeButton:hover {
+    background-color: rgb(163, 163, 240);
+}
+
+.page {
+    margin-right: 5px;
+}
+
+.page:hover {
+    color: gray;
+}

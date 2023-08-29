@@ -5,16 +5,14 @@ import { addUserRatingForItemId, deleteItemById, getCategoryById, getItemById, g
 import { AuthContext } from '../common/context/AuthContext'
 
 import style from './style.module.css'
-import { CartContext } from '../common/context/CartContext'
 import { ItemDetailsImages } from './ItemDetailsImages'
 import { ItemReviews } from './itemDetails/ItemReviews'
+import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButton'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
 
     const navigate = useNavigate()
-
-    const { addToCart } = useContext(CartContext)
 
     const { itemId } = useParams()
 
@@ -97,7 +95,7 @@ export const ItemDetails = () => {
                             }
 
                             <div>
-                                <button onClick={() => addToCart(item, 1)}>Add To Cart</button>
+                                <AddToCartButton item={item} />
                             </div>
                         </div>
                     </div>

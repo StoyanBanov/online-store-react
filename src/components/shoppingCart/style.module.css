@@ -21,8 +21,8 @@
 
 .cartItemContainer img {
     object-fit: contain;
-    width: 6vw;
-    height: 100%;
+    width: 6vh;
+    height: 6vh;
 }
 
 .cartItemContainer {

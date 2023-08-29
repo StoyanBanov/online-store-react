@@ -1,0 +1,39 @@
+.addToCartBtn {
+    border: 1px solid gray;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 1;
+    height: 30px;
+    width: 170px;
+    position: relative;
+}
+
+.addToCartBtn::before {
+    content: "";
+    position: absolute;
+    border-radius: 3px;
+    left: 0;
+    width: 32%;
+    height: 100%;
+    background: rgb(252, 46, 46);
+}
+
+.addToCartBtn:hover {
+    opacity: 80%;
+}
+
+.addToCartBtn svg,
+.addToCartBtn div {
+    z-index: 2;
+}
+
+.addToCartBtn>div {
+    width: 28px;
+}
+
+.addToCartBtn>span {
+    color: red;
+    flex-grow: 1;
+}

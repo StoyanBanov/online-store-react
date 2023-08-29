@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import style from './style.module.css'
 import { useNavigate } from 'react-router-dom';
+import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButton';
 
 export const ItemCard = ({ item }) => {
     const navigate = useNavigate()
@@ -17,6 +18,10 @@ export const ItemCard = ({ item }) => {
                 }
             </div>
             <h2 onClick={onItemCardClick}>{item.title}</h2>
+            <span>{'★'.repeat(Math.round(item.rating))}{'☆'.repeat(5 - Math.round(item.rating))}</span>
+            <p>{item.price}$</p>
+
+            <AddToCartButton item={item} />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { getCategoryById, getAllRootCategories, getItems } from "../../data/services/itemService"
 
 import { useParams } from "react-router-dom"
@@ -11,12 +11,20 @@ import { ItemOrderForm } from "./ItemOrderForm"
 
 import style from './style.module.css'
 import { ItemFilters } from "./itemFilters/ItemFilters"
+import { MOBILE_MAX_WIDTH } from "../../constants"
+import { DimensionsContext } from "../common/context/DimensionsContext"
+import { usePop } from "../common/hooks/usePop"
+import { PopBefore } from "../common/helpers/popBefore/PopBefore"
 
 export const Catalog = () => {
     const [data, setData] = useState({ list: [], type: '' })
 
     const { searchParams, searchParamsObj } = useQueryParams()
     const { catId } = useParams()
+
+    const { windowWidth } = useContext(DimensionsContext)
+
+    const filtersRef = useRef()
 
     useEffect(() => {
         if (catId) {
@@ -47,13 +55,32 @@ export const Catalog = () => {
         }
     }, [catId, searchParams, searchParamsObj])
 
+    const { displayPop: displayFilters, displayPopHandler } = usePop()
+
+    const displayFiltersClickHandler = useCallback((isOpening) => {
+        displayPopHandler(isOpening, filtersRef)
+    }, [displayPopHandler, filtersRef])
+
     return (
         <section>
-            {data.type === 'items' &&
-                <ItemOrderForm />
+            {data.type === 'items'
+                ? windowWidth > MOBILE_MAX_WIDTH
+                    ? <ItemOrderForm />
+                    : <>
+                        <button onClick={displayFiltersClickHandler}>Filter/Order</button>
+                        {displayFilters &&
+                            <PopBefore popRef={filtersRef} displayPopClickHandler={displayFiltersClickHandler}>
+                                <div>
+                                    <ItemOrderForm />
+                                    <ItemFilters />
+                                </div>
+                            </PopBefore>
+                        }
+                    </>
+                : ''
             }
             <div className={style.catalogBottomContainer}>
-                {data.type === 'items' &&
+                {(data.type === 'items' && windowWidth > MOBILE_MAX_WIDTH) &&
                     <ItemFilters />
                 }
 

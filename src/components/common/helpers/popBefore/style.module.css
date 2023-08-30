@@ -1,0 +1,57 @@
+.popBefore {
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background-color: black;
+    opacity: 40%;
+}
+
+.popContainer {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    background: white;
+    height: 100%;
+    width: 60%;
+}
+
+.popHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2vh;
+}
+
+.popHeader h2 {
+    margin: 0;
+}
+
+.popCloseBtnContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.popCloseBtnContainer button {
+    padding: 5px;
+    font-weight: bold;
+    background: aliceblue;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid gray;
+}
+
+.popCloseBtnContainer button:hover {
+    background: rgb(245, 250, 255);
+    border: 1px solid black;
+}
+
+@media only screen and (max-width: 600px) {
+    .popContainer {
+        width: 100%;
+    }
+}

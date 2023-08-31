@@ -12,10 +12,9 @@ export const Home = () => {
             .then(setTopCats)
     }, [])
 
-    //for testing purposes
     return (
         <div className={style.homeCarousels}>
-            {[...topCats, ...topCats, ...topCats].map(c => <CategoryCarousel key={c._id} category={c} />)}
+            {topCats.map(c => <CategoryCarousel key={c._id} category={c} />)}
         </div>
     )
 }

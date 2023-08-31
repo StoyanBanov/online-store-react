@@ -1,24 +1,27 @@
 import { useContext, useState } from "react"
 import { DimensionsContext } from "../common/context/DimensionsContext"
+import { MOBILE_MAX_WIDTH } from "../../constants"
 
 export const CarouselArrowButton = ({ direction, slideHandler }) => {
     const { windowWidth } = useContext(DimensionsContext)
 
+    const isMobile = windowWidth > MOBILE_MAX_WIDTH
+
     const [arrowStyle, setArrowStyle] = useState({
-        fill: windowWidth > 350 ? 'white' : 'transparent',
-        stroke: windowWidth > 350 ? 'black' : '',
+        fill: isMobile ? 'white' : 'transparent',
+        stroke: isMobile ? 'black' : '',
         strokeWidth: 1
     })
 
     const btnHoverHandler = () => {
-        if (windowWidth > 350)
+        if (isMobile)
             setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'gray' }))
         else
             setArrowStyle(state => ({ ...state, fill: 'transparent', stroke: 'gray' }))
     }
 
     const btnMouseOutHandler = () => {
-        if (windowWidth > 350)
+        if (isMobile)
             setArrowStyle(state => ({ ...state, fill: 'white', stroke: 'black' }))
         else
             setArrowStyle(state => ({ ...state, fill: 'transparent', stroke: '' }))

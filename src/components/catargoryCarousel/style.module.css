@@ -47,7 +47,6 @@
 }
 
 .carouselItem {
-    box-sizing: border-box;
     border-radius: 4px;
     background-color: white;
     width: 190px;
@@ -149,25 +148,26 @@
     object-fit: contain;
 }
 
+@media only screen and (max-width: 1600px) {
+    .carouselItemsContainer {
+        width: 1200px;
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    .carouselItemsContainer {
+        width: 1000px;
+    }
+}
+
 @media only screen and (max-width: 1200px) {
     .carouselItemsContainer {
         width: 800px;
     }
 }
 
-@media only screen and (max-width: 992px) {
-    .carouselItemsContainer {
-        width: 600px;
-    }
-}
+@media only screen and (max-width: 1024px) {
 
-@media only screen and (max-width: 600px) {
-    .carouselItemsContainer {
-        width: 200px;
-    }
-}
-
-@media only screen and (max-width: 350px) {
     .carousel>button:first-child {
         height: 50%;
         width: 30%;
@@ -182,5 +182,17 @@
         background: transparent;
         border: none;
         right: 0;
+    }
+}
+
+@media only screen and (max-width: 786px) {
+    .carouselItemsContainer {
+        width: 600px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .carouselItemsContainer {
+        width: 400px;
     }
 }

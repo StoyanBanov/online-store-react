@@ -13,7 +13,9 @@ export const DimensionsContextProvider = ({ children }) => {
     }, [])
 
     const widthHandler = useCallback(function () {
-        setDimensions(state => ({ ...state, windowWidth: this.innerWidth }))
+        let windowWidth = this.innerWidth
+
+        setDimensions(state => ({ ...state, windowWidth }))
     }, [])
 
 

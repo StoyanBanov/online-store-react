@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { getItems } from "../../data/services/itemService"
 import { CategoryCarouselItem } from "./CategoryCarouselItem"
 
@@ -6,11 +6,15 @@ import style from './style.module.css'
 import { CarouselArrowButton } from "./CarouselArrowButton"
 import { Link, useNavigate } from "react-router-dom"
 import { useCarousel } from "../common/hooks/useCarousel"
+import { DimensionsContext } from "../common/context/DimensionsContext"
+import { VISIBLE_ITEMS_COUNT } from "./constants"
 
 export const CategoryCarousel = ({ category }) => {
     const [items, setItems] = useState([])
 
     const navigate = useNavigate()
+
+    const { windowWidth } = useContext(DimensionsContext)
 
     const carouselDiv = useRef()
 
@@ -21,18 +25,23 @@ export const CategoryCarousel = ({ category }) => {
 
     const [slideHandler, displayCarouselButtons, setInitialWidth] = useCarousel(carouselDiv)
 
+    const [itemWidth, setItemWidth] = useState()
+
     useEffect(() => {
         if (carouselDiv.current) {
             setInitialWidth()
+            let divisor = VISIBLE_ITEMS_COUNT[Object.keys(VISIBLE_ITEMS_COUNT).sort((a, b) => a - b).find(k => k >= windowWidth)] || 7
+
+            setItemWidth(carouselDiv.current.parentElement.offsetWidth / divisor - 10)
         }
-    }, [carouselDiv, setInitialWidth, items])
+    }, [carouselDiv, setInitialWidth, items, windowWidth])
 
     const categoryClickHandler = useCallback(() => {
         navigate(`/catalog/${category.title}/${category._id}`)
     }, [navigate, category])
 
     return (
-        <div className={style.carouselContainer}>
+        <div style={{ fontSize: itemWidth / 12 + 'px' }} className={style.carouselContainer}>
             <Link to={`/catalog/${category.title}/${category._id}`}><h2>{category.title}</h2></Link>
 
             <div className={style.carousel}>
@@ -40,10 +49,11 @@ export const CategoryCarousel = ({ category }) => {
                     <CarouselArrowButton slideHandler={slideHandler} direction={'left'} />
                 }
 
-                <div className={style.carouselItemsContainer}>
+                <div style={{ height: itemWidth * 1.6 + 'px' }} className={style.carouselItemsContainer}>
                     <div ref={carouselDiv} className={style.carouselItems}>
                         {items.map((item, index) =>
                             <CategoryCarouselItem
+                                width={itemWidth}
                                 key={index}
                                 item={item}
                                 cat={category}
@@ -51,6 +61,7 @@ export const CategoryCarousel = ({ category }) => {
                         )}
 
                         <div
+                            style={{ width: itemWidth + 'px' }}
                             onClick={categoryClickHandler}
                             className={style.carouselItem}
                         >

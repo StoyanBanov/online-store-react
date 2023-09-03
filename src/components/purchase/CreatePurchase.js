@@ -1,8 +1,8 @@
-import { useCallback, useContext, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { getCities, getOffices } from "../../data/services/econtService"
 
 import style from './style.module.css'
-import { addUserPurchase } from "../../data/services/userService"
+import { addUserPurchase, getUserData } from "../../data/services/userService"
 import { CartContext } from "../common/context/CartContext"
 
 export const CreatePurchase = () => {
@@ -13,7 +13,8 @@ export const CreatePurchase = () => {
         deliverTo: 'address',
         address: '',
         city: '',
-        office: ''
+        office: '',
+        phone: '',
     })
 
     const [cities, setCities] = useState([])
@@ -25,6 +26,17 @@ export const CreatePurchase = () => {
     const [offices, setOffices] = useState([])
 
     const [showOffices, setShowOffices] = useState(false)
+
+    const [userData, setUserData] = useState({})
+
+    useEffect(() => {
+        getUserData()
+            .then(setUserData)
+    }, [])
+
+    useEffect(() => {
+        setValues(state => ({ ...state, phone: userData.phone || '' }))
+    }, [userData])
 
     const changeValueHandler = useCallback(e => {
         const key = e.target.name
@@ -65,9 +77,12 @@ export const CreatePurchase = () => {
     }, [])
 
     const valueAddressChangeHandler = useCallback(e => {
-        console.log(values);
         setValues(state => ({ ...state, address: { ...state.address, [e.target.name]: e.target.value } }))
     }, [])
+
+    const savedAddressChangeHandler = useCallback(e => {
+        setValues(state => ({ ...state, address: userData[e.target.name] }))
+    }, [userData])
 
     const submitHandler = async e => {
         e.preventDefault()
@@ -96,6 +111,10 @@ export const CreatePurchase = () => {
 
                     <input type="radio" name="paymentMethod" value={'card'} onChange={changeValueHandler} checked={values.paymentMethod === 'card'} disabled />
                     <label>card</label>
+                </div>
+
+                <div>
+                    <input name="phone" onChange={changeValueHandler} />
                 </div>
 
                 <div>
@@ -145,29 +164,42 @@ export const CreatePurchase = () => {
                     {
                         values.deliverTo === 'address' &&
                         <>
+                            {userData.address &&
+                                <div>
+                                    <label>Saved Addresses</label>
+                                    <select name="address" onChange={savedAddressChangeHandler}>
+                                        <option></option>
+                                        <option>{userData.address.street}...</option>
+                                        {userData.secondAddress &&
+                                            <option name="secondAddress">{userData.secondAddress.street}...</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+
                             <div>
                                 <label htmlFor="inputStreet">Street</label>
                                 <input id="inputStreet" name="street" value={values.street} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
-                                <label htmlFor="inputStreet">City</label>
-                                <input id="inputStreet" name="city" value={values.city} onChange={valueAddressChangeHandler} />
+                                <label htmlFor="inputCity">City</label>
+                                <input id="inputCity" name="city" value={values.city} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
-                                <label htmlFor="inputStreet">ZIP Code</label>
-                                <input id="inputStreet" name="zipCode" value={values.zipCode} onChange={valueAddressChangeHandler} />
+                                <label htmlFor="inputZIPCode">ZIP Code</label>
+                                <input id="inputZIPCode" name="zipCode" value={values.zipCode} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
-                                <label htmlFor="inputStreet">County</label>
-                                <input id="inputStreet" name="county" value={values.county} onChange={valueAddressChangeHandler} />
+                                <label htmlFor="inputCounty">County</label>
+                                <input id="inputCounty" name="county" value={values.county} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
-                                <label htmlFor="inputStreet">Country</label>
-                                <input id="inputStreet" name="country" value={values.country} onChange={valueAddressChangeHandler} />
+                                <label htmlFor="inputCountry">Country</label>
+                                <input id="inputCountry" name="country" value={values.country} onChange={valueAddressChangeHandler} />
                             </div>
                         </>
                     }

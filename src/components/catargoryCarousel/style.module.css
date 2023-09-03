@@ -155,6 +155,9 @@
 }
 
 @media only screen and (max-width: 1024px) {
+    .carouselContainer {
+        width: 90%;
+    }
 
     .carousel>button:first-child {
         background: transparent;

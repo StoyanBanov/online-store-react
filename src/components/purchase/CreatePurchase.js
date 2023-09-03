@@ -9,9 +9,17 @@ export const CreatePurchase = () => {
     const { cart: { items }, emptyCart } = useContext(CartContext)
 
     const [values, setValues] = useState({
+        fname: '',
+        lname: '',
         paymentMethod: 'cash',
         deliverTo: 'address',
-        address: '',
+        address: {
+            'street': '',
+            'city': '',
+            'zipCode': '',
+            'county': '',
+            'country': ''
+        },
         city: '',
         office: '',
         phone: '',
@@ -35,7 +43,7 @@ export const CreatePurchase = () => {
     }, [])
 
     useEffect(() => {
-        setValues(state => ({ ...state, phone: userData.phone || '' }))
+        setValues(state => ({ ...state, phone: userData.phone || '', fname: userData.fname || '', lname: userData.lname || '' }))
     }, [userData])
 
     const changeValueHandler = useCallback(e => {
@@ -88,8 +96,11 @@ export const CreatePurchase = () => {
         e.preventDefault()
 
         await addUserPurchase({
+            fname: values.fname,
+            lname: values.lname,
             paymentMethod: values.paymentMethod,
             deliverTo: values.deliverTo,
+            phone: values.phone,
             address:
                 values.address
                     ? Object.entries(values.address).map(([k, v]) => `${k}: ${v}`).join(', ')
@@ -104,6 +115,21 @@ export const CreatePurchase = () => {
         <div>
             <form onSubmit={submitHandler}>
                 <div>
+                    <label htmlFor="inputFName">First name:</label>
+                    <input id="inputFName" name="fname" value={values.fname} onChange={changeValueHandler} />
+                </div>
+
+                <div>
+                    <label htmlFor="inputLName">Last name:</label>
+                    <input id="inputLName" name="lname" value={values.lname} onChange={changeValueHandler} />
+                </div>
+
+                <div>
+                    <label htmlFor="inputPhone">Phone:</label>
+                    <input id="inputPhone" name="phone" value={values.phone} onChange={changeValueHandler} />
+                </div>
+
+                <div>
                     <label>Payment method:</label>
 
                     <input type="radio" name="paymentMethod" value={'cash'} onChange={changeValueHandler} checked={values.paymentMethod === 'cash'} />
@@ -111,10 +137,6 @@ export const CreatePurchase = () => {
 
                     <input type="radio" name="paymentMethod" value={'card'} onChange={changeValueHandler} checked={values.paymentMethod === 'card'} disabled />
                     <label>card</label>
-                </div>
-
-                <div>
-                    <input name="phone" onChange={changeValueHandler} />
                 </div>
 
                 <div>
@@ -179,27 +201,27 @@ export const CreatePurchase = () => {
 
                             <div>
                                 <label htmlFor="inputStreet">Street</label>
-                                <input id="inputStreet" name="street" value={values.street} onChange={valueAddressChangeHandler} />
+                                <input id="inputStreet" name="street" value={values.address.street} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
                                 <label htmlFor="inputCity">City</label>
-                                <input id="inputCity" name="city" value={values.city} onChange={valueAddressChangeHandler} />
+                                <input id="inputCity" name="city" value={values.address.city} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
                                 <label htmlFor="inputZIPCode">ZIP Code</label>
-                                <input id="inputZIPCode" name="zipCode" value={values.zipCode} onChange={valueAddressChangeHandler} />
+                                <input id="inputZIPCode" name="zipCode" value={values.address.zipCode} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
                                 <label htmlFor="inputCounty">County</label>
-                                <input id="inputCounty" name="county" value={values.county} onChange={valueAddressChangeHandler} />
+                                <input id="inputCounty" name="county" value={values.address.county} onChange={valueAddressChangeHandler} />
                             </div>
 
                             <div>
                                 <label htmlFor="inputCountry">Country</label>
-                                <input id="inputCountry" name="country" value={values.country} onChange={valueAddressChangeHandler} />
+                                <input id="inputCountry" name="country" value={values.address.country} onChange={valueAddressChangeHandler} />
                             </div>
                         </>
                     }

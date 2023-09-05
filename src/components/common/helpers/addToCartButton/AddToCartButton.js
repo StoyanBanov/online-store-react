@@ -11,10 +11,10 @@ export const AddToCartButton = ({ item, containerWidth }) => {
     }, [addToCart, item])
 
     return (
-        <button style={{ fontSize: containerWidth / 15 }} className={style.addToCartBtn} onClick={addToCartHandler}>
+        <button style={containerWidth ? { fontSize: containerWidth / 15 } : {}} className={style.addToCartBtn} onClick={addToCartHandler}>
 
             <svg
-                style={{ width: containerWidth / 8 }}
+                style={containerWidth ? { width: containerWidth / 8 } : {}}
                 fill="#000000"
                 version="1.1"
                 id="Capa_1"

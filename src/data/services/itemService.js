@@ -12,8 +12,11 @@ export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
 }
 
-export async function getItems({ catId, search, itemsPerPage = 1, page = 1, count, sortBy = 'rating', order = 'desc', minPrice, maxPrice, ...ranges }) {
-    return api.get(endpoints.item + createQueryParamsString({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, ranges }))
+export async function getItems({ catId, search, itemsPerPage = 1, page = 1, count, sortBy = 'rating', order = 'desc', minPrice, maxPrice, category, ...ranges }) {
+    if (search) {
+        return api.get(endpoints.item + createQueryParamsString({ search, itemsPerPage, page, count, sortBy, order, ranges: { category } }))
+    }
+    return api.get(endpoints.item + createQueryParamsString({ catId, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, ranges }))
 }
 
 export async function getItemById(itemId) {
@@ -30,35 +33,42 @@ export async function deleteItemById(itemId) {
 
 // filters
 
-export async function getFilterRanges({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, ...ranges }) {
-    const itemsListPrice = await api.get(endpoints.item + createQueryParamsString({ catId, search, ranges }))
+export async function getFilterRanges({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, category, ...ranges }) {
+    if (search) {
+        const items = await api.get(endpoints.item + createQueryParamsString({ search }))
 
-    const filterRanges = {
-        minPrice: itemsListPrice[0]?.price ?? 0,
-        maxPrice: itemsListPrice[0]?.price ?? 0
-    }
+        return { category: new Set(items.map(i => i.category._id)) }
+    } else {
+        const itemsListPrice = await api.get(endpoints.item + createQueryParamsString({ catId, ranges }))
 
-    for (const item of itemsListPrice) {
-        if (item.price < filterRanges.minPrice)
-            filterRanges.minPrice = item.price
-        if (item.price > filterRanges.maxPrice)
-            filterRanges.maxPrice = item.price
-    }
-
-    const categoryFields = Object.keys((await getCategoryById(catId)).itemFields ?? {})
-
-    for (const field of categoryFields) {
-        const rangesField = Object.fromEntries(Object.entries(ranges).filter(r => r[0] !== field))
-        const itemsListField = await api.get(endpoints.item + createQueryParamsString({ catId, search, minPrice, maxPrice, ranges: rangesField }))
-
-        filterRanges[field] = new Set()
-
-        for (const item of itemsListField) {
-            filterRanges[field].add(item[field])
+        const filterRanges = {
+            minPrice: itemsListPrice[0]?.price ?? 0,
+            maxPrice: itemsListPrice[0]?.price ?? 0
         }
+
+        for (const item of itemsListPrice) {
+            if (item.price < filterRanges.minPrice)
+                filterRanges.minPrice = item.price
+            if (item.price > filterRanges.maxPrice)
+                filterRanges.maxPrice = item.price
+        }
+
+        const categoryFields = Object.keys((await getCategoryById(catId)).itemFields ?? {})
+
+        for (const field of categoryFields) {
+            const rangesField = Object.fromEntries(Object.entries(ranges).filter(r => r[0] !== field))
+            const itemsListField = await api.get(endpoints.item + createQueryParamsString({ catId, minPrice, maxPrice, ranges: rangesField }))
+
+            filterRanges[field] = new Set()
+
+            for (const item of itemsListField) {
+                filterRanges[field].add(item[field])
+            }
+        }
+
+        return filterRanges
     }
 
-    return filterRanges
 }
 
 //cat

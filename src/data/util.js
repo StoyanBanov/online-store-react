@@ -2,6 +2,10 @@ export function createQueryParamsString({ catId, search, itemsPerPage, page, cou
     const queryParams = []
     const queryParamsWhere = []
 
+    if (search) {
+        queryParams.push(`search=${search}`)
+    }
+
     if (sortBy) {
         queryParams.push(`sortBy=${encodeURIComponent(`${sortBy}="${order}"`)}`)
     }
@@ -12,16 +16,15 @@ export function createQueryParamsString({ catId, search, itemsPerPage, page, cou
 
     if (ranges) {
         Object.entries(ranges).forEach(([k, v]) => {
-            if (v.includes(','))
-                queryParamsWhere.push(encodeURIComponent(`${k}=[${v.split(',').map(a => `"${a}"`).join(',')}]`))
-            else
-                queryParamsWhere.push(encodeURIComponent(`${k}="${v}"`))
+            if (v) {
+                if (v.includes(','))
+                    queryParamsWhere.push(encodeURIComponent(`${k}=[${v.split(',').map(a => `"${a}"`).join(',')}]`))
+                else
+                    queryParamsWhere.push(encodeURIComponent(`${k}="${v}"`))
+            }
         })
     }
 
-    if (search) {
-        queryParams.push(`search=${search}`)
-    }
     if (count) {
         queryParams.push(`count=true`)
     }

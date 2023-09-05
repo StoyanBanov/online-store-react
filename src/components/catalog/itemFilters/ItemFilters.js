@@ -17,7 +17,12 @@ export const ItemFilters = () => {
     const { searchParamsObj, setSearchParams } = useQueryParams()
 
     useEffect(() => {
-        if (catId && searchParamsObj) {
+        if (!catId && searchParamsObj.search) {
+            getFilterRanges({ search: searchParamsObj.search })
+                .then(data => {
+                    setFilterRanges(data)
+                })
+        } else if (catId && searchParamsObj) {
             getFilterRanges({ catId, ...searchParamsObj })
                 .then(data => {
                     for (const [k, v] of Object.entries(searchParamsObj)) {
@@ -76,9 +81,12 @@ export const ItemFilters = () => {
                     </div>
                 )
             }
-
-            <span>Price</span>
-            <ItemPriceFilter minPrice={Math.floor(filterRanges.minPrice)} maxPrice={Math.ceil(filterRanges.maxPrice)} updateFilters={updateFilters} />
+            {(filterRanges.minPrice || filterRanges.maxPrice) &&
+                <>
+                    <span>Price</span>
+                    <ItemPriceFilter minPrice={Math.floor(filterRanges.minPrice)} maxPrice={Math.ceil(filterRanges.maxPrice)} updateFilters={updateFilters} />
+                </>
+            }
         </div>
     )
 }

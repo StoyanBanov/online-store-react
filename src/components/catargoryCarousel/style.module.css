@@ -88,7 +88,6 @@
 
 .carouselItem:last-child img {
     opacity: 100%;
-    filter: contrast(80%);
     object-fit: contain;
     width: 100%;
     height: 100%;

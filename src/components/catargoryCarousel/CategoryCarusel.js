@@ -68,7 +68,7 @@ export const CategoryCarousel = ({ category }) => {
                             <img src={`http://localhost:3030/static/images/${category.thumbnail}`} alt={category.title} />
                             <h2 style={{ fontSize: itemWidth / category.title.length * 1.28 + 'px', top: -itemWidth / category.title.length * 1.28 / 2 + 'px' }}>
                                 {itemWidth &&
-                                    new Array(Math.trunc(itemWidth * 1.6 / (itemWidth / category.title.length)) - 1).fill(category.title).map(t => <span style={{ height: itemWidth / category.title.length * 1.2 + 'px' }}>{t}</span>)
+                                    new Array(Math.trunc(itemWidth * 1.6 / (itemWidth / category.title.length)) - 1).fill(category.title).map((t, i) => <span key={i} style={{ height: itemWidth / category.title.length * 1.2 + 'px' }}>{t}</span>)
                                 }
                             </h2>
                         </div>

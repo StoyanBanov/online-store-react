@@ -65,16 +65,12 @@ export const CategoryCarousel = ({ category }) => {
                             onClick={categoryClickHandler}
                             className={style.carouselItem}
                         >
-                            <div>
-                                <img src={`http://localhost:3030/static/images/${category.thumbnail}`} alt={category.title}></img>
-                                <h2>
-                                    <span>{category.title}</span>
-                                    <span>{category.title}</span>
-                                    <span>{category.title}</span>
-                                    <span>{category.title}</span>
-                                    <span>{category.title}</span>
-                                </h2>
-                            </div>
+                            <img src={`http://localhost:3030/static/images/${category.thumbnail}`} alt={category.title} />
+                            <h2 style={{ fontSize: itemWidth / category.title.length * 1.28 + 'px', top: -itemWidth / category.title.length * 1.28 / 2 + 'px' }}>
+                                {itemWidth &&
+                                    new Array(Math.trunc(itemWidth * 1.6 / (itemWidth / category.title.length)) - 1).fill(category.title).map(t => <span style={{ height: itemWidth / category.title.length * 1.2 + 'px' }}>{t}</span>)
+                                }
+                            </h2>
                         </div>
                     </div>
                 </div>

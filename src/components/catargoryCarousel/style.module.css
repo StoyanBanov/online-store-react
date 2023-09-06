@@ -78,6 +78,7 @@
 }
 
 .carouselItem:last-child {
+    padding: 3px;
     cursor: pointer;
 }
 
@@ -86,33 +87,33 @@
 }
 
 .carouselItem:last-child img {
-    filter: contrast(60%);
+    opacity: 100%;
+    filter: contrast(80%);
+    object-fit: contain;
     width: 100%;
+    height: 100%;
 }
 
 .carouselItem:last-child span {
-    display: block;
+    display: flex;
+    align-items: center;
 }
 
 .carouselItem:last-child h2 {
+    opacity: 80%;
     text-transform: uppercase;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
     font-weight: 900;
-    font-size: 28px;
     position: absolute;
-    top: 10px;
 }
 
-.carouselItem:last-child span:first-child,
-.carouselItem:last-child span:nth-child(3),
-.carouselItem:last-child span:nth-child(5) {
+.carouselItem:last-child span:nth-child(odd) {
     -webkit-text-stroke-width: 2px;
     -webkit-text-fill-color: transparent;
 }
 
-.carouselItem:last-child span:nth-child(2),
-.carouselItem:last-child span:nth-child(4) {
+.carouselItem:last-child span:nth-child(even) {
     color: rgb(248, 93, 93);
 }
 

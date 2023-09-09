@@ -17,11 +17,14 @@ export const ItemCard = ({ item }) => {
                     <img onClick={onItemCardClick} src={`http://localhost:3030/static/images/${item.thumbnail}`} alt={item.title} />
                 }
             </div>
-            <h2 onClick={onItemCardClick}>{item.title}</h2>
-            <span>{'★'.repeat(Math.round(item.rating))}{'☆'.repeat(5 - Math.round(item.rating))}</span>
-            <p>{item.price}$</p>
 
-            <AddToCartButton item={item} />
+            <div className={style.itemInfo}>
+                <h2 onClick={onItemCardClick}>{item.title}</h2>
+                <span>{'★'.repeat(Math.round(item.rating))}{'☆'.repeat(5 - Math.round(item.rating))}</span>
+                <p>{item.price.toFixed(2)}$</p>
+
+                <AddToCartButton item={item} />
+            </div>
         </div>
     )
 }

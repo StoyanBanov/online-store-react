@@ -206,7 +206,32 @@
     right: 0;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
+    .catalogContainer {
+        font-size: calc(200px / 16);
+    }
+
+    .catalogContainer button {
+        font-size: calc(200px / 16);
+    }
+
+    .catalogContainer button svg {
+        width: calc(200px / 9);
+    }
+
+    .catalogContainer .itemContainer {
+        height: 320px;
+        width: 200px;
+    }
+
+    .catalogContainer .itemContainer img {
+        height: 160px;
+    }
+
+    .catalogContainer>div {
+        padding: 5px;
+    }
+
     .mainImageContainer {
         width: 40vw;
     }
@@ -226,7 +251,28 @@
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
+    .catalogContainer {
+        font-size: calc(180px / 16);
+    }
+
+    .catalogContainer button {
+        font-size: calc(180px / 16);
+    }
+
+    .catalogContainer button svg {
+        width: calc(180px / 9);
+    }
+
+    .catalogContainer .itemContainer {
+        height: 288px;
+        width: 180px;
+    }
+
+    .catalogContainer .itemContainer img {
+        height: 140px;
+    }
+
     .itemImages {
         width: 100%;
     }
@@ -251,5 +297,32 @@
     .detailsImageCarouselItems>img:hover {
         width: 15.5vw;
         height: 15.5vw;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .catalogContainer>div {
+        padding: 3px;
+    }
+
+    .catalogContainer {
+        font-size: calc(100px / 16);
+    }
+
+    .catalogContainer button {
+        font-size: calc(100px / 16);
+    }
+
+    .catalogContainer button svg {
+        width: calc(100px / 9);
+    }
+
+    .catalogContainer .itemContainer {
+        height: 160px;
+        width: 100px;
+    }
+
+    .catalogContainer .itemContainer img {
+        height: 50px;
     }
 }

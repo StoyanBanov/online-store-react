@@ -26,3 +26,9 @@ section {
 svg {
     cursor: pointer;
 }
+
+@media screen and (max-width: 1024px) {
+    section {
+        width: 90%;
+    }
+}

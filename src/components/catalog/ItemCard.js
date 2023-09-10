@@ -18,13 +18,11 @@ export const ItemCard = ({ item }) => {
                 }
             </div>
 
-            <div className={style.itemInfo}>
-                <h2 onClick={onItemCardClick}>{item.title}</h2>
-                <span>{'★'.repeat(Math.round(item.rating))}{'☆'.repeat(5 - Math.round(item.rating))}</span>
-                <p>{item.price.toFixed(2)}$</p>
+            <h2 onClick={onItemCardClick}>{item.title}</h2>
+            <span>{'★'.repeat(Math.round(item.rating))}{'☆'.repeat(5 - Math.round(item.rating))}</span>
+            <p>{item.price.toFixed(2)}$</p>
 
-                <AddToCartButton item={item} />
-            </div>
+            <AddToCartButton item={item} />
         </div>
     )
 }

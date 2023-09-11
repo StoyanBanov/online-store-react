@@ -25,7 +25,7 @@ export const Header = () => {
         navigate('/')
     }, [navigate])
 
-    const openMobileNavHandler = useCallback((isOpening) => {
+    const mobileNavHandler = useCallback((isOpening) => {
         displayPopHandler(isOpening, navRef)
     }, [displayPopHandler, navRef])
 
@@ -50,15 +50,15 @@ export const Header = () => {
                 </nav>
                 : <>
                     <nav className={style.mobileNavContainer}>
-                        <svg onClick={openMobileNavHandler} stroke="black" strokeWidth={2} width={20} height={20}>
+                        <svg onClick={mobileNavHandler} stroke="black" strokeWidth={2} width={20} height={20}>
                             <line x1={2} y1={2} x2={18} y2={2} />
                             <line x1={2} y1={10} x2={18} y2={10} />
                             <line x1={2} y1={18} x2={18} y2={18} />
                         </svg>
 
                         {displayFilters &&
-                            <PopBefore popRef={navRef} displayPopClickHandler={openMobileNavHandler}>
-                                <MobileNav />
+                            <PopBefore popRef={navRef} displayPopClickHandler={mobileNavHandler}>
+                                <MobileNav mobileNavHandler={mobileNavHandler} />
                             </PopBefore>
                         }
 

@@ -4,7 +4,7 @@ import style from './style.module.css'
 import { useCallback, useContext, useRef } from "react"
 import { AuthContext } from "../../common/context/AuthContext"
 
-export const MobileNav = () => {
+export const MobileNav = ({ mobileNavHandler }) => {
     const { user: { verified, roles, _id } } = useContext(AuthContext)
 
     const adminUlRef = useRef()
@@ -16,8 +16,12 @@ export const MobileNav = () => {
         adminUlRef.current.style.display = e.type === 'click' || e.type === 'mouseover' ? 'block' : 'none'
     }, [])
 
+    const closeMobileNavHandler = useCallback(() => {
+        mobileNavHandler(false)
+    }, [mobileNavHandler])
+
     return (
-        <div className={style.mobileNavItems}>
+        <div onClick={closeMobileNavHandler} className={style.mobileNavItems}>
             {verified && roles.includes('admin') &&
                 <>
                     <div className={style.adminNav}>

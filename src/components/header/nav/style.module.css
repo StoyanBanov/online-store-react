@@ -1,21 +1,15 @@
-.navContainer {
-    position: sticky;
-    top: 0;
-    z-index: 9;
-    box-sizing: border-box;
+.navItems {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: rgb(248, 93, 93);
-    padding-left: 5px;
-    padding-right: 5px;
-    box-shadow: 0px 2px 5px black;
-    padding-left: 3vw;
-    padding-right: 3vw;
 }
 
-.navContainer a,
-.navContainer p {
+.mobileNavItems {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+nav a,
+nav p {
     margin: 0;
     color: black;
     display: inline-block;
@@ -24,22 +18,22 @@
     align-items: center;
 }
 
-.navContainer p {
+nav p {
     cursor: pointer;
 }
 
-.navContainer a:hover,
-.navContainer p:hover {
+nav a:hover,
+nav p:hover {
     background-color: azure;
 }
 
-.navContainer .activeLink {
+nav .activeLink {
     background-color: aliceblue;
     text-decoration: underline;
     font-weight: bold;
 }
 
-.navContainer .inactiveLink {
+nav .inactiveLink {
     text-decoration: none;
 }
 

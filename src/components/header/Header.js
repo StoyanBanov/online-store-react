@@ -4,38 +4,75 @@ import { Search } from "./Search"
 
 import style from './style.module.css'
 
-import { useCallback, useContext } from "react"
+import { useCallback, useContext, useRef } from "react"
 import { DimensionsContext } from "../common/context/DimensionsContext"
 import { CartButton } from "./CartButton"
+import { MOBILE_MAX_WIDTH, MOBILE_MIN_WIDTH } from "../../constants"
+import { usePop } from "../common/hooks/usePop"
+import { PopBefore } from "../common/helpers/popBefore/PopBefore"
+import { MobileNav } from "./nav/MobileNav"
 
 export const Header = () => {
     const navigate = useNavigate()
 
     const { windowWidth } = useContext(DimensionsContext)
 
+    const navRef = useRef()
+
+    const { displayPop: displayFilters, displayPopHandler } = usePop()
+
     const homeClickHandler = useCallback(() => {
         navigate('/')
     }, [navigate])
+
+    const openMobileNavHandler = useCallback((isOpening) => {
+        displayPopHandler(isOpening, navRef)
+    }, [displayPopHandler, navRef])
 
     return (
         <>
             <div className={style.searchContainer}>
                 <p onClick={homeClickHandler} className={style.typeText}>
                     <span className={style.typeLower}>ne</span>
-                    {windowWidth > 400 &&
-                        <span className={style.typeUpper}>MAG</span>
-                    }
-
+                    <span className={style.typeUpper}>MAG</span>
                 </p>
 
                 <Search />
-                {windowWidth > 330 &&
+                {windowWidth > MOBILE_MIN_WIDTH &&
                     <CartButton />
                 }
 
             </div>
-            <Nav />
-            {windowWidth <= 330 &&
+
+            {windowWidth > MOBILE_MAX_WIDTH
+                ? <nav className={style.navContainer}>
+                    <Nav />
+                </nav>
+                : <>
+                    <nav className={style.mobileNavContainer}>
+                        <svg onClick={openMobileNavHandler} stroke="black" strokeWidth={2} width={20} height={20}>
+                            <line x1={2} y1={2} x2={18} y2={2} />
+                            <line x1={2} y1={10} x2={18} y2={10} />
+                            <line x1={2} y1={18} x2={18} y2={18} />
+                        </svg>
+
+                        {displayFilters &&
+                            <PopBefore popRef={navRef} displayPopClickHandler={openMobileNavHandler}>
+                                <MobileNav />
+                            </PopBefore>
+                        }
+
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+                            <g id="SVGRepo_iconCarrier">
+                                <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </g>
+                        </svg>
+                    </nav>
+                </>
+            }
+
+            {windowWidth <= MOBILE_MIN_WIDTH &&
                 <CartButton />
             }
         </>

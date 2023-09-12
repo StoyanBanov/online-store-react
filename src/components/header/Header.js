@@ -4,7 +4,7 @@ import { Search } from "./Search"
 
 import style from './style.module.css'
 
-import { useCallback, useContext, useRef } from "react"
+import { useCallback, useContext, useRef, useState } from "react"
 import { DimensionsContext } from "../common/context/DimensionsContext"
 import { CartButton } from "./CartButton"
 import { MOBILE_MAX_WIDTH, MOBILE_MIN_WIDTH } from "../../constants"
@@ -20,6 +20,8 @@ export const Header = () => {
     const navRef = useRef()
 
     const { displayPop: displayFilters, displayPopHandler } = usePop()
+
+    const [displayMobileSearch, setDisplayMobileSearch] = useState(false)
 
     const homeClickHandler = useCallback(() => {
         navigate('/')
@@ -50,10 +52,10 @@ export const Header = () => {
                 </nav>
                 : <>
                     <nav className={style.mobileNavContainer}>
-                        <svg onClick={mobileNavHandler} stroke="black" strokeWidth={2} width={20} height={20}>
-                            <line x1={2} y1={2} x2={18} y2={2} />
-                            <line x1={2} y1={10} x2={18} y2={10} />
-                            <line x1={2} y1={18} x2={18} y2={18} />
+                        <svg onClick={mobileNavHandler} stroke="black" strokeWidth={2} width={30} height={30}>
+                            <line x1={0} y1={2} x2={25} y2={2} />
+                            <line x1={0} y1={10} x2={25} y2={10} />
+                            <line x1={0} y1={18} x2={25} y2={18} />
                         </svg>
 
                         {displayFilters &&
@@ -62,12 +64,16 @@ export const Header = () => {
                             </PopBefore>
                         }
 
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
-                            <g id="SVGRepo_iconCarrier">
-                                <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </g>
-                        </svg>
+                        {
+                            displayMobileSearch
+                                ? <Search />
+                                : <svg onClick={() => setDisplayMobileSearch(true)} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" />
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </g>
+                                </svg>
+                        }
                     </nav>
                 </>
             }

@@ -1,0 +1,27 @@
+.typeLower {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.typeUpper {
+    font-size: 21.5px;
+    font-weight: bolder;
+}
+
+.typeText {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    color: red;
+}
+
+@media screen and (max-width: 1024px) {
+    .typeText {
+        color: black;
+    }
+
+    .typeText:hover {
+        color: red;
+    }
+}

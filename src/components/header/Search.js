@@ -17,13 +17,18 @@ export const Search = () => {
     useEffect(() => {
         let total = 0
 
+        let step = 10
+
         const interval = setInterval(() => {
-            setWidth((total += 10))
+            setWidth(total += step)
+
+            if (step < 50)
+                step += 10
 
             if (total === (windowWidth > MOBILE_MAX_WIDTH ? 300 : 200)) {
                 clearInterval(interval)
             }
-        }, 30)
+        }, 20)
     }, [windowWidth])
 
     const searchValueChangeHandler = useCallback(e => {

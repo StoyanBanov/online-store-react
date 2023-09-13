@@ -1,9 +1,5 @@
-import { useNavigate } from "react-router-dom"
 import { Nav } from "./nav/Nav"
 import { Search } from "./Search"
-
-import style from './style.module.css'
-
 import { useCallback, useContext, useRef, useState } from "react"
 import { DimensionsContext } from "../common/context/DimensionsContext"
 import { CartButton } from "./CartButton"
@@ -11,10 +7,12 @@ import { MOBILE_MAX_WIDTH, MOBILE_MIN_WIDTH } from "../../constants"
 import { usePop } from "../common/hooks/usePop"
 import { PopBefore } from "../common/helpers/popBefore/PopBefore"
 import { MobileNav } from "./nav/MobileNav"
+import { MobileCartButton } from "./MobileCartButton"
+import { Logo } from "./logo/Logo"
+
+import style from './style.module.css'
 
 export const Header = () => {
-    const navigate = useNavigate()
-
     const { windowWidth } = useContext(DimensionsContext)
 
     const navRef = useRef()
@@ -23,33 +21,25 @@ export const Header = () => {
 
     const [displayMobileSearch, setDisplayMobileSearch] = useState(false)
 
-    const homeClickHandler = useCallback(() => {
-        navigate('/')
-    }, [navigate])
-
     const mobileNavHandler = useCallback((isOpening) => {
         displayPopHandler(isOpening, navRef)
     }, [displayPopHandler, navRef])
 
     return (
         <>
-            <div className={style.searchContainer}>
-                <p onClick={homeClickHandler} className={style.typeText}>
-                    <span className={style.typeLower}>ne</span>
-                    <span className={style.typeUpper}>MAG</span>
-                </p>
-
-                <Search />
-                {windowWidth > MOBILE_MIN_WIDTH &&
-                    <CartButton />
-                }
-
-            </div>
-
             {windowWidth > MOBILE_MAX_WIDTH
-                ? <nav className={style.navContainer}>
-                    <Nav />
-                </nav>
+                ? <>
+                    <div className={style.searchContainer}>
+                        <Logo />
+
+                        <Search />
+
+                        <CartButton />
+                    </div>
+                    <nav className={style.navContainer}>
+                        <Nav />
+                    </nav>
+                </>
                 : <>
                     <nav className={style.mobileNavContainer}>
                         <svg onClick={mobileNavHandler} stroke="black" strokeWidth={2} width={30} height={30}>
@@ -74,12 +64,13 @@ export const Header = () => {
                                     </g>
                                 </svg>
                         }
+
+                        <Logo />
+
+
+                        <MobileCartButton />
                     </nav>
                 </>
-            }
-
-            {windowWidth <= MOBILE_MIN_WIDTH &&
-                <CartButton />
             }
         </>
     )

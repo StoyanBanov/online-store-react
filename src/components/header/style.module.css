@@ -7,6 +7,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: rgb(248, 93, 93);
     padding-left: 5px;
     padding-right: 5px;
@@ -16,15 +17,25 @@
 }
 
 .mobileNavContainer>svg {
+    width: 30px;
+    height: 30px;
     padding: 5px;
 }
 
 .mobileNavContainer svg:hover {
     background-color: azure;
+    stroke: red;
+    fill: red;
 }
 
 .mobileNavContainer {
     justify-content: flex-start;
+    height: 30px;
+}
+
+.mobileNavContainer p {
+    padding-left: 5px;
+    padding-right: 5px;
     height: 30px;
 }
 
@@ -98,9 +109,13 @@
     padding: 0;
     padding-left: 10px;
     border-radius: 14px;
-    border: 2px solid #ccc;
+    border: 2px solid black;
     height: 25px;
     width: 300px;
+}
+
+.searchBar input:focus {
+    outline: none;
 }
 
 .searchBar {

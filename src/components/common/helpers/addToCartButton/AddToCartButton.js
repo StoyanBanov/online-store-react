@@ -14,7 +14,7 @@ export const AddToCartButton = ({ item, containerWidth }) => {
     return (
         <button style={containerWidth ? { fontSize: containerWidth / 15 } : {}} className={style.addToCartBtn} onClick={addToCartHandler}>
 
-            <CartSVG dim={containerWidth && containerWidth / 7} />
+            <CartSVG dim={containerWidth ? containerWidth / 7 : 30} />
 
             <span>
                 <strong>ADD TO CART</strong>

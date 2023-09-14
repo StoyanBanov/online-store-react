@@ -25,7 +25,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
             if (step < 50)
                 step += 10
 
-            if (total === (windowWidth > MOBILE_MAX_WIDTH ? 300 : 200)) {
+            if (total === (windowWidth > MOBILE_MAX_WIDTH ? 300 : 250)) {
                 clearInterval(interval)
             }
         }, 20)

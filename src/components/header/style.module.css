@@ -124,6 +124,7 @@
 }
 
 .searchBar form {
+    width: min-content;
     position: relative;
 }
 

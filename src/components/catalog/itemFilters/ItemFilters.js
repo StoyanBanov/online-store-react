@@ -63,8 +63,8 @@ export const ItemFilters = () => {
             {
                 Object.entries(filterRanges).filter(r => !r[0].includes('Price')).map(([k, v]) =>
                     <div key={k}>
-                        <span>{k}</span>
-                        <ul>
+                        <span><strong>{k}</strong></span>
+                        <ul className={style.filterList}>
                             {
                                 [...v].sort().map(a =>
                                     <li onClick={() => updateFilters({ name: k, value: a })} key={a}>

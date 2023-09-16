@@ -83,7 +83,6 @@ export const Header = () => {
 
                     <Logo />
 
-
                     <MobileCartButton />
                 </nav>
             }

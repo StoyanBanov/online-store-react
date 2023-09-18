@@ -1,9 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from "react"
-import { getCities, getOffices } from "../../data/services/econtService"
-
-import style from './style.module.css'
 import { addUserPurchase, getUserData } from "../../data/services/userService"
 import { CartContext } from "../common/context/CartContext"
+import { PurchaseOffice } from "./PurchaseOffice"
+
+import style from './style.module.css'
+import { PurchaseAddress } from "./PurchaseAddress"
 
 export const CreatePurchase = () => {
     const { cart: { items }, emptyCart } = useContext(CartContext)
@@ -25,16 +26,6 @@ export const CreatePurchase = () => {
         phone: '',
     })
 
-    const [cities, setCities] = useState([])
-
-    const [showCities, setShowCities] = useState(false)
-
-    const [cityId, setCityId] = useState('')
-
-    const [offices, setOffices] = useState([])
-
-    const [showOffices, setShowOffices] = useState(false)
-
     const [userData, setUserData] = useState({})
 
     useEffect(() => {
@@ -46,45 +37,13 @@ export const CreatePurchase = () => {
         setValues(state => ({ ...state, phone: userData.phone || '', fname: userData.fname || '', lname: userData.lname || '' }))
     }, [userData])
 
-    const changeValueHandler = useCallback(e => {
-        const key = e.target.name
-        const value = e.target.value
+    const changeValueHandler = useCallback((e, name, val) => {
+        const key = e?.target.name || name
+        const value = e?.target.value || e?.target.textContent || val
         setValues(state => ({ ...state, [key]: value }))
     }, [])
 
-    const showCitiesHandler = e => {
-        if (e.type === 'focus') {
-            if (!cities.length) {
-                getCities()
-                    .then(data => setCities(data.cities))
-            }
-            setShowCities(true)
-        }
-    }
-
-    const showOfficesHandler = e => {
-        if (e.type === 'focus') {
-            getOffices(cityId)
-                .then(data => {
-                    setOffices(data.offices)
-                })
-
-            setShowOffices(true)
-        }
-    }
-
-    const chooseCityHandler = useCallback(e => {
-        setValues(state => ({ ...state, city: e.target.textContent }))
-        setCityId(e.target.id)
-        setShowCities(false)
-    }, [])
-
-    const chooseOfficeHandler = useCallback(e => {
-        setValues(state => ({ ...state, office: e.target.textContent }))
-        setShowOffices(false)
-    }, [])
-
-    const valueAddressChangeHandler = useCallback(e => {
+    const changeAddressValueHandler = useCallback(e => {
         setValues(state => ({ ...state, address: { ...state.address, [e.target.name]: e.target.value } }))
     }, [])
 
@@ -150,80 +109,18 @@ export const CreatePurchase = () => {
 
                     {
                         values.deliverTo === 'office' &&
-                        <>
-                            <div className={style.purchaseDropDown}>
-                                <label>City</label>
-                                <input name="city" value={values.city} onChange={changeValueHandler} onFocus={showCitiesHandler} onBlur={showCitiesHandler} />
-
-                                {showCities &&
-                                    <ul className={style.econtCities}>
-                                        {
-                                            cities
-                                                .filter(c => c.nameEn.toLowerCase().startsWith(values.city.toLowerCase()))
-                                                .map(c => <li key={c.id} id={c.id} onClick={chooseCityHandler}>{c.nameEn}</li>)
-                                        }
-                                    </ul>
-                                }
-                            </div>
-
-                            <div className={style.purchaseDropDown}>
-                                <label>Office</label>
-                                <input name="office" value={values.office} onChange={changeValueHandler} onFocus={showOfficesHandler} onBlur={showOfficesHandler} disabled={!cityId} />
-
-                                {showOffices &&
-                                    <ul className={style.econtCities}>
-                                        {
-                                            offices
-                                                .filter(c => c.nameEn.toLowerCase().startsWith(values.office.toLowerCase()))
-                                                .map(c => <li key={c.id} id={c.id} onClick={chooseOfficeHandler}>{c.nameEn}</li>)
-                                        }
-                                    </ul>
-                                }
-                            </div>
-                        </>
+                        <PurchaseOffice changeValueHandler={changeValueHandler} city={values.city} office={values.office} />
                     }
 
                     {
                         values.deliverTo === 'address' &&
-                        <>
-                            {userData.address &&
-                                <div>
-                                    <label>Saved Addresses</label>
-                                    <select name="address" onChange={savedAddressChangeHandler}>
-                                        <option></option>
-                                        <option>{userData.address.street}...</option>
-                                        {userData.secondAddress &&
-                                            <option name="secondAddress">{userData.secondAddress.street}...</option>
-                                        }
-                                    </select>
-                                </div>
-                            }
-
-                            <div>
-                                <label htmlFor="inputStreet">Street</label>
-                                <input id="inputStreet" name="street" value={values.address.street} onChange={valueAddressChangeHandler} />
-                            </div>
-
-                            <div>
-                                <label htmlFor="inputCity">City</label>
-                                <input id="inputCity" name="city" value={values.address.city} onChange={valueAddressChangeHandler} />
-                            </div>
-
-                            <div>
-                                <label htmlFor="inputZIPCode">ZIP Code</label>
-                                <input id="inputZIPCode" name="zipCode" value={values.address.zipCode} onChange={valueAddressChangeHandler} />
-                            </div>
-
-                            <div>
-                                <label htmlFor="inputCounty">County</label>
-                                <input id="inputCounty" name="county" value={values.address.county} onChange={valueAddressChangeHandler} />
-                            </div>
-
-                            <div>
-                                <label htmlFor="inputCountry">Country</label>
-                                <input id="inputCountry" name="country" value={values.address.country} onChange={valueAddressChangeHandler} />
-                            </div>
-                        </>
+                        <PurchaseAddress
+                            changeValueHandler={changeValueHandler}
+                            changeAddressValueHandler={changeAddressValueHandler}
+                            savedAddressChangeHandler={savedAddressChangeHandler}
+                            userData={userData}
+                            address={values.address}
+                        />
                     }
                 </div>
 

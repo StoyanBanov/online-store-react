@@ -72,57 +72,65 @@ export const CreatePurchase = () => {
 
     return (
         <div>
-            <form onSubmit={submitHandler}>
-                <div>
-                    <label htmlFor="inputFName">First name:</label>
+            <form className={style.purchaseForm} onSubmit={submitHandler}>
+                <div className={style.purchaseFormRow}>
+                    <label htmlFor="inputFName">First name</label>
                     <input id="inputFName" name="fname" value={values.fname} onChange={changeValueHandler} />
                 </div>
 
-                <div>
-                    <label htmlFor="inputLName">Last name:</label>
+                <div className={style.purchaseFormRow}>
+                    <label htmlFor="inputLName">Last name</label>
                     <input id="inputLName" name="lname" value={values.lname} onChange={changeValueHandler} />
                 </div>
 
-                <div>
-                    <label htmlFor="inputPhone">Phone:</label>
+                <div className={style.purchaseFormRow}>
+                    <label htmlFor="inputPhone">Phone</label>
                     <input id="inputPhone" name="phone" value={values.phone} onChange={changeValueHandler} />
                 </div>
 
                 <div>
                     <label>Payment method:</label>
 
-                    <input type="radio" name="paymentMethod" value={'cash'} onChange={changeValueHandler} checked={values.paymentMethod === 'cash'} />
-                    <label>cash</label>
+                    <div>
+                        <input type="radio" id="paymentMethodCash" name="paymentMethod" value={'cash'} onChange={changeValueHandler} checked={values.paymentMethod === 'cash'} />
+                        <label htmlFor="paymentMethodCash">cash</label>
+                    </div>
 
-                    <input type="radio" name="paymentMethod" value={'card'} onChange={changeValueHandler} checked={values.paymentMethod === 'card'} disabled />
-                    <label>card</label>
+                    <div>
+                        <input type="radio" id="paymentMethodCard" name="paymentMethod" value={'card'} onChange={changeValueHandler} checked={values.paymentMethod === 'card'} disabled />
+                        <label htmlFor="paymentMethodCard">card</label>
+                    </div>
                 </div>
 
                 <div>
                     <label>Deliver to:</label>
 
-                    <input type="radio" name="deliverTo" value={'office'} onChange={changeValueHandler} checked={values.deliverTo === 'office'} />
-                    <label>office</label>
+                    <div>
+                        <input type="radio" id="deliverToOffice" name="deliverTo" value={'office'} onChange={changeValueHandler} checked={values.deliverTo === 'office'} />
+                        <label htmlFor="deliverToOffice">office</label>
+                    </div>
 
-                    <input type="radio" name="deliverTo" value={'address'} onChange={changeValueHandler} checked={values.deliverTo === 'address'} />
-                    <label>address</label>
-
-                    {
-                        values.deliverTo === 'office' &&
-                        <PurchaseOffice changeValueHandler={changeValueHandler} city={values.city} office={values.office} />
-                    }
-
-                    {
-                        values.deliverTo === 'address' &&
-                        <PurchaseAddress
-                            changeValueHandler={changeValueHandler}
-                            changeAddressValueHandler={changeAddressValueHandler}
-                            savedAddressChangeHandler={savedAddressChangeHandler}
-                            userData={userData}
-                            address={values.address}
-                        />
-                    }
+                    <div>
+                        <input type="radio" id="deliverToAddress" name="deliverTo" value={'address'} onChange={changeValueHandler} checked={values.deliverTo === 'address'} />
+                        <label htmlFor="deliverToAddress">address</label>
+                    </div>
                 </div>
+
+                {
+                    values.deliverTo === 'office' &&
+                    <PurchaseOffice changeValueHandler={changeValueHandler} city={values.city} office={values.office} />
+                }
+
+                {
+                    values.deliverTo === 'address' &&
+                    <PurchaseAddress
+                        changeValueHandler={changeValueHandler}
+                        changeAddressValueHandler={changeAddressValueHandler}
+                        savedAddressChangeHandler={savedAddressChangeHandler}
+                        userData={userData}
+                        address={values.address}
+                    />
+                }
 
                 <button>Finalize purchase</button>
             </form>

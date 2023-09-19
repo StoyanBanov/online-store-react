@@ -20,3 +20,13 @@
     display: flex;
     flex-direction: column;
 }
+
+.purchaseForm>div {
+    margin-top: 0.5vw;
+}
+
+.purchaseFormRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}

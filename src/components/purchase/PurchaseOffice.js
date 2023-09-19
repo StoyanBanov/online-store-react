@@ -51,7 +51,7 @@ export const PurchaseOffice = ({ changeValueHandler, city, office }) => {
         <>
             <div className={style.purchaseDropDown}>
                 <label>City</label>
-                <input name="city" value={city} onChange={changeValueHandler} onFocus={showCitiesHandler} onBlur={showCitiesHandler} />
+                <input name="city" value={city} onChange={changeValueHandler} onFocus={showCitiesHandler} onBlur={showCitiesHandler} required />
 
                 {showCities &&
                     <ul className={style.econtCities}>
@@ -66,7 +66,7 @@ export const PurchaseOffice = ({ changeValueHandler, city, office }) => {
 
             <div className={style.purchaseDropDown}>
                 <label>Office</label>
-                <input name="office" value={office} onChange={changeValueHandler} onFocus={showOfficesHandler} onBlur={showOfficesHandler} disabled={!cityId} />
+                <input name="office" value={office} onChange={changeValueHandler} onFocus={showOfficesHandler} onBlur={showOfficesHandler} disabled={!cityId} required />
 
                 {showOffices &&
                     <ul className={style.econtCities}>

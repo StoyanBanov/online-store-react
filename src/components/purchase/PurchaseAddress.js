@@ -16,27 +16,27 @@ export const PurchaseAddress = ({ savedAddressChangeHandler, changeAddressValueH
 
             <div>
                 <label htmlFor="inputStreet">Street</label>
-                <input id="inputStreet" name="street" value={address.street} onChange={changeAddressValueHandler} />
+                <input id="inputStreet" name="street" value={address.street} onChange={changeAddressValueHandler} required />
             </div>
 
             <div>
                 <label htmlFor="inputCity">City</label>
-                <input id="inputCity" name="city" value={address.city} onChange={changeAddressValueHandler} />
+                <input id="inputCity" name="city" value={address.city} onChange={changeAddressValueHandler} required />
             </div>
 
             <div>
                 <label htmlFor="inputZIPCode">ZIP Code</label>
-                <input id="inputZIPCode" name="zipCode" value={address.zipCode} onChange={changeAddressValueHandler} />
+                <input id="inputZIPCode" name="zipCode" value={address.zipCode} onChange={changeAddressValueHandler} required />
             </div>
 
             <div>
                 <label htmlFor="inputCounty">County</label>
-                <input id="inputCounty" name="county" value={address.county} onChange={changeAddressValueHandler} />
+                <input id="inputCounty" name="county" value={address.county} onChange={changeAddressValueHandler} required />
             </div>
 
             <div>
                 <label htmlFor="inputCountry">Country</label>
-                <input id="inputCountry" name="country" value={address.country} onChange={changeAddressValueHandler} />
+                <input id="inputCountry" name="country" value={address.country} onChange={changeAddressValueHandler} required />
             </div>
         </>
     )

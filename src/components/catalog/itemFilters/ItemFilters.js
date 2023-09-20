@@ -17,7 +17,7 @@ export const ItemFilters = () => {
     const { searchParamsObj, setSearchParams } = useQueryParams()
 
     useEffect(() => {
-        if (!catId && searchParamsObj.search || searchParamsObj.search === '') {
+        if (!catId && searchParamsObj.search) {
             getFilterRanges({ search: searchParamsObj.search })
                 .then(data => {
                     setFilterRanges(data)

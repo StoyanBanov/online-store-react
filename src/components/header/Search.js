@@ -37,9 +37,11 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
     const submitHandler = e => {
         e.preventDefault()
-        navigate('/catalog?search=' + searchValue)
-        if (closeHandler) {
-            closeHandler()
+        if (searchValue) {
+            navigate('/catalog?search=' + searchValue)
+            if (closeHandler) {
+                closeHandler()
+            }
         }
     }
 

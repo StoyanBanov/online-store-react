@@ -6,7 +6,7 @@ const endpoints = {
     cat: '/category'
 }
 
-//item
+// item
 
 export async function createItem(itemData) {
     return api.post(endpoints.item, itemData)
@@ -34,7 +34,7 @@ export async function deleteItemById(itemId) {
 // filters
 
 export async function getFilterRanges({ catId, search, itemsPerPage, page, count, sortBy, order, minPrice, maxPrice, category, ...ranges }) {
-    if (search) {
+    if (search || search === '') {
         const items = await api.get(endpoints.item + createQueryParamsString({ search }))
 
         return { category: new Set(items.map(i => i.category._id)) }

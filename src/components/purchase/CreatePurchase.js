@@ -2,9 +2,9 @@ import { useCallback, useContext, useEffect, useState } from "react"
 import { addUserPurchase, getUserData } from "../../data/services/userService"
 import { CartContext } from "../common/context/CartContext"
 import { PurchaseOffice } from "./PurchaseOffice"
+import { PurchaseAddress } from "./PurchaseAddress"
 
 import style from './style.module.css'
-import { PurchaseAddress } from "./PurchaseAddress"
 
 export const CreatePurchase = () => {
     const { cart: { items }, emptyCart } = useContext(CartContext)
@@ -75,17 +75,17 @@ export const CreatePurchase = () => {
             <form className={style.purchaseForm} onSubmit={submitHandler}>
                 <div className={style.purchaseFormRow}>
                     <label htmlFor="inputFName">First name</label>
-                    <input id="inputFName" name="fname" value={values.fname} onChange={changeValueHandler} />
+                    <input id="inputFName" name="fname" value={values.fname} onChange={changeValueHandler} required />
                 </div>
 
                 <div className={style.purchaseFormRow}>
                     <label htmlFor="inputLName">Last name</label>
-                    <input id="inputLName" name="lname" value={values.lname} onChange={changeValueHandler} />
+                    <input id="inputLName" name="lname" value={values.lname} onChange={changeValueHandler} required />
                 </div>
 
                 <div className={style.purchaseFormRow}>
                     <label htmlFor="inputPhone">Phone</label>
-                    <input id="inputPhone" name="phone" value={values.phone} onChange={changeValueHandler} />
+                    <input min={10} id="inputPhone" name="phone" value={values.phone} onChange={changeValueHandler} required />
                 </div>
 
                 <div>

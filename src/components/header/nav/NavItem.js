@@ -1,20 +1,47 @@
-import { useCallback, useState } from "react"
+import { useCallback, useRef } from "react"
 
 import style from './style.module.css'
 
+let isHovering = false
+
 export const NavItem = ({ children, name }) => {
-    const [showItem, setShowItem] = useState(false)
+
+    const itemRef = useRef()
 
     const profileHandler = useCallback(e => {
-        setShowItem(e.type === 'mouseover')
+        const isHover = e.type === 'mouseover'
+        if (!isHovering) {
+            isHovering = true
+
+            if (isHover) {
+                isHovering = true
+                let count = 0
+                let total = 0
+                const interval = setInterval(() => {
+                    itemRef.current.style.width = (total += 10) + 'px'
+                    if (++count === 5) {
+                        clearInterval(interval)
+                        isHovering = false
+                    }
+                }, 30)
+            } else {
+                let count = 0
+                let total = 50
+                const interval = setInterval(() => {
+                    itemRef.current.style.width = (total -= 10) + 'px'
+                    if (++count === 5) {
+                        clearInterval(interval)
+                        isHovering = false
+                    }
+                }, 30)
+            }
+        }
     }, [])
     return (
         <div className={style.navLinkItem} onMouseOver={profileHandler} onMouseOut={profileHandler}>
             {children}
 
-            {showItem &&
-                <span>{name}</span>
-            }
+            <span className={style.navItemText} ref={itemRef}>{name}</span>
         </div>
     )
 }

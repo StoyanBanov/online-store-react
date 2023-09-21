@@ -3,6 +3,9 @@ import { Link, NavLink } from "react-router-dom"
 import style from './style.module.css'
 import { useCallback, useContext, useRef } from "react"
 import { AuthContext } from "../../common/context/AuthContext"
+import { HomeSVG } from "../../common/svg/HomeSVG"
+import { ProfileSVG } from "../../common/svg/ProfileSVG"
+import { NavItem } from "./NavItem"
 
 export const Nav = () => {
     const { user: { verified, roles, _id } } = useContext(AuthContext)
@@ -48,7 +51,11 @@ export const Nav = () => {
 
             <div className={style.allNav}>
                 <div className={style.navMidContainer}>
-                    <NavLink to={'/'} className={ActiveClassNameHandler}>Home</NavLink>
+                    <NavLink to={'/'} className={ActiveClassNameHandler}>
+                        <NavItem name={'Home'}>
+                            <HomeSVG />
+                        </NavItem>
+                    </NavLink>
                     <NavLink to={'/catalog'} className={ActiveClassNameHandler}>Catalog</NavLink>
                 </div>
 
@@ -63,10 +70,9 @@ export const Nav = () => {
                     _id &&
                     <div className={style.navRightContainer}>
                         <NavLink to={'/profile'} className={ActiveClassNameHandler}>
-                            <svg height={20} width={20}>
-                                <circle cx="10" cy="7" r="5" />
-                                <circle cx="10" cy="23" r="10" />
-                            </svg>
+                            <NavItem name={'Profile'}>
+                                <ProfileSVG />
+                            </NavItem>
                         </NavLink>
                         <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
                     </div>

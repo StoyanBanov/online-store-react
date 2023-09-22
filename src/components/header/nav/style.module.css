@@ -18,6 +18,11 @@ nav p {
     height: 30px;
 }
 
+nav a {
+    padding-left: 0.2vw;
+    padding-right: 0.2vw;
+}
+
 nav a svg {
     box-sizing: content-box;
     height: 20px;

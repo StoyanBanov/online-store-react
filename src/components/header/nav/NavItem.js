@@ -9,7 +9,7 @@ export const NavItem = ({ children, name }) => {
     const itemRef = useRef()
 
     const profileHandler = useCallback(e => {
-        const isHover = e.type === 'mouseover'
+        const isHover = e.type === 'mouseenter'
         if (!isHovering) {
             isHovering = true
 
@@ -38,7 +38,7 @@ export const NavItem = ({ children, name }) => {
         }
     }, [])
     return (
-        <div className={style.navLinkItem} onMouseOver={profileHandler} onMouseOut={profileHandler}>
+        <div className={style.navLinkItem} onMouseEnter={profileHandler} onMouseLeave={profileHandler}>
             {children}
 
             <span className={style.navItemText} ref={itemRef}>{name}</span>

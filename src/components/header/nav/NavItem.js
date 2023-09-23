@@ -13,28 +13,16 @@ export const NavItem = ({ children, name }) => {
         if (!isHovering) {
             isHovering = true
 
-            if (isHover) {
-                isHovering = true
-                let count = 0
-                let total = 0
-                const interval = setInterval(() => {
-                    itemRef.current.style.width = (total += 10) + 'px'
-                    if (++count === 5) {
-                        clearInterval(interval)
-                        isHovering = false
-                    }
-                }, 30)
-            } else {
-                let count = 0
-                let total = 50
-                const interval = setInterval(() => {
-                    itemRef.current.style.width = (total -= 10) + 'px'
-                    if (++count === 5) {
-                        clearInterval(interval)
-                        isHovering = false
-                    }
-                }, 30)
-            }
+            let count = 0
+            let total = isHover ? 0 : 50
+            let step = isHover ? 10 : -10
+            const interval = setInterval(() => {
+                itemRef.current.style.width = (total += step) + 'px'
+                if (++count === 5) {
+                    clearInterval(interval)
+                    isHovering = false
+                }
+            }, 30)
         }
     }, [])
     return (

@@ -1,10 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import { addLikeByReviewId, removeLikeByReviewId, addItemReviewById, getItemReviewsById } from "../../../data/services/itemService"
 import { AuthContext } from "../../common/context/AuthContext"
+import { PaginationPages } from "../../common/helpers/PaginationPages"
 
 import style from './style.module.css'
-import { makePages } from "../../../util"
-import { PaginationPages } from "../../common/helpers/PaginationPages"
 
 export const ItemReviews = ({ itemId }) => {
     const { user: { _id } } = useContext(AuthContext)
@@ -95,7 +94,10 @@ export const ItemReviews = ({ itemId }) => {
                                     </div>
 
                                     <div>
-                                        <span className={style.likeButton} onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
+                                        {_id
+                                            ? <span className={style.likeButton} onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
+                                            : <span>👍</span>
+                                        }
                                         ({r.likes.length})
                                     </div>
                                 </div>

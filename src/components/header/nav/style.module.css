@@ -18,7 +18,8 @@ nav p {
     height: 30px;
 }
 
-nav a {
+nav a,
+nav p {
     padding-left: 0.2vw;
     padding-right: 0.2vw;
 }
@@ -71,7 +72,7 @@ nav .inactiveLink {
     white-space: nowrap;
     background-color: white;
     position: absolute;
-    top: 20px;
+    top: 100%;
     left: 0;
     display: none;
     z-index: 999;
@@ -91,6 +92,7 @@ nav .inactiveLink {
 .navMidContainer {
     display: flex;
     flex-direction: row;
+    width: 10%;
 }
 
 .navLinkItem {

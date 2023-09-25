@@ -20,7 +20,7 @@ export const Nav = () => {
     }, [])
 
     return (
-        <>
+        <div className={style.allNav}>
             {verified && roles.includes('admin') &&
                 <>
                     <div className={style.adminNav}>
@@ -49,38 +49,35 @@ export const Nav = () => {
                 </>
             }
 
-            <div className={style.allNav}>
-                <div className={style.navMidContainer}>
-                    <NavLink to={'/'} className={ActiveClassNameHandler}>
-                        <NavItem name={'Home'}>
-                            <HomeSVG />
-                        </NavItem>
-                    </NavLink>
-                    <NavLink to={'/catalog'} className={ActiveClassNameHandler}>Catalog</NavLink>
-                </div>
 
-                {!_id &&
-                    <div className={style.navRightContainer}>
-                        <NavLink to={'/login'} className={ActiveClassNameHandler}>Login</NavLink>
-                        <NavLink to={'/register'} className={ActiveClassNameHandler}>Register</NavLink>
-                    </div>
-                }
-
-                {
-                    _id &&
-                    <div className={style.navRightContainer}>
-                        <NavLink to={'/profile'} className={ActiveClassNameHandler}>
-                            <NavItem name={'Profile'}>
-                                <ProfileSVG />
-                            </NavItem>
-                        </NavLink>
-                        <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
-                    </div>
-                }
+            <div className={style.navMidContainer}>
+                <NavLink to={'/'} className={ActiveClassNameHandler}>
+                    <NavItem name={'Home'}>
+                        <HomeSVG />
+                    </NavItem>
+                </NavLink>
+                <NavLink to={'/catalog'} className={ActiveClassNameHandler}>Catalog</NavLink>
             </div>
 
+            {!_id &&
+                <div className={style.navRightContainer}>
+                    <NavLink to={'/login'} className={ActiveClassNameHandler}>Login</NavLink>
+                    <NavLink to={'/register'} className={ActiveClassNameHandler}>Register</NavLink>
+                </div>
+            }
 
-        </>
+            {
+                _id &&
+                <div className={style.navRightContainer}>
+                    <NavLink to={'/profile'} className={ActiveClassNameHandler}>
+                        <NavItem name={'Profile'}>
+                            <ProfileSVG />
+                        </NavItem>
+                    </NavLink>
+                    <Link to={'/logout'} className={style.inactiveLink}>Logout</Link>
+                </div>
+            }
+        </div>
     )
 }
 

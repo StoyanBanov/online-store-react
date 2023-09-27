@@ -85,8 +85,6 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
 
     return (
         <div className={style.priceRange}>
-            <span className={style.priceBorder}>{minPrice}$</span>
-
             <div className={style.priceCurrentValue}>
                 <span ref={minPriceSpanRef}></span>
             </div>
@@ -116,8 +114,6 @@ export const ItemPriceFilter = ({ minPrice, maxPrice, updateFilters }) => {
                 max={maxPrice}
                 type='range'
             />
-
-            <span className={style.priceBorder}>{maxPrice}$</span>
         </div>
     )
 }

@@ -5,11 +5,21 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { ItemDetails } from './ItemDetails'
 import { AuthContext } from '../common/context/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
+import { CartContext } from '../common/context/CartContext'
 
 const mockItem = {
     _id: 1,
+    category: 1,
     title: 'title1',
-    rating: 2
+    rating: 2,
+    price: 1,
+    images: []
+}
+
+const mockCategory = {
+    _id: 1,
+    title: 'cat1'
 }
 
 const mockUser = {
@@ -30,6 +40,9 @@ const server = setupServer(
     }),
     rest.get(host + '/item/:id', (req, res, ctx) => {
         return res(ctx.json(mockItem))
+    }),
+    rest.get(host + '/category/:id', (req, res, ctx) => {
+        return res(ctx.json(mockCategory))
     })
 )
 
@@ -40,7 +53,11 @@ afterAll(() => server.close())
 test('loads item info for guest', async () => {
     render(
         <AuthContext.Provider value={{ user: {} }}>
-            <ItemDetails />
+            <CartContext.Provider value={{ addToCart: () => { } }}>
+                <BrowserRouter>
+                    <ItemDetails />
+                </BrowserRouter>
+            </CartContext.Provider>
         </AuthContext.Provider>
     )
 
@@ -51,12 +68,37 @@ test('loads item info for guest', async () => {
 
 test('loads item info for user', async () => {
     render(
-        <AuthContext.Provider value={{ user: mockUser }}>
-            <ItemDetails />
+        <AuthContext.Provider value={{ user: { _id: 1, roles: ['user'] } }}>
+            <CartContext.Provider value={{ addToCart: () => { } }}>
+                <BrowserRouter>
+                    <ItemDetails />
+                </BrowserRouter>
+            </CartContext.Provider>
         </AuthContext.Provider>
     )
 
-    const title = await screen.findAllByText('★')
+    const ratingStars = await screen.findAllByText('★')
 
-    expect(title.length).toBe(2)
+    expect(ratingStars.length).toBe(mockItem.rating)
+})
+
+test('loads item info for admin', async () => {
+    render(
+        <AuthContext.Provider value={{ user: { _id: 2, roles: ['admin'] } }}>
+            <CartContext.Provider value={{ addToCart: () => { } }}>
+                <BrowserRouter>
+                    <ItemDetails />
+                </BrowserRouter>
+            </CartContext.Provider>
+        </AuthContext.Provider>
+    )
+
+    let result = true
+    try {
+        await screen.findAllByText('★')
+    } catch (error) {
+        result = false
+    }
+
+    expect(result).toBeFalsy()
 })

@@ -51,15 +51,7 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 test('loads item info for guest', async () => {
-    render(
-        <AuthContext.Provider value={{ user: {} }}>
-            <CartContext.Provider value={{ addToCart: () => { } }}>
-                <BrowserRouter>
-                    <ItemDetails />
-                </BrowserRouter>
-            </CartContext.Provider>
-        </AuthContext.Provider>
-    )
+    renderSkeleton({})
 
     const title = await screen.findByText(mockItem.title)
 
@@ -67,15 +59,7 @@ test('loads item info for guest', async () => {
 })
 
 test('loads item info for user', async () => {
-    render(
-        <AuthContext.Provider value={{ user: { _id: 1, roles: ['user'] } }}>
-            <CartContext.Provider value={{ addToCart: () => { } }}>
-                <BrowserRouter>
-                    <ItemDetails />
-                </BrowserRouter>
-            </CartContext.Provider>
-        </AuthContext.Provider>
-    )
+    renderSkeleton({ _id: 1, roles: ['user'] })
 
     const ratingStars = await screen.findAllByText('★')
 
@@ -83,15 +67,7 @@ test('loads item info for user', async () => {
 })
 
 test('loads item info for admin', async () => {
-    render(
-        <AuthContext.Provider value={{ user: { _id: 2, roles: ['admin'] } }}>
-            <CartContext.Provider value={{ addToCart: () => { } }}>
-                <BrowserRouter>
-                    <ItemDetails />
-                </BrowserRouter>
-            </CartContext.Provider>
-        </AuthContext.Provider>
-    )
+    renderSkeleton({ _id: 2, roles: ['admin'] })
 
     let result = true
     try {
@@ -102,3 +78,15 @@ test('loads item info for admin', async () => {
 
     expect(result).toBeFalsy()
 })
+
+function renderSkeleton(user) {
+    render(
+        <AuthContext.Provider value={{ user }}>
+            <CartContext.Provider value={{ addToCart: () => { } }}>
+                <BrowserRouter>
+                    <ItemDetails />
+                </BrowserRouter>
+            </CartContext.Provider>
+        </AuthContext.Provider>
+    )
+}

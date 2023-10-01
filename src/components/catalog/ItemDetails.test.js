@@ -27,11 +27,17 @@ const mockUser = {
     roles: ['user']
 }
 
+const mockAdmin = {
+    _id: 2,
+    roles: ['admin']
+}
+
 const mockRating = {
     rating: 2,
     user: 1,
     item: 1
 }
+
 
 const host = 'http://localhost:3030'
 const server = setupServer(
@@ -59,7 +65,7 @@ test('loads item info for guest', async () => {
 })
 
 test('loads item info for user', async () => {
-    renderSkeleton({ _id: 1, roles: ['user'] })
+    renderSkeleton(mockUser)
 
     const ratingStars = await screen.findAllByText('★')
 
@@ -67,7 +73,7 @@ test('loads item info for user', async () => {
 })
 
 test('loads item info for admin', async () => {
-    renderSkeleton({ _id: 2, roles: ['admin'] })
+    renderSkeleton(mockAdmin)
 
     let result = true
     try {

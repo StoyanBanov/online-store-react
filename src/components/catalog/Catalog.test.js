@@ -18,6 +18,7 @@ const mockCategories = [
     {
         _id: '1',
         title: 'clickMe',
+        parentCategory: null,
         childCategories: [
             {
                 _id: '3',
@@ -32,6 +33,7 @@ const mockCategories = [
     }, {
         _id: '2',
         title: 'b',
+        parentCategory: null,
         childCategories: []
     }, {
         _id: '3',
@@ -62,11 +64,13 @@ const server = setupServer(
     rest.get(host + `/category/:cId`, (req, res, ctx) => {
         return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
     }),
-    rest.get(host + `/category?where=${encodeURIComponent('parentCategory=null')}`, (req, res, ctx) => {
-        return res(ctx.json(mockCategories))
+    rest.get(host + `/category`, (req, res, ctx) => {
+        let where = parseWhere(req)
+
+        return res(ctx.json(mockCategories.filter(c => c.parentCategory === where.parentCategory)))
     }),
     rest.get(host + `/item`, (req, res, ctx) => {
-        let where = Object.fromEntries(req.url.searchParams.get('where').split('&').map(q => q.split('=').map((a, i) => i === 1 ? JSON.parse(a) : a)))
+        let where = parseWhere(req)
 
         return res(ctx.json(mockItems.filter(i => i.category === where.category)))
     })
@@ -79,9 +83,11 @@ afterAll(() => server.close())
 test('loads parent categories', async () => {
     renderSkeleton(mockUser)
 
-    const titles = await Promise.all(mockCategories.map(c => screen.findByText(c.title)))
+    let parentCategories = mockCategories.filter(c => c.parentCategory == null)
 
-    expect(titles.length).toBe(mockCategories.length)
+    const titles = await Promise.all(parentCategories.map(c => screen.findByText(c.title)))
+
+    expect(titles.length).toBe(parentCategories.length)
 })
 
 test('loads child categories', async () => {
@@ -115,4 +121,8 @@ function renderSkeleton(user, route = '') {
             </DimensionsContext.Provider>
         </MemoryRouter>
     )
+}
+
+function parseWhere(req) {
+    return Object.fromEntries(req.url.searchParams.get('where').split('&').map(q => q.split('=').map((a, i) => i === 1 ? JSON.parse(a) : a)))
 }

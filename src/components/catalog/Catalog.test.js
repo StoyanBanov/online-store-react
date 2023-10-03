@@ -8,6 +8,7 @@ import { Catalog } from './Catalog'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { AuthContext } from '../common/context/AuthContext'
 import { CartContext } from '../common/context/CartContext'
+import { ItemDetails } from './ItemDetails'
 
 const mockUser = {
     _id: 1,
@@ -51,8 +52,9 @@ const mockCategories = [
 const mockItems = [
     {
         _id: '1',
-        category: '3',
+        category: mockCategories[2],
         title: 'title1',
+        description: 'someDesc',
         rating: 2,
         price: 1,
         images: []
@@ -72,7 +74,10 @@ const server = setupServer(
     rest.get(host + `/item`, (req, res, ctx) => {
         let where = parseWhere(req)
 
-        return res(ctx.json(mockItems.filter(i => i.category === where.category)))
+        return res(ctx.json(mockItems.filter(i => i.category._id === where.category)))
+    }),
+    rest.get(host + `/item/:iId`, (req, res, ctx) => {
+        return res(ctx.json(mockItems.find(i => i._id === req.params.iId)))
     })
 )
 
@@ -106,6 +111,26 @@ test('loads items', async () => {
     expect(titles.length).toBe(mockItems.length)
 })
 
+test('loads item details', async () => {
+    const item = mockItems[0]
+
+    renderSkeleton({}, `/${item._id}`)
+
+    let description = await screen.findByText(item.description)
+
+    expect(description).toBeInTheDocument()
+})
+
+test('loads item details from catalog', async () => {
+    const item = mockItems[0]
+
+    renderSkeleton({}, `/${item._id}`)
+
+    let description = await screen.findByText(item.description)
+
+    expect(description).toBeInTheDocument()
+})
+
 function renderSkeleton(user, route = '') {
     render(
         <MemoryRouter initialEntries={[`/catalog${route}`]}>
@@ -114,6 +139,8 @@ function renderSkeleton(user, route = '') {
                     <AuthContext.Provider value={{ user }}>
                         <Routes>
                             <Route path='catalog/:catTitle/:catId' element={<Catalog />} />
+                            <Route path='catalog/:catTitle/:catId/:itemId' element={<ItemDetails />} />
+                            <Route path='catalog/:itemId' element={<ItemDetails />} />
                             <Route path='catalog' element={<Catalog />} />
                         </Routes>
                     </AuthContext.Provider>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { Catalog } from './Catalog'
@@ -124,7 +124,11 @@ test('loads item details', async () => {
 test('loads item details from catalog', async () => {
     const item = mockItems[0]
 
-    renderSkeleton({}, `/${item._id}`)
+    renderSkeleton({}, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
+
+    let title = await screen.findByText(mockItems[0].title)
+
+    fireEvent.click(title)
 
     let description = await screen.findByText(item.description)
 

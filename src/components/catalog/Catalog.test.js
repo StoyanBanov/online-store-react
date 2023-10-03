@@ -103,6 +103,18 @@ test('loads child categories', async () => {
     expect(titles.length).toBe(mockCategories[0].childCategories.length)
 })
 
+test('loads child categories from catalog', async () => {
+    renderSkeleton(mockUser)
+
+    const parentTitle = await screen.findByText(mockCategories[0].title)
+
+    fireEvent.click(parentTitle)
+
+    let childrenTitles = await Promise.all(mockCategories[0].childCategories.map(c => screen.findByText(c.title)))
+
+    expect(childrenTitles.length).toBe(mockCategories[0].childCategories.length)
+})
+
 test('loads items', async () => {
     renderSkeleton(mockUser, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
 

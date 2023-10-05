@@ -159,10 +159,18 @@ test('loads item details from catalog', async () => {
     expect(description).toBeInTheDocument()
 })
 
+test('shows filters for items catalog', async () => {
+    renderSkeleton({}, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
+
+    let filtersTitle = await screen.findByText('Filter')
+
+    expect(filtersTitle).toBeInTheDocument()
+})
+
 function renderSkeleton(user, route = '') {
     render(
         <MemoryRouter initialEntries={[`/catalog${route}`]}>
-            <DimensionsContext.Provider value={{ windowWidth: 1000 }}>
+            <DimensionsContext.Provider value={{ windowWidth: 1900 }}>
                 <CartContext.Provider value={{ addToCart: () => { } }}>
                     <AuthContext.Provider value={{ user }}>
                         <Routes>

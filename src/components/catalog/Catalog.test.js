@@ -118,9 +118,21 @@ test('loads child categories from catalog', async () => {
 test('loads items', async () => {
     renderSkeleton(mockUser, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
 
-    let titles = await Promise.all(mockItems.map(c => screen.findByText(c.title)))
+    let titles = await Promise.all(mockItems.filter(i => i.category === mockCategories[2]).map(i => screen.findByText(i.title)))
 
     expect(titles.length).toBe(mockItems.length)
+})
+
+test('loads items from catalog', async () => {
+    renderSkeleton(mockUser, `/${mockCategories[0].title}/${mockCategories[0]._id}`)
+
+    let categoryWithItemsTitle = await screen.findByText(mockCategories[0].childCategories[0].title)
+
+    fireEvent.click(categoryWithItemsTitle)
+
+    let itemsTitles = await Promise.all(mockItems.filter(i => i.category === mockCategories[2]).map(i => screen.findByText(i.title)))
+
+    expect(itemsTitles.length).toBe(mockItems.length)
 })
 
 test('loads item details', async () => {

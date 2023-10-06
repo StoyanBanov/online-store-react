@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { Catalog } from './Catalog'
@@ -165,6 +165,14 @@ test('shows filters for items catalog', async () => {
     let filtersTitle = await screen.findByText('Filter')
 
     expect(filtersTitle).toBeInTheDocument()
+})
+
+test('doesn\'t shows filters for categories catalog', async () => {
+    renderSkeleton(mockUser, `/${mockCategories[0].title}/${mockCategories[0]._id}`)
+
+    await screen.findByText(mockCategories[0].childCategories[0].title)
+
+    expect(screen.queryByText('Filter')).not.toBeInTheDocument()
 })
 
 function renderSkeleton(user, route = '') {

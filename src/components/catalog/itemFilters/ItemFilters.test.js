@@ -21,7 +21,7 @@ const mockCategories = [
         _id: '1',
         title: '1Cat',
         itemFields: {
-            color: String
+            fieldCat1: 'String'
         },
         childCategories: []
     },
@@ -29,7 +29,7 @@ const mockCategories = [
         _id: '2',
         title: '1Cat',
         itemFields: {
-            width: Number
+            fieldCat2: 'Number'
         },
         childCategories: []
     }
@@ -40,7 +40,7 @@ const mockItems = [
         _id: '1',
         title: '1Title',
         description: '1Description',
-        price: 2,
+        price: 1,
         category: mockCategories[0]
     },
     {
@@ -48,7 +48,7 @@ const mockItems = [
         title: '2Title',
         description: '2Description',
         price: 2,
-        category: mockCategories[1]
+        category: mockCategories[0]
     },
     {
         _id: '3',
@@ -82,6 +82,26 @@ test('shows filters', async () => {
     await screen.findByText(mockItems.find(i => i.category._id === cat._id).title)
 
     expect(screen.getByText('Filter')).toBeInTheDocument()
+})
+
+test('shows price filter', async () => {
+    let cat = mockCategories[0]
+
+    renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
+
+    await screen.findByText(mockItems.find(i => i.category._id === cat._id).title)
+
+    expect(await screen.findByText('Price')).toBeInTheDocument()
+})
+
+test('shows category specific filters', async () => {
+    let cat = mockCategories[0]
+
+    renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
+
+    await screen.findByText(mockItems.find(i => i.category._id === cat._id).title)
+
+    await Promise.all(Object.keys(cat.itemFields).map(f => screen.findByText(f)))
 })
 
 function renderSkeleton(user, route) {

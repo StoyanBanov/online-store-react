@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { Catalog } from './Catalog'
@@ -9,6 +9,8 @@ import { DimensionsContext } from '../common/context/DimensionsContext'
 import { AuthContext } from '../common/context/AuthContext'
 import { CartContext } from '../common/context/CartContext'
 import { ItemDetails } from './ItemDetails'
+import { host } from '../../constants'
+import { parseWhere } from './testsUtil'
 
 const mockUser = {
     _id: 1,
@@ -61,7 +63,6 @@ const mockItems = [
     }
 ]
 
-const host = 'http://localhost:3030'
 const server = setupServer(
     rest.get(host + `/category/:cId`, (req, res, ctx) => {
         return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
@@ -192,8 +193,4 @@ function renderSkeleton(user, route = '') {
             </DimensionsContext.Provider>
         </MemoryRouter>
     )
-}
-
-function parseWhere(req) {
-    return Object.fromEntries(req.url.searchParams.get('where').split('&').map(q => q.split('=').map((a, i) => i === 1 ? JSON.parse(a) : a)))
 }

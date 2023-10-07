@@ -48,7 +48,7 @@ const mockItems = [
         _id: '2',
         title: '2Title',
         description: '2Description',
-        price: 2,
+        price: 3,
         category: mockCategories[0],
         fieldCat1: 'fieldCat1Type2'
     },
@@ -67,7 +67,7 @@ const server = setupServer(
         return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
     }),
     rest.get(host + `/item`, (req, res, ctx) => {
-        let where = parseWhere(req)
+        const where = parseWhere(req)
 
         let itemsToReturn = [...mockItems]
 
@@ -76,6 +76,13 @@ const server = setupServer(
                 itemsToReturn = itemsToReturn.filter(i => i.category._id === v)
             else
                 itemsToReturn = itemsToReturn.filter(i => Array.isArray(v) ? v.includes(i[k]) : v === i[k])
+        }
+
+
+        const minPrice = Number(req.url.searchParams.get('minPrice'))
+        const maxPrice = Number(req.url.searchParams.get('maxPrice'))
+        if (minPrice || maxPrice) {
+            itemsToReturn = itemsToReturn.filter(i => i.price >= (minPrice || 0) && i.price <= (maxPrice || Number.MAX_SAFE_INTEGER))
         }
 
         return res(ctx.json(itemsToReturn))
@@ -156,6 +163,25 @@ test('shows filtered items for one selected option for one filter from url', asy
     })
 
     await Promise.all(mockItems.filter(i => i.category._id === cat._id && i[filter1] === value1).map(i => screen.findByText(i.title)))
+})
+
+test('shows filtered items by price from url', async () => {
+    const cat = mockCategories[0]
+
+    const sortedItems = mockItems.filter(i => i.category._id === cat._id).sort((a, b) => a.price - b.price)
+
+    const minPrice = sortedItems[0].price + 1
+    const maxPrice = sortedItems.at(-1).price
+
+    renderSkeleton(mockUser, `/${cat.title}/${cat._id}?minPrice=${minPrice}&maxPrice=${maxPrice}`)
+
+    await screen.findByText('Price')
+
+    await waitFor(() => {
+        expect(screen.queryByText(mockItems.find(i => i.category._id === cat._id && i.price < minPrice).title)).not.toBeInTheDocument()
+    })
+
+    await Promise.all(mockItems.filter(i => i.category._id === cat._id && i.price >= minPrice).map(i => screen.findByText(i.title)))
 })
 
 function renderSkeleton(user, route) {

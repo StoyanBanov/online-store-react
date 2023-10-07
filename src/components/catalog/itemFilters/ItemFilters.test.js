@@ -142,6 +142,22 @@ test('shows filtered items for one selected option for one filter', async () => 
     await Promise.all(mockItems.filter(i => i.category._id === cat._id && i[filter1] === value1).map(i => screen.findByText(i.title)))
 })
 
+test('shows filtered items for one selected option for one filter from url', async () => {
+    const cat = mockCategories[0]
+    const filter1 = Object.keys(cat.itemFields)[0]
+    const value1 = mockItems.find(i => i.category._id === cat._id)[filter1]
+
+    renderSkeleton(mockUser, `/${cat.title}/${cat._id}?${filter1}=${value1}`)
+
+    await screen.findByText(filter1)
+
+    await waitFor(() => {
+        expect(screen.queryByText(mockItems.find(i => i.category._id === cat._id && i[filter1] !== value1).title)).not.toBeInTheDocument()
+    })
+
+    await Promise.all(mockItems.filter(i => i.category._id === cat._id && i[filter1] === value1).map(i => screen.findByText(i.title)))
+})
+
 function renderSkeleton(user, route) {
     render(
         <MemoryRouter initialEntries={[`/catalog${route}`]}>

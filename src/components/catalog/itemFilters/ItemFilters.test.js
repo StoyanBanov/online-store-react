@@ -42,7 +42,8 @@ const mockItems = [
         description: '1Description',
         price: 1,
         category: mockCategories[0],
-        fieldCat1: 'fieldCat1Type1'
+        fieldCat1: 'fieldCat1Type1',
+        images: []
     },
     {
         _id: '2',
@@ -50,7 +51,8 @@ const mockItems = [
         description: '2Description',
         price: 3,
         category: mockCategories[0],
-        fieldCat1: 'fieldCat1Type2'
+        fieldCat1: 'fieldCat1Type2',
+        images: []
     },
     {
         _id: '3',
@@ -58,7 +60,8 @@ const mockItems = [
         description: '3Description',
         price: 2,
         category: mockCategories[1],
-        fieldCat2: 'fieldCat2Type1'
+        fieldCat2: 'fieldCat2Type1',
+        images: []
     }
 ]
 

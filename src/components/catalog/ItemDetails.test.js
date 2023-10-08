@@ -41,7 +41,7 @@ const mockRating = {
 
 const host = 'http://localhost:3030'
 const server = setupServer(
-    rest.get(host + `/item/rating?where=${encodeURIComponent(`item="${mockItem._id}"&_creator="${mockUser._id}"`)}`, (req, res, ctx) => {
+    rest.get(host + `/item/rating`, (req, res, ctx) => {
         return res(ctx.json([mockRating]))
     }),
     rest.get(host + '/item/:id', (req, res, ctx) => {

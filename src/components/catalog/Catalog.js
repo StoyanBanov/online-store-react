@@ -44,11 +44,12 @@ export const Catalog = () => {
                     }
                 })
         } else if (Array.from(searchParams).length > 0) { //searchParams.size() isnt't working with tests
-            if (searchParamsObj)
+            if (Object.keys(searchParamsObj).length > 0) {
                 Promise.all([getItems(searchParamsObj), getItems({ ...searchParamsObj, count: true, page: 1, itemsPerPage: null })])
                     .then(([items, itemsCount]) => {
                         setData({ list: items, type: 'items', count: itemsCount })
                     })
+            }
         } else {
             getAllRootCategories()
                 .then(cats => setData({ list: cats, type: 'categories' }))

@@ -43,7 +43,7 @@ export const Catalog = () => {
                             })
                     }
                 })
-        } else if (searchParams.size) {
+        } else if (Array.from(searchParams).length > 0) { //searchParams.size() isnt't working with tests
             if (searchParamsObj)
                 Promise.all([getItems(searchParamsObj), getItems({ ...searchParamsObj, count: true, page: 1, itemsPerPage: null })])
                     .then(([items, itemsCount]) => {

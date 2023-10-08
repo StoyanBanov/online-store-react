@@ -67,9 +67,15 @@ const server = setupServer(
         return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
     }),
     rest.get(host + `/item`, (req, res, ctx) => {
-        const where = parseWhere(req)
-
         let itemsToReturn = [...mockItems]
+
+        const search = req.url.searchParams.get('search')
+
+        if (search) {
+            itemsToReturn = itemsToReturn.filter(i => i.title.includes(search) || i.description.includes(search))
+        }
+
+        const where = parseWhere(req)
 
         for (const [k, v] of Object.entries(where)) {
             if (k === 'category')
@@ -77,7 +83,6 @@ const server = setupServer(
             else
                 itemsToReturn = itemsToReturn.filter(i => Array.isArray(v) ? v.includes(i[k]) : v === i[k])
         }
-
 
         const minPrice = Number(req.url.searchParams.get('minPrice'))
         const maxPrice = Number(req.url.searchParams.get('maxPrice'))
@@ -184,6 +189,30 @@ test('shows filtered items by price from url', async () => {
     await Promise.all(mockItems.filter(i => i.category._id === cat._id && i.price >= minPrice).map(i => screen.findByText(i.title)))
 })
 
+test('shows category filter when there is search filter from url', async () => {
+    const cat = mockCategories[0]
+
+    const search = mockItems.find(i => i.category._id === cat._id).title
+
+    renderSkeleton(mockUser, `?search=${search}`)
+
+    await screen.findByText('category')
+})
+
+test('shows filtered items by search from url', async () => {
+    const cat = mockCategories[0]
+
+    const search = mockItems.find(i => i.category._id === cat._id).title
+
+    renderSkeleton(mockUser, `?search=${search}`)
+
+    await waitFor(() => {
+        expect(screen.queryByText(mockItems.find(i => i.category._id === cat._id && !i.title.includes(search) && !i.description.includes(search)).title)).not.toBeInTheDocument()
+    })
+
+    await Promise.all(mockItems.filter(i => i.category._id === cat._id && (i.title.includes(search) || i.description.includes(search))).map(i => screen.findByText(i.title)))
+})
+
 function renderSkeleton(user, route) {
     render(
         <MemoryRouter initialEntries={[`/catalog${route}`]}>
@@ -191,6 +220,7 @@ function renderSkeleton(user, route) {
                 <CartContext.Provider value={{ addToCart: () => { } }}>
                     <AuthContext.Provider value={{ user }}>
                         <Routes>
+                            <Route path='catalog' element={<Catalog />} />
                             <Route path='catalog/:catTitle/:catId' element={<Catalog />} />
                         </Routes>
                     </AuthContext.Provider>

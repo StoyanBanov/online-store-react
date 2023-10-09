@@ -193,9 +193,7 @@ test('shows filtered items by price from url', async () => {
 })
 
 test('shows category filter when there is search filter from url', async () => {
-    const cat = mockCategories[0]
-
-    const search = mockItems.find(i => i.category._id === cat._id).title
+    const search = mockItems[0].title
 
     renderSkeleton(mockUser, `?search=${search}`)
 
@@ -203,17 +201,15 @@ test('shows category filter when there is search filter from url', async () => {
 })
 
 test('shows filtered items by search from url', async () => {
-    const cat = mockCategories[0]
-
-    const search = mockItems.find(i => i.category._id === cat._id).title
+    const search = mockItems[0].title
 
     renderSkeleton(mockUser, `?search=${search}`)
 
     await waitFor(() => {
-        expect(screen.queryByText(mockItems.find(i => i.category._id === cat._id && !i.title.includes(search) && !i.description.includes(search)).title)).not.toBeInTheDocument()
+        expect(screen.queryByText(mockItems.find(i => !i.title.includes(search) && !i.description.includes(search)).title)).not.toBeInTheDocument()
     })
 
-    await Promise.all(mockItems.filter(i => i.category._id === cat._id && (i.title.includes(search) || i.description.includes(search))).map(i => screen.findByText(i.title)))
+    await Promise.all(mockItems.filter(i => i.title.includes(search) || i.description.includes(search)).map(i => screen.findByText(i.title)))
 })
 
 function renderSkeleton(user, route) {

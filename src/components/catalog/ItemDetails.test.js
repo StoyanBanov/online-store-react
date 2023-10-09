@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { ItemDetails } from './ItemDetails'
 import { AuthContext } from '../common/context/AuthContext'
@@ -72,17 +72,19 @@ test('loads item info for user', async () => {
     expect(ratingStars.length).toBe(mockItem.rating)
 })
 
-test('loads item info for admin', async () => {
+test('doesn\'t show rating for admin', async () => {
     renderSkeleton(mockAdmin)
 
-    let result = true
-    try {
-        await screen.findAllByText('★')
-    } catch (error) {
-        result = false
-    }
+    await screen.findByText(mockItem.title)
 
-    expect(result).toBeFalsy()
+    expect(screen.queryByText(t => t.includes('Rate:'))).not.toBeInTheDocument()
+})
+
+test('shows edit/delete buttons for admin', async () => {
+    renderSkeleton(mockAdmin)
+
+    await screen.findByText('Edit')
+    await screen.findByText('Delete')
 })
 
 function renderSkeleton(user) {

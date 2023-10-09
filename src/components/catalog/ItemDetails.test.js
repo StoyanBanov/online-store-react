@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { ItemDetails } from './ItemDetails'
 import { AuthContext } from '../common/context/AuthContext'
@@ -86,6 +86,25 @@ test('shows edit/delete buttons for admin', async () => {
     await screen.findByText('Edit')
     await screen.findByText('Delete')
 })
+
+test('does\'t show edit/delete buttons for user', async () => {
+    renderSkeleton(mockUser)
+
+    await screen.findByText(mockItem.title)
+
+    expect(screen.queryByText(t => t.includes('Edit'))).not.toBeInTheDocument()
+    expect(screen.queryByText(t => t.includes('Delete'))).not.toBeInTheDocument()
+})
+
+test('does\'t show edit/delete buttons for guest', async () => {
+    renderSkeleton({})
+
+    await screen.findByText(mockItem.title)
+
+    expect(screen.queryByText(t => t.includes('Edit'))).not.toBeInTheDocument()
+    expect(screen.queryByText(t => t.includes('Delete'))).not.toBeInTheDocument()
+})
+
 
 function renderSkeleton(user) {
     render(

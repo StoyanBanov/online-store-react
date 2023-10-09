@@ -57,7 +57,7 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 test('loads item info for guest', async () => {
-    renderSkeleton({}) // guest
+    renderSkeleton({})
 
     const title = await screen.findByText(mockItem.title)
 
@@ -97,7 +97,7 @@ test('does\'t show edit/delete buttons for user', async () => {
 })
 
 test('does\'t show edit/delete buttons for guest', async () => {
-    renderSkeleton({}) // guest
+    renderSkeleton({})
 
     await screen.findByText(mockItem.title)
 

@@ -107,9 +107,7 @@ test('loads child categories', async () => {
 test('loads child categories from catalog', async () => {
     renderSkeleton(mockUser)
 
-    const parentTitle = await screen.findByText(mockCategories[0].title)
-
-    fireEvent.click(parentTitle)
+    fireEvent.click(await screen.findByText(mockCategories[0].title))
 
     let childrenTitles = await Promise.all(mockCategories[0].childCategories.map(c => screen.findByText(c.title)))
 
@@ -127,9 +125,7 @@ test('loads items', async () => {
 test('loads items from catalog', async () => {
     renderSkeleton(mockUser, `/${mockCategories[0].title}/${mockCategories[0]._id}`)
 
-    let categoryWithItemsTitle = await screen.findByText(mockCategories[0].childCategories[0].title)
-
-    fireEvent.click(categoryWithItemsTitle)
+    fireEvent.click(await screen.findByText(mockCategories[0].childCategories[0].title))
 
     let itemsTitles = await Promise.all(mockItems.filter(i => i.category === mockCategories[2]).map(i => screen.findByText(i.title)))
 
@@ -151,9 +147,7 @@ test('loads item details from catalog', async () => {
 
     renderSkeleton({}, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
 
-    let title = await screen.findByText(mockItems[0].title)
-
-    fireEvent.click(title)
+    fireEvent.click(await screen.findByText(mockItems[0].title))
 
     let description = await screen.findByText(item.description)
 
@@ -163,9 +157,7 @@ test('loads item details from catalog', async () => {
 test('shows filters for items catalog', async () => {
     renderSkeleton({}, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
 
-    let filtersTitle = await screen.findByText('Filter')
-
-    expect(filtersTitle).toBeInTheDocument()
+    await screen.findByText('Filter')
 })
 
 test('doesn\'t shows filters for categories catalog', async () => {

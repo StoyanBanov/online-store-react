@@ -12,8 +12,11 @@ const mockItem = {
     _id: 1,
     category: 1,
     title: 'title1',
+    description: 'description1',
     rating: 2,
     price: 1,
+    count: 5,
+    thumbnail: '',
     images: []
 }
 
@@ -56,12 +59,36 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-test('loads item info for guest', async () => {
+test('loads details for guest', async () => {
     renderSkeleton({})
 
-    const title = await screen.findByText(mockItem.title)
+    await screen.findByText(mockItem.title)
+})
 
-    expect(title).toBeInTheDocument()
+test('loads details for user', async () => {
+    renderSkeleton(mockUser)
+
+    await screen.findByText(mockItem.title)
+})
+
+test('loads details for admin', async () => {
+    renderSkeleton(mockAdmin)
+
+    await screen.findByText(mockItem.title)
+})
+
+test('loads item info', async () => {
+    renderSkeleton(mockAdmin)
+
+    await screen.findByText(mockItem.title)
+    await screen.findByText(mockItem.description)
+    await screen.findByText('Price: ' + mockItem.price.toFixed(2) + '$')
+})
+
+test('shows item count message', async () => {
+    renderSkeleton(mockAdmin)
+
+    await screen.findByText(t => t === (mockItem.count ? 'In stock' : 'Sold out'))
 })
 
 test('loads item info for user', async () => {

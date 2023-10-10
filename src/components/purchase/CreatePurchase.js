@@ -5,8 +5,11 @@ import { PurchaseOffice } from "./PurchaseOffice"
 import { PurchaseAddress } from "./PurchaseAddress"
 
 import style from './style.module.css'
+import { AuthContext } from "../common/context/AuthContext"
 
 export const CreatePurchase = () => {
+    const { user: { _id } } = useContext(AuthContext)
+
     const { cart: { items }, emptyCart } = useContext(CartContext)
 
     const [values, setValues] = useState({
@@ -29,9 +32,10 @@ export const CreatePurchase = () => {
     const [userData, setUserData] = useState({})
 
     useEffect(() => {
-        getUserData()
-            .then(setUserData)
-    }, [])
+        if (_id)
+            getUserData()
+                .then(setUserData)
+    }, [_id])
 
     useEffect(() => {
         setValues(state => ({ ...state, phone: userData.phone || '', fname: userData.fname || '', lname: userData.lname || '' }))
@@ -53,10 +57,11 @@ export const CreatePurchase = () => {
 
     const submitHandler = async e => {
         e.preventDefault()
+        console.log(values);
 
         await addUserPurchase({
-            fname: values.fname,
-            lname: values.lname,
+            firstName: values.fname,
+            lastName: values.lname,
             paymentMethod: values.paymentMethod,
             deliverTo: values.deliverTo,
             phone: values.phone,

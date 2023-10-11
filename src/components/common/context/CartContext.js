@@ -21,11 +21,24 @@ export const CartContextProvider = ({ children }) => {
                 changedCart = { items: [] }
                 break
             case 'addToCart':
-                if (state.items.find(i => i.item._id === action.itemObj.item._id))
-                    return state
+                let oldItemIndex
+                if ((oldItemIndex = state.items.findIndex(i => i.item._id === action.itemObj.item._id)) > -1) {
+                    let oldItemObj = state.items[oldItemIndex]
 
-                changedCart = {
-                    items: [...state.items, action.itemObj]
+                    if (oldItemObj.count < oldItemObj.item.count) {
+                        changedCart = {
+                            items: state.items.slice(0, oldItemIndex)
+                                .concat([{ ...oldItemObj, count: oldItemObj.count + 1 }])
+                                .concat(state.items.slice(oldItemIndex + 1))
+                        }
+                    } else {
+                        window.alert('Product count limit already reached')
+                        return state
+                    }
+                } else {
+                    changedCart = {
+                        items: [...state.items, action.itemObj]
+                    }
                 }
                 break
             case 'removeFromCart':
@@ -86,10 +99,6 @@ export const CartContextProvider = ({ children }) => {
             await addToCartBydId(cart._id, { item: item._id, count })
 
         dispatch({ type: 'addToCart', itemObj: { item, count } })
-
-        if (cartDropDownRef.current)
-            cartDropDownRef.current.style.display = 'block'
-        //todo alert for mobile
     }, [cart._id, _id])
 
     const removeFromCart = useCallback(async (itemObj) => {

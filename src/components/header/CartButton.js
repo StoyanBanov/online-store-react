@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import style from './style.module.css'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { useNavigate } from 'react-router-dom'
@@ -6,22 +6,33 @@ import { CartContext } from '../common/context/CartContext'
 import { ShoppingCart } from '../shoppingCart/ShoppingCart'
 import { CartSVG } from '../common/helpers/CartSVG'
 
+let isHovering = false
+
 export const CartButton = () => {
     const { scrollY, windowWidth } = useContext(DimensionsContext)
 
     const navigate = useNavigate()
 
-    const { cartDropDownRef } = useContext(CartContext)
+    const { cartDropDownRef, cart } = useContext(CartContext)
+
+    useEffect(() => {
+        if (cart.items) {
+            cartDropDownRef.current.style.display = 'block'
+            setTimeout(() => !isHovering && (cartDropDownRef.current.style.display = 'none'), 3000)
+        }
+    }, [cartDropDownRef, cart.items])
 
     const cartClickHandler = useCallback(() => {
         navigate('/cart')
     }, [navigate])
 
     const cartHoverHandler = useCallback(e => {
-        if (e.type === 'mouseover') {
+        if (e.type === 'mouseenter') {
             cartDropDownRef.current.style.display = 'block'
+            isHovering = true
         } else {
-            cartDropDownRef.current.style.display = 'none'
+            isHovering = false
+            setTimeout(() => !isHovering && (cartDropDownRef.current.style.display = 'none'), 1000)
         }
     }, [cartDropDownRef])
 
@@ -31,15 +42,15 @@ export const CartButton = () => {
                 <button
                     style={scrollY > 20 ? { boxShadow: '0 0 2px 0.5px white' } : {}}
                     onClick={cartClickHandler}
-                    onMouseOver={cartHoverHandler}
-                    onMouseOut={cartHoverHandler}
+                    onMouseEnter={cartHoverHandler}
+                    onMouseLeave={cartHoverHandler}
                 >
                     <CartSVG />
                 </button>
                 <div
                     ref={cartDropDownRef}
-                    onMouseOver={cartHoverHandler}
-                    onMouseOut={cartHoverHandler}
+                    onMouseEnter={cartHoverHandler}
+                    onMouseLeave={cartHoverHandler}
                     style={{ display: 'none' }}
                 >
                     <ShoppingCart />

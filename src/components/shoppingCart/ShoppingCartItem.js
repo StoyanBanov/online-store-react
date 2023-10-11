@@ -29,7 +29,7 @@ export const ShoppingCartItem = ({ itemObj: { item, count, _id } }) => {
             </div>
 
             <div className={style.cartItemBot}>
-                <input type='number' min={1} max={item.count} defaultValue={count} onChange={CountChangeHandler} />
+                <input type='number' min={1} max={item.count} value={count || 0} onChange={CountChangeHandler} />
                 <button onClick={RemoveItemHandler}>
                     <svg width={20} height={20} stroke='black' strokeWidth={1}>
                         <line x1={2} y1={2} x2={18} y2={18} />

@@ -57,7 +57,6 @@ export const CreatePurchase = () => {
 
     const submitHandler = async e => {
         e.preventDefault()
-        console.log(values);
 
         await addUserPurchase({
             firstName: values.fname,

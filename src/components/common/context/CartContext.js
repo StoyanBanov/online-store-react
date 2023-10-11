@@ -87,8 +87,9 @@ export const CartContextProvider = ({ children }) => {
 
         dispatch({ type: 'addToCart', itemObj: { item, count } })
 
-        cartDropDownRef.current.style.display = 'block'
-
+        if (cartDropDownRef.current)
+            cartDropDownRef.current.style.display = 'block'
+        //todo alert for mobile
     }, [cart._id, _id])
 
     const removeFromCart = useCallback(async (itemObj) => {

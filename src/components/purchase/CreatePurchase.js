@@ -6,11 +6,14 @@ import { PurchaseAddress } from "./PurchaseAddress"
 
 import style from './style.module.css'
 import { AuthContext } from "../common/context/AuthContext"
+import { useOutletContext } from "react-router-dom"
 
 export const CreatePurchase = () => {
+    const { setPurchaseHandler } = useOutletContext()
+
     const { user: { _id } } = useContext(AuthContext)
 
-    const { cart: { items }, emptyCart } = useContext(CartContext)
+    const { cart: { items } } = useContext(CartContext)
 
     const [values, setValues] = useState({
         fname: '',
@@ -58,7 +61,7 @@ export const CreatePurchase = () => {
     const submitHandler = async e => {
         e.preventDefault()
 
-        await addUserPurchase({
+        setPurchaseHandler({
             firstName: values.fname,
             lastName: values.lname,
             paymentMethod: values.paymentMethod,
@@ -70,8 +73,6 @@ export const CreatePurchase = () => {
                     : `City: ${values.city}, Office: ${values.office}`,
             items
         })
-
-        await emptyCart()
     }
 
     return (
@@ -136,7 +137,7 @@ export const CreatePurchase = () => {
                     />
                 }
 
-                <button>Finalize purchase</button>
+                <button>Create purchase</button>
             </form>
         </div>
     )

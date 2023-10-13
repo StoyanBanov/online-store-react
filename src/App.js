@@ -29,6 +29,7 @@ import { UserAddresses } from "./components/profile/UserAddresses";
 import { UserData } from "./components/profile/UserData";
 import { DimensionsContextProvider } from "./components/common/context/DimensionsContext";
 import { Purchase } from "./components/purchase/Purchase";
+import { PurchaseDetails } from "./components/purchase/PurchaseDetails";
 
 function App() {
     return (
@@ -50,6 +51,7 @@ function App() {
 
                                     <Route path="/purchase" element={<Purchase />}>
                                         <Route path="create" element={<CreatePurchase />} />
+                                        <Route path="details" element={<PurchaseDetails />} />
                                     </Route>
 
                                     <Route path="/catalog">

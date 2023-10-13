@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import style from './style.module.css'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { useNavigate } from 'react-router-dom'

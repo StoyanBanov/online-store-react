@@ -8,7 +8,7 @@ export const useCart = () => {
     const navigate = useNavigate()
 
     const purchaseClickHandler = useCallback(() => {
-        navigate('/purchase')
+        navigate('/purchase/create')
     }, [navigate])
 
     const emptyCartClickHandler = useCallback(() => {

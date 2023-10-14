@@ -31,6 +31,10 @@
     justify-content: flex-end;
 }
 
+.purchaseFormRow input {
+    margin-left: 1vw;
+}
+
 .purchaseDetailsContainer {
     display: flex;
     flex-direction: column;
@@ -40,4 +44,24 @@
 .purchaseDetailsContainer span {
     font-weight: bold;
     text-transform: capitalize;
+}
+
+.purchaseButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.purchaseButtonContainer button {
+    font-weight: bold;
+}
+
+.purchaseButtonContainer button:hover {
+    color: var(--redish);
+}
+
+.purchaseHeading {
+    color: var(--redish);
+    width: 100%;
+    text-align: center;
 }

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react"
-import { addUserPurchase, getUserData } from "../../data/services/userService"
+import { getUserData } from "../../data/services/userService"
 import { CartContext } from "../common/context/CartContext"
 import { PurchaseOffice } from "./PurchaseOffice"
 import { PurchaseAddress } from "./PurchaseAddress"
@@ -77,6 +77,7 @@ export const CreatePurchase = () => {
 
     return (
         <div>
+            <h1 className={style.purchaseHeading}>Purchase</h1>
             <form className={style.purchaseForm} onSubmit={submitHandler}>
                 <div className={style.purchaseFormRow}>
                     <label htmlFor="inputFName">First name</label>
@@ -136,8 +137,9 @@ export const CreatePurchase = () => {
                         address={values.address}
                     />
                 }
-
-                <button>Create purchase</button>
+                <div className={style.purchaseButtonContainer}>
+                    <button>Create purchase</button>
+                </div>
             </form>
         </div>
     )

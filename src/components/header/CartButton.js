@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import style from './style.module.css'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { useNavigate } from 'react-router-dom'
@@ -16,9 +16,9 @@ export const CartButton = () => {
     const { cartDropDownRef, cart } = useContext(CartContext)
 
     useEffect(() => {
-        if (cart.items) {
+        if (cartDropDownRef.current.style.display === 'none' && cart.items.length) {
             cartDropDownRef.current.style.display = 'block'
-            setTimeout(() => !isHovering && (cartDropDownRef.current.style.display = 'none'), 3000)
+            setTimeout(() => !isHovering && (cartDropDownRef.current.style.display = 'none'), 2000)
         }
     }, [cartDropDownRef, cart.items])
 
@@ -32,7 +32,7 @@ export const CartButton = () => {
             isHovering = true
         } else {
             isHovering = false
-            setTimeout(() => !isHovering && (cartDropDownRef.current.style.display = 'none'), 1000)
+            setTimeout(() => !isHovering && (cartDropDownRef.current.style.display = 'none'), 700)
         }
     }, [cartDropDownRef])
 

@@ -43,6 +43,9 @@
 
 .purchaseDetailsContainer span {
     font-weight: bold;
+}
+
+.purchaseDetailsContainer .title {
     text-transform: capitalize;
 }
 

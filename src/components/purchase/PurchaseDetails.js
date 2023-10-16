@@ -25,7 +25,7 @@ export const PurchaseDetails = () => {
 
             <div>
                 <span className={style.title}>phone: </span>
-                {purchase.phone} {purchase.lastName}
+                {purchase.phone}
             </div>
 
             <div>

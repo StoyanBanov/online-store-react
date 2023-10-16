@@ -1,20 +1,14 @@
 import { Link, NavLink } from "react-router-dom"
 
 import style from './style.module.css'
-import { useCallback, useContext, useRef } from "react"
+import { useCallback, useContext } from "react"
 import { AuthContext } from "../../common/context/AuthContext"
+import { AdminNav } from "./AdminNav"
 
 export const MobileNav = ({ mobileNavHandler }) => {
     const { user: { verified, roles, _id } } = useContext(AuthContext)
 
-    const adminUlRef = useRef()
-    const adminPRef = useRef()
-
     const ActiveClassNameHandler = ({ isActive }) => isActive ? style.activeLink : style.inactiveLink
-
-    const adminNavHandler = useCallback(e => {
-        adminUlRef.current.style.display = e.type === 'click' || e.type === 'mouseover' ? 'block' : 'none'
-    }, [])
 
     const closeMobileNavHandler = useCallback(() => {
         mobileNavHandler(false)
@@ -23,31 +17,7 @@ export const MobileNav = ({ mobileNavHandler }) => {
     return (
         <div onClick={closeMobileNavHandler} className={style.mobileNavItems}>
             {verified && roles.includes('admin') &&
-                <>
-                    <div className={style.adminNav}>
-                        <p id="adminDrop"
-                            ref={adminPRef}
-                            onMouseOver={adminNavHandler}
-                            onMouseLeave={adminNavHandler}
-                        >
-                            Admin
-                        </p>
-                        <ul
-                            onClick={adminNavHandler}
-                            onMouseOver={adminNavHandler}
-                            onMouseLeave={adminNavHandler}
-                            ref={adminUlRef}
-                            className={style.adminDropDown}
-                        >
-                            <li>
-                                <NavLink to={'/admin/create/category'} className={ActiveClassNameHandler}>Create Category</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to={'/admin/create/item'} className={ActiveClassNameHandler}>Create Item</NavLink>
-                            </li>
-                        </ul>
-                    </div>
-                </>
+                <AdminNav />
             }
 
             <NavLink to={'/'} className={ActiveClassNameHandler}>Home</NavLink>

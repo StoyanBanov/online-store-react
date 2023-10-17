@@ -33,6 +33,9 @@ export const AdminNav = () => {
                 <li>
                     <NavLink to={'/admin/create/item'} >Create Item</NavLink>
                 </li>
+                <li>
+                    <NavLink to={'/admin/create/purchases'} >Purchases</NavLink>
+                </li>
             </ul>
         </div>
     )

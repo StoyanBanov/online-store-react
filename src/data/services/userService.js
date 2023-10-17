@@ -23,3 +23,7 @@ export async function editUserAddress(id, data) {
 export async function addUserPurchase(data) {
     return api.post(`${endpoints.purchase}`, data, true)
 }
+
+export async function getAllNonVerifiedPurchases() {
+    return api.get(`${endpoints.purchase}?where=${encodeURIComponent(`verified=false`)}`)
+}

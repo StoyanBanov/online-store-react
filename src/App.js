@@ -21,7 +21,6 @@ import { Header } from "./components/header/Header";
 import { ShoppingCart } from "./components/shoppingCart/ShoppingCart";
 import { CreatePurchase } from "./components/purchase/CreatePurchase";
 
-import style from './style.module.css'
 import { Profile } from "./components/profile/Profile";
 import { LoggedUserRouteGuard } from "./components/common/guards/LoggedUserRouteGuard";
 import { UserPurchases } from "./components/profile/UserPurchases";
@@ -30,6 +29,9 @@ import { UserData } from "./components/profile/UserData";
 import { DimensionsContextProvider } from "./components/common/context/DimensionsContext";
 import { Purchase } from "./components/purchase/Purchase";
 import { PurchaseDetails } from "./components/purchase/PurchaseDetails";
+import { PurchaseList } from "./components/admin/purchase/PurchaseList";
+
+import style from './style.module.css'
 
 function App() {
     return (
@@ -70,6 +72,7 @@ function App() {
                                                 <Route index={true} element={<Navigate to={'/create/item'} />} replace={true} />
                                                 <Route path="item" element={<CreateItem />} />
                                                 <Route path="category" element={<CreateCategory />} />
+                                                <Route path="purchases" element={<PurchaseList />} />
                                             </Route>
 
                                             <Route path="edit">

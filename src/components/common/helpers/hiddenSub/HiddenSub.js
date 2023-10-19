@@ -9,7 +9,8 @@ export const HiddenSub = ({ children, title, initialVisibility = false }) => {
     }, [initialVisibility])
 
     const showNavItemHandler = useCallback(e => {
-        setItemsVisibility(state => !state)
+        if (e.target.tagName !== 'BUTTON')
+            setItemsVisibility(state => !state)
     }, [])
 
     return (

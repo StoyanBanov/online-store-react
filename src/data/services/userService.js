@@ -24,6 +24,10 @@ export async function addUserPurchase(data) {
     return api.post(`${endpoints.purchase}`, data, true)
 }
 
-export async function getAllNonVerifiedPurchases() {
-    return api.get(`${endpoints.purchase}?where=${encodeURIComponent(`verified=false`)}`)
+export async function getAllNonCompletedPurchases() {
+    return api.get(`${endpoints.purchase}?where=${encodeURIComponent(`completed=false`)}`)
+}
+
+export async function editPurchase(id, data) {
+    return api.put(`${endpoints.purchase}/${id}`, data, true)
 }

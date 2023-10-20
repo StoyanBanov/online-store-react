@@ -9,15 +9,17 @@ export const PurchaseList = () => {
         getAllNonCompletedPurchases().then(setPurchases)
     }, [])
 
-    const CompletePurchaseHandler = useCallback(async purchase => {
-        purchase.completed = true
+    const UpdatePurchaseHandler = useCallback(async (purchase, key, val) => {
+        const updatedPurchase = await editPurchase(purchase._id, { ...purchase, [key]: val })
 
-    }, [])
-
-    const VerifyPurchaseHandler = useCallback(async purchase => {
-        const updatedPurchase = await editPurchase(purchase._id, { ...purchase, verified: true })
-
-        setPurchases(state => [...state.slice(0, state.findIndex(p => p._id === updatedPurchase._id)), updatedPurchase, ...state.slice(state.findIndex(p => p._id === updatedPurchase._id) + 1)])
+        setPurchases(state => {
+            const index = state.findIndex(p => p._id === updatedPurchase._id)
+            return [
+                ...state.slice(0, index),
+                updatedPurchase,
+                ...state.slice(index + 1)
+            ]
+        })
     }, [])
 
     return (
@@ -32,10 +34,10 @@ export const PurchaseList = () => {
                                         {new Date(p.createdOn).toString().split(' ').slice(0, 5).join(' ')}
 
                                         {!p.verified &&
-                                            <button onClick={() => VerifyPurchaseHandler(p)}>Verify</button>
+                                            <button onClick={() => UpdatePurchaseHandler(p, 'verified', true)}>Verify</button>
                                         }
 
-                                        <button onClick={() => CompletePurchaseHandler(p)}>Complete</button>
+                                        <button onClick={() => UpdatePurchaseHandler(p, 'completed', true)}>Complete</button>
                                     </div>}
                             >
                                 {p.firstName} {p.lastName}

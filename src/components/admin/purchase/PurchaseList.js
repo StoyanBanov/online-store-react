@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { editPurchase, getAllNonCompletedPurchases } from "../../../data/services/userService"
-import { HiddenSub } from "../../common/helpers/hiddenSub/HiddenSub"
+import { PurchaseListItem } from "./purchaseListItem"
 
 export const PurchaseList = () => {
     const [purchases, setPurchases] = useState([])
@@ -9,7 +9,7 @@ export const PurchaseList = () => {
         getAllNonCompletedPurchases().then(setPurchases)
     }, [])
 
-    const UpdatePurchaseHandler = useCallback(async (purchase, key, val) => {
+    const updatePurchaseListHandler = useCallback(async (purchase, key, val) => {
         const updatedPurchase = await editPurchase(purchase._id, { ...purchase, [key]: val })
 
         setPurchases(state => {
@@ -26,24 +26,7 @@ export const PurchaseList = () => {
         <div>
             <ul>
                 {
-                    purchases.map(p =>
-                        <li key={p._id}>
-                            <HiddenSub
-                                title={
-                                    <div>
-                                        {new Date(p.createdOn).toString().split(' ').slice(0, 5).join(' ')}
-
-                                        {!p.verified &&
-                                            <button onClick={() => UpdatePurchaseHandler(p, 'verified', true)}>Verify</button>
-                                        }
-
-                                        <button onClick={() => UpdatePurchaseHandler(p, 'completed', true)}>Complete</button>
-                                    </div>}
-                            >
-                                {p.firstName} {p.lastName}
-                                {p.address}
-                            </HiddenSub>
-                        </li>)
+                    purchases.map(p => <PurchaseListItem key={p._id} purchase={p} updatePurchaseListHandler={updatePurchaseListHandler} />)
                 }
             </ul>
         </div>

@@ -12,15 +12,19 @@ export const PurchaseListItem = ({ purchase, updatePurchaseListHandler }) => {
                     <div>
                         {new Date(purchase.createdOn).toString().split(' ').slice(0, 5).join(' ')}
 
-                        {!purchase.verified &&
-                            <button name="verified" onClick={updatedPurchaseHandler}>Verify</button>
+                        {purchase.verified
+                            ? <span> Verified </span>
+                            : <button name="verified" onClick={updatedPurchaseHandler}>Verify</button>
                         }
 
                         <button name="completed" onClick={updatedPurchaseHandler}>Complete</button>
                     </div>}
             >
-                {purchase.firstName} {purchase.lastName}
-                {purchase.address}
+                <div>
+                    <p><b>Recipient:</b> {purchase.firstName} {purchase.lastName}</p>
+                    <p><b>Address:</b> {purchase.address}</p>
+                    <p><b>Total sum:</b> {purchase.items.reduce((t, { item: { price }, count }) => t + price * count, 0)}$</p>
+                </div>
             </HiddenSub>
         </li>
     )

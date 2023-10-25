@@ -30,6 +30,7 @@ export const CreatePurchase = () => {
         city: '',
         office: '',
         phone: '',
+        info: ''
     })
 
     const [userData, setUserData] = useState({})
@@ -137,6 +138,12 @@ export const CreatePurchase = () => {
                         address={values.address}
                     />
                 }
+
+                <div className={style.purchaseFormRow}>
+                    <label htmlFor="inputInfo">First name</label>
+                    <select id="inputInfo" name="info" value={values.info} onChange={changeValueHandler} required />
+                </div>
+
                 <div className={style.purchaseButtonContainer}>
                     <button>Create purchase</button>
                 </div>

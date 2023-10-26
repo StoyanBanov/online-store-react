@@ -32,6 +32,8 @@ export const PurchaseListItem = ({ purchase, updatePurchaseListHandler }) => {
                             purchase.items.map(({ item, count }) => <li key={item._id}><b>{item.count}</b> of <Link to={`/catalog/${item._id}`}><b>{item.title}</b></Link> for <b>{item.price * count}$</b></li>)
                         }
                     </ol>
+
+                    <p><b>Info:</b> {purchase.info}</p>
                 </div>
             </HiddenSub>
         </li>

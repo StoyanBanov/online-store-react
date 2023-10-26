@@ -72,7 +72,8 @@ export const CreatePurchase = () => {
                 values.address
                     ? Object.entries(values.address).map(([k, v]) => `${k}: ${v}`).join(', ')
                     : `City: ${values.city}, Office: ${values.office}`,
-            items
+            items,
+            info: values.info
         })
     }
 

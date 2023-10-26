@@ -55,6 +55,11 @@ export const PurchaseDetails = () => {
             }
 
             <div>
+                <span className={style.title}>info: </span>
+                {purchase.info}
+            </div>
+
+            <div>
                 <button onClick={CreatePurchase}>Create purchase</button>
             </div>
         </div>

@@ -141,7 +141,7 @@ export const CreatePurchase = () => {
                 }
 
                 <div className={style.purchaseFormRow}>
-                    <label htmlFor="inputInfo">First name</label>
+                    <label htmlFor="inputInfo">Additional information</label>
                     <select id="inputInfo" name="info" value={values.info} onChange={changeValueHandler} required />
                 </div>
 

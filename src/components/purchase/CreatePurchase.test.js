@@ -35,6 +35,14 @@ test('renders create component', async () => {
     await screen.findByText('First name')
 })
 
+test('shows user data', async () => {
+    renderSkeleton()
+
+    await screen.findByText('First name')
+
+    await screen.findByText(mockUser.fname)
+})
+
 function renderSkeleton() {
     render(
         <MemoryRouter initialEntries={[`/purchase/create`]}>

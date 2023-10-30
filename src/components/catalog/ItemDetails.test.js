@@ -7,6 +7,7 @@ import { ItemDetails } from './ItemDetails'
 import { AuthContext } from '../common/context/AuthContext'
 import { BrowserRouter } from 'react-router-dom'
 import { CartContext } from '../common/context/CartContext'
+import { host } from '../../constants'
 
 const mockItem = {
     _id: 1,
@@ -41,8 +42,6 @@ const mockRating = {
     item: 1
 }
 
-
-const host = 'http://localhost:3030'
 const server = setupServer(
     rest.get(host + `/item/rating`, (req, res, ctx) => {
         return res(ctx.json([mockRating]))

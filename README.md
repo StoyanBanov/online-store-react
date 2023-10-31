@@ -9,9 +9,12 @@ Uses the [Online Store Server](https://github.com/StoyanBanov/online-store-serve
 register  
 login  
 browse  
-purchase  
+purchase
+review
+like reviews
 
 **admin**  
 register  
 login  
-products CRUD  
+products CRUD
+manage purchases

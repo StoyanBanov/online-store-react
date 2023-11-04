@@ -1,4 +1,4 @@
-const host = 'http://localhost:3030'
+import { host } from "../constants"
 
 async function request(method, url, body, isJson = false) {
     try {

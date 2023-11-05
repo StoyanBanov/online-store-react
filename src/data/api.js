@@ -1,8 +1,8 @@
-import { host } from "../constants"
+import { HOST } from "../constants"
 
 async function request(method, url, body, isJson = false) {
     try {
-        const response = await fetch((url.startsWith('http') || url.startsWith('https') ? '' : host) + url, createOptions(method, body, isJson))
+        const response = await fetch((url.startsWith('http') || url.startsWith('https') ? '' : HOST) + url, createOptions(method, body, isJson))
         if (!response.ok) throw new Error((await response.json()).message)
 
         try {

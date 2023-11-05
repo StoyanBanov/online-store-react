@@ -3,7 +3,7 @@ import style from './style.module.css'
 import { CartContext } from '../common/context/CartContext'
 import { trimText } from '../../util'
 import { DimensionsContext } from '../common/context/DimensionsContext'
-import { imagesDir } from '../../constants'
+import { IMAGES_DIR } from '../../constants'
 
 export const ShoppingCartItem = ({ itemObj: { item, count, _id } }) => {
     const { removeFromCart, changeItemCount } = useContext(CartContext)
@@ -21,7 +21,7 @@ export const ShoppingCartItem = ({ itemObj: { item, count, _id } }) => {
     return (
         <div className={style.cartItemContainer}>
             <div className={style.cartItemTop}>
-                <img src={`${imagesDir}/${item.thumbnail}`} alt={item.name} />
+                <img src={`${IMAGES_DIR}/${item.thumbnail}`} alt={item.name} />
                 <div>
                     <h4>{trimText(item.title, windowWidth >= 300 ? 15 : 10)}</h4>
                     <span>{item.price.toFixed(2)}$</span>

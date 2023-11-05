@@ -1,6 +1,6 @@
-export const host = 'http://localhost:3030'
+export const HOST = 'http://localhost:3030'
 
-export const imagesDir = host + '/static/images'
+export const IMAGES_DIR = HOST + '/static/images'
 
 export const MOBILE_MAX_WIDTH = 1024
 

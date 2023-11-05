@@ -9,7 +9,7 @@ import { DimensionsContext } from '../common/context/DimensionsContext'
 import { AuthContext } from '../common/context/AuthContext'
 import { CartContext } from '../common/context/CartContext'
 import { ItemDetails } from './ItemDetails'
-import { host } from '../../constants'
+import { HOST } from '../../constants'
 import { parseWhere } from './testsUtil'
 
 const mockUser = {
@@ -64,20 +64,20 @@ const mockItems = [
 ]
 
 const server = setupServer(
-    rest.get(host + `/category/:cId`, (req, res, ctx) => {
+    rest.get(HOST + `/category/:cId`, (req, res, ctx) => {
         return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
     }),
-    rest.get(host + `/category`, (req, res, ctx) => {
+    rest.get(HOST + `/category`, (req, res, ctx) => {
         let where = parseWhere(req)
 
         return res(ctx.json(mockCategories.filter(c => c.parentCategory === where.parentCategory)))
     }),
-    rest.get(host + `/item`, (req, res, ctx) => {
+    rest.get(HOST + `/item`, (req, res, ctx) => {
         let where = parseWhere(req)
 
         return res(ctx.json(mockItems.filter(i => i.category._id === where.category)))
     }),
-    rest.get(host + `/item/:iId`, (req, res, ctx) => {
+    rest.get(HOST + `/item/:iId`, (req, res, ctx) => {
         return res(ctx.json(mockItems.find(i => i._id === req.params.iId)))
     })
 )

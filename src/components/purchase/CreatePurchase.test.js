@@ -5,10 +5,10 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { CartContext } from '../common/context/CartContext'
-import { host } from '../../constants'
+import { HOST } from '../../constants'
 import { Purchase } from './Purchase'
 import { CreatePurchase } from './CreatePurchase'
-import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { AuthContext } from '../common/context/AuthContext'
 
 const mockUser = {
@@ -20,7 +20,7 @@ const mockUser = {
 }
 
 const server = setupServer(
-    rest.get(host + `/user`, (req, res, ctx) => {
+    rest.get(HOST + `/user`, (req, res, ctx) => {
         return res(mockUser)
     })
 )

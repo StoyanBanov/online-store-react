@@ -7,7 +7,7 @@ import { ItemDetails } from './ItemDetails'
 import { AuthContext } from '../common/context/AuthContext'
 import { BrowserRouter } from 'react-router-dom'
 import { CartContext } from '../common/context/CartContext'
-import { host } from '../../constants'
+import { HOST } from '../../constants'
 
 const mockItem = {
     _id: 1,
@@ -43,13 +43,13 @@ const mockRating = {
 }
 
 const server = setupServer(
-    rest.get(host + `/item/rating`, (req, res, ctx) => {
+    rest.get(HOST + `/item/rating`, (req, res, ctx) => {
         return res(ctx.json([mockRating]))
     }),
-    rest.get(host + '/item/:id', (req, res, ctx) => {
+    rest.get(HOST + '/item/:id', (req, res, ctx) => {
         return res(ctx.json(mockItem))
     }),
-    rest.get(host + '/category/:id', (req, res, ctx) => {
+    rest.get(HOST + '/category/:id', (req, res, ctx) => {
         return res(ctx.json(mockCategory))
     })
 )

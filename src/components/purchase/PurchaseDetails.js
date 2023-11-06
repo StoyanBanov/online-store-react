@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react"
-import { useOutletContext } from "react-router-dom"
+import { useNavigate, useOutletContext } from "react-router-dom"
 import { addUserPurchase } from "../../data/services/userService"
 import { CartContext } from "../common/context/CartContext"
 
@@ -10,11 +10,15 @@ export const PurchaseDetails = () => {
 
     const { emptyCart } = useContext(CartContext)
 
+    const navigate = useNavigate()
+
     const CreatePurchase = useCallback(async () => {
         await addUserPurchase(purchase)
 
         await emptyCart()
-    }, [emptyCart, purchase])
+
+        navigate('/')
+    }, [navigate, emptyCart, purchase])
 
     return (
         <div className={style.purchaseDetailsContainer}>

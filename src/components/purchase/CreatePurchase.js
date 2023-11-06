@@ -56,7 +56,8 @@ export const CreatePurchase = () => {
     }, [])
 
     const savedAddressChangeHandler = useCallback(e => {
-        setValues(state => ({ ...state, address: userData[e.target.name] }))
+        const { street, city, zipCode, county, country } = userData[e.target.name]
+        setValues(state => ({ ...state, address: { street, city, zipCode, county, country } }))
     }, [userData])
 
     const submitHandler = async e => {
@@ -141,8 +142,8 @@ export const CreatePurchase = () => {
                 }
 
                 <div className={style.purchaseFormRow}>
-                    <label htmlFor="inputInfo">Additional information: </label>
-                    <select id="inputInfo" name="info" value={values.info} onChange={changeValueHandler} required />
+                    <label htmlFor="inputInfo">Additional information</label>
+                    <textarea rows={5} id="inputInfo" name="info" value={values.info} onChange={changeValueHandler} />
                 </div>
 
                 <div className={style.purchaseButtonContainer}>

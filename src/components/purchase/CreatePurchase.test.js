@@ -35,6 +35,12 @@ test('renders create component', async () => {
     await screen.findByText('First name')
 })
 
+test('renders address form initially', async () => {
+    renderSkeleton()
+
+    await screen.findByText('Street')
+})
+
 test('shows user data', async () => {
     renderSkeleton()
 

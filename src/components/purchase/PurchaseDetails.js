@@ -33,6 +33,11 @@ export const PurchaseDetails = () => {
             </div>
 
             <div>
+                <span className={style.title}>e-mail: </span>
+                {purchase.email}
+            </div>
+
+            <div>
                 <span className={style.title}>Deliver </span> <span>to {purchase.deliverTo}: </span>
                 {purchase.address}
             </div>

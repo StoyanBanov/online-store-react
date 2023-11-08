@@ -30,6 +30,7 @@ export const CreatePurchase = () => {
         city: '',
         office: '',
         phone: '',
+        email: '',
         info: ''
     })
 
@@ -69,6 +70,7 @@ export const CreatePurchase = () => {
             paymentMethod: values.paymentMethod,
             deliverTo: values.deliverTo,
             phone: values.phone,
+            email: values.email,
             address:
                 values.address
                     ? Object.entries(values.address).map(([k, v]) => `${k}: ${v}`).join(', ')
@@ -95,6 +97,11 @@ export const CreatePurchase = () => {
                 <div className={style.purchaseFormRow}>
                     <label htmlFor="inputPhone">Phone</label>
                     <input min={10} id="inputPhone" name="phone" value={values.phone} onChange={changeValueHandler} required />
+                </div>
+
+                <div className={style.purchaseFormRow}>
+                    <label htmlFor="inputEmail">E-mail</label>
+                    <input type="email" min={10} id="inputEmail" name="email" value={values.email} onChange={changeValueHandler} required />
                 </div>
 
                 <div>

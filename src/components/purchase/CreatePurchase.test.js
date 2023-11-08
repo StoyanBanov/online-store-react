@@ -39,6 +39,10 @@ test('renders address form initially', async () => {
     renderSkeleton()
 
     await screen.findByText('Street')
+    await screen.findByText('City')
+    await screen.findByText('ZIP Code')
+    await screen.findByText('County')
+    await screen.findByText('Country')
 })
 
 test('shows user data', async () => {

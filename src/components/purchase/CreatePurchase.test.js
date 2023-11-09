@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { CartContext } from '../common/context/CartContext'
@@ -46,6 +46,14 @@ test('renders address form initially', async () => {
     await screen.findByText('ZIP Code')
     await screen.findByText('County')
     await screen.findByText('Country')
+})
+
+test('renders office form on choice', async () => {
+    renderSkeleton()
+
+    fireEvent.click(await screen.findByText('office'))
+
+    await screen.findByText('Office')
 })
 
 test('shows user data', async () => {

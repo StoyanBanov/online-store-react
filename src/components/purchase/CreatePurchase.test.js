@@ -56,6 +56,15 @@ test('renders office form on choice', async () => {
     await screen.findByText('Office')
 })
 
+test('office form has correct fields', async () => {
+    renderSkeleton()
+
+    fireEvent.click(await screen.findByText('office'))
+
+    await screen.findByText('City')
+    await screen.findByText('Office')
+})
+
 test('shows user data', async () => {
     renderSkeleton()
 

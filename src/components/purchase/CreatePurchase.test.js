@@ -16,6 +16,7 @@ const mockUser = {
     fname: 'Stoyan',
     lname: 'Banov',
     phone: '12213099',
+    email: 'email@email.com',
     roles: ['user']
 }
 
@@ -35,7 +36,7 @@ test('renders create component', async () => {
     await screen.findByText('First name')
     await screen.findByText('Last name')
     await screen.findByText('Phone')
-    await screen.findByText('E-mail')
+    await screen.findByText('Email')
 })
 
 test('renders address form initially', async () => {
@@ -72,6 +73,9 @@ test('shows user data', async () => {
         expect(screen.getByLabelText('First name').value).toBe(mockUser.fname)
     })
 
+    expect(screen.getByLabelText('Last name').value).toBe(mockUser.lname)
+    expect(screen.getByLabelText('Phone').value).toBe(mockUser.phone)
+    expect(screen.getByLabelText('Email').value).toBe(mockUser.email)
 })
 
 function renderSkeleton() {

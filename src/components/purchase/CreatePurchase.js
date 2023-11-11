@@ -43,7 +43,7 @@ export const CreatePurchase = () => {
     }, [_id])
 
     useEffect(() => {
-        setValues(state => ({ ...state, phone: userData.phone || '', fname: userData.fname || '', lname: userData.lname || '' }))
+        setValues(state => ({ ...state, phone: userData.phone || '', fname: userData.fname || '', lname: userData.lname || '', email: userData.email || '' }))
     }, [userData])
 
     const changeValueHandler = useCallback((e, name, val) => {
@@ -100,7 +100,7 @@ export const CreatePurchase = () => {
                 </div>
 
                 <div className={style.purchaseFormRow}>
-                    <label htmlFor="inputEmail">E-mail</label>
+                    <label htmlFor="inputEmail">Email</label>
                     <input type="email" min={10} id="inputEmail" name="email" value={values.email} onChange={changeValueHandler} required />
                 </div>
 

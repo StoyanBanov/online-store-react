@@ -1,7 +1,7 @@
 import React from 'react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { DimensionsContext } from '../common/context/DimensionsContext'
 import { CartContext } from '../common/context/CartContext'
@@ -21,7 +21,7 @@ const mockUser = {
 
 const server = setupServer(
     rest.get(HOST + `/user`, (req, res, ctx) => {
-        return res(mockUser)
+        return res(ctx.json(mockUser))
     })
 )
 
@@ -68,9 +68,10 @@ test('office form has correct fields', async () => {
 test('shows user data', async () => {
     renderSkeleton()
 
-    await screen.findByText('First name')
+    await waitFor(() => {
+        expect(screen.getByLabelText('First name').value).toBe(mockUser.fname)
+    })
 
-    await screen.findByText(mockUser.fname)
 })
 
 function renderSkeleton() {

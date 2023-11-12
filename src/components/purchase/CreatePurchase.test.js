@@ -66,8 +66,20 @@ test('office form has correct fields', async () => {
     await screen.findByText('Office')
 })
 
-test('shows user data', async () => {
+test('shows e pty form for guest', async () => {
     renderSkeleton()
+
+    await waitFor(() => {
+        expect(screen.getByLabelText('First name').value).toBe('')
+    })
+
+    expect(screen.getByLabelText('Last name').value).toBe('')
+    expect(screen.getByLabelText('Phone').value).toBe('')
+    expect(screen.getByLabelText('Email').value).toBe('')
+})
+
+test('shows user data when there isa user logged in', async () => {
+    renderSkeleton(mockUser)
 
     await waitFor(() => {
         expect(screen.getByLabelText('First name').value).toBe(mockUser.fname)
@@ -78,11 +90,11 @@ test('shows user data', async () => {
     expect(screen.getByLabelText('Email').value).toBe(mockUser.email)
 })
 
-function renderSkeleton() {
+function renderSkeleton(user = {}) {
     render(
         <MemoryRouter initialEntries={[`/purchase/create`]}>
             <DimensionsContext.Provider value={{ windowWidth: 1900 }}>
-                <AuthContext.Provider value={{ user: mockUser }}>
+                <AuthContext.Provider value={{ user }}>
                     <CartContext.Provider value={{ cart: {} }}>
                         <Routes>
                             <Route path="/purchase" element={<Purchase />}>

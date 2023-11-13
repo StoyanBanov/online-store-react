@@ -30,10 +30,8 @@ export const Header = () => {
     }, [displayPopNavHandler, navRef])
 
     const searchHandler = useCallback((isOpening) => {
-        if (windowWidth > MOBILE_MIN_WIDTH)
-            setDisplayMobileSearch(true)
-        else
-            displayPopSearchHandler(isOpening, searchRef)
+        if (windowWidth > MOBILE_MIN_WIDTH) setDisplayMobileSearch(true)
+        else displayPopSearchHandler(isOpening, searchRef)
     }, [windowWidth, setDisplayMobileSearch, displayPopSearchHandler])
 
     return (

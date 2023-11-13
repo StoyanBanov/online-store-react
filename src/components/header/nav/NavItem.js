@@ -14,8 +14,7 @@ export const NavItem = ({ children, name }) => {
             isHovering = true
 
             let count = 0
-            let total = isHover ? 0 : 50
-            let step = isHover ? 10 : -10
+            let [total, step] = isHover ? [0, 10] : [50, -10]
             const interval = setInterval(() => {
                 itemRef.current.style.width = (total += step) + 'px'
                 if (++count === 5) {

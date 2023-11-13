@@ -66,7 +66,7 @@ test('office form has correct fields', async () => {
     await screen.findByText('Office')
 })
 
-test('shows e pty form for guest', async () => {
+test('shows empty form for guest', async () => {
     renderSkeleton()
 
     await waitFor(() => {
@@ -78,7 +78,7 @@ test('shows e pty form for guest', async () => {
     expect(screen.getByLabelText('Email').value).toBe('')
 })
 
-test('shows user data when there isa user logged in', async () => {
+test('shows user data when there is a user logged in', async () => {
     renderSkeleton(mockUser)
 
     await waitFor(() => {

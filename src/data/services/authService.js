@@ -19,7 +19,3 @@ export async function register(userData) {
 export async function verify(userId, code) {
     return post(endpoints.verify, { userId, code }, true)
 }
-
-export async function logout() {
-    //TODO
-}

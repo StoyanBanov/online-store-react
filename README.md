@@ -3,18 +3,18 @@
 
 Uses the [Online Store Server](https://github.com/StoyanBanov/online-store-server)
 
-<h2>Functionality</h2>  
+<h2>Functionality</h2>
 
-**user**  
-register  
-login  
-browse  
+**user**
+register
+login
+browse
 purchase
 review
 like reviews
 
-**admin**  
-register  
-login  
+**admin**
+register
+login
 products CRUD
 manage purchases

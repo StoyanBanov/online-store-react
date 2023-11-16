@@ -154,7 +154,7 @@ export const CreatePurchase = () => {
                 </div>
 
                 <div className={style.purchaseButtonContainer}>
-                    <button>Create purchase</button>
+                    <button disabled={!(values.email && values.fname && values.lname && values.phone)}>Create purchase</button>
                 </div>
             </form>
         </div>

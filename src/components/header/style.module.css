@@ -119,7 +119,6 @@
 }
 
 .searchBar {
-    overflow: hidden;
     margin-left: 0.5%;
 }
 
@@ -135,6 +134,15 @@
     cursor: pointer;
     width: 20px;
     padding: 1px;
+}
+
+.searchBar .searchBarResultsContainer {
+    position: absolute;
+    top: 25px;
+    left: 0px;
+    background: white;
+    width: 200px;
+    z-index: 999;
 }
 
 .searchBar>svg:hover {

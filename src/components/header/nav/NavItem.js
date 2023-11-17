@@ -1,14 +1,24 @@
-import { useCallback, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import style from './style.module.css'
+import { useLocation } from "react-router-dom"
 
 let isHovering = false
 
 export const NavItem = ({ children, name }) => {
+    const [isActive, setIsActive] = useState(false)
+
+    const location = useLocation()
 
     const itemRef = useRef()
 
+    useEffect(() => {
+        setIsActive(location.pathname.includes(`/${name}`) || (location.pathname === '/' && name === 'Home'))
+    }, [location, name])
+
     const profileHandler = useCallback(e => {
+        if (isActive) return
+
         const isHover = e.type === 'mouseenter'
         if (!isHovering) {
             isHovering = true
@@ -23,12 +33,13 @@ export const NavItem = ({ children, name }) => {
                 }
             }, 30)
         }
-    }, [])
+    }, [isActive])
+
     return (
         <div className={style.navLinkItem} onMouseEnter={profileHandler} onMouseLeave={profileHandler}>
             {children}
 
-            <span className={style.navItemText} ref={itemRef}>{name}</span>
+            <span style={{ width: isActive ? '50px' : '0' }} className={style.navItemText} ref={itemRef}>{name}</span>
         </div>
     )
 }

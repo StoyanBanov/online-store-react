@@ -73,7 +73,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
     }, [searchValue])
 
     const blurSearchHandler = useCallback(() => {
-        setSearchResults([])
+        setTimeout(() => setSearchResults([]), 300)
     }, [])
 
     return (

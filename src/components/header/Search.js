@@ -67,9 +67,11 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
     }, [closeHandler, width])
 
-    const typeHandler = useCallback(() => {
-        getItems({ search: searchValue, itemsPerPage: 5 })
-            .then(setSearchResults)
+    const typeHandler = useCallback(e => {
+        e.target.value.length
+            ? getItems({ search: searchValue, itemsPerPage: 5 })
+                .then(setSearchResults)
+            : setSearchResults([])
     }, [searchValue])
 
     const blurSearchHandler = useCallback(() => {

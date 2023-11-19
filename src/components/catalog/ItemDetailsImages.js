@@ -34,7 +34,7 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
                 <div className={style.detailsImageCarouselContainer}>
                     <div ref={carouselRef} className={style.detailsImageCarouselItems}>
                         {
-                            [thumbnail, ...images].map(i => <img key={i} onMouseOver={carouselImgHoverHandler} src={`${IMAGES_DIR}/${i}`} alt={i} />)
+                            [thumbnail, ...images].map(i => <img key={i} style={i === image ? { outline: '1px solid green', outlineOffset: '-1px' } : {}} onMouseOver={carouselImgHoverHandler} src={`${IMAGES_DIR}/${i}`} alt={i} />)
                         }
                     </div>
                 </div>

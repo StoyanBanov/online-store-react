@@ -6,6 +6,8 @@ import { IMAGES_DIR } from '../../constants'
 export const ItemDetailsImages = ({ thumbnail, images }) => {
     const [image, setImage] = useState()
 
+    const [showImageOverlay, setShowImageOverlay] = useState()
+
     const carouselRef = useRef()
 
     useEffect(() => {
@@ -25,9 +27,17 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
     return (
         <div className={style.itemImages}>
             {image &&
-                <div className={style.mainImageContainer}>
-                    <img src={`${IMAGES_DIR}/${image}`} alt={image} />
-                </div>
+                <>
+                    <div className={style.mainImageContainer}>
+                        <img onClick={() => setShowImageOverlay(true)} src={`${IMAGES_DIR}/${image}`} alt={image} />
+                    </div>
+
+                    {showImageOverlay &&
+                        <div style={{ zIndex: 1, background: 'black', opacity: '50%', position: 'fixed', width: '100%', height: '100%' }}>
+
+                        </div>
+                    }
+                </>
             }
 
             <div className={style.detailsImageCarousel}>

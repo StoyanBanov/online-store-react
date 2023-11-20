@@ -34,7 +34,7 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
 
                     {showImageOverlay &&
                         <div style={{ zIndex: 1, background: 'black', opacity: '50%', position: 'fixed', width: '100%', height: '100%' }}>
-
+                            {/* todo */}
                         </div>
                     }
                 </>

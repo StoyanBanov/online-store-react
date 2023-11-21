@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import style from './style.module.css'
 import { useCarousel } from '../common/hooks/useCarousel'
 import { IMAGES_DIR } from '../../constants'
+import { DETAILS_IMAGE_OVERLAY_ID } from './constants'
 
 export const ItemDetailsImages = ({ thumbnail, images }) => {
     const [image, setImage] = useState()
@@ -24,6 +25,10 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
         setImage(e.target.src.split('/').slice(-1)[0])
     }, [])
 
+    const imageOverlayCloseHandler = useCallback(e => {
+        if (e.target.id !== DETAILS_IMAGE_OVERLAY_ID) setShowImageOverlay(false)
+    }, [])
+
     return (
         <div className={style.itemImages}>
             {image &&
@@ -33,8 +38,9 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
                     </div>
 
                     {showImageOverlay &&
-                        <div style={{ zIndex: 1, background: 'black', opacity: '50%', position: 'fixed', width: '100%', height: '100%' }}>
-                            {/* todo */}
+                        <div onClick={imageOverlayCloseHandler}
+                            style={{ zIndex: 1, background: 'black', opacity: '50%', position: 'fixed', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${image}`} alt={image} />
                         </div>
                     }
                 </>

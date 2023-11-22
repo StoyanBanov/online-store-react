@@ -81,7 +81,7 @@ export const ItemFilters = () => {
                     </div>
                 )
             }
-            {(filterRanges.minPrice || filterRanges.maxPrice) &&
+            {(filterRanges.minPrice > 0 || filterRanges.maxPrice > 0) &&
                 <>
                     <span><strong>Price</strong></span>
                     <ItemPriceFilter minPrice={Math.floor(filterRanges.minPrice)} maxPrice={Math.ceil(filterRanges.maxPrice)} updateFilters={updateFilters} />

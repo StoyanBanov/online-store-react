@@ -41,12 +41,12 @@
 
 .cartDropContainer {
     position: fixed;
-    z-index: 999;
+    z-index: 990;
     right: 5%;
 }
 
 .cartDropContainerMobile {
-    z-index: 999;
+    z-index: 990;
     position: sticky;
     display: flex;
     width: 100%;
@@ -142,7 +142,7 @@
     left: 10px;
     background: white;
     width: 200px;
-    z-index: 999;
+    z-index: 990;
 }
 
 .searchBar>svg:hover {

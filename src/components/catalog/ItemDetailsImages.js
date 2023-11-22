@@ -3,6 +3,7 @@ import style from './style.module.css'
 import { useCarousel } from '../common/hooks/useCarousel'
 import { IMAGES_DIR } from '../../constants'
 import { DETAILS_IMAGE_OVERLAY_ID } from './constants'
+import { CloseSVG } from '../common/svg/CloseSVG'
 
 export const ItemDetailsImages = ({ thumbnail, images }) => {
     const [image, setImage] = useState()
@@ -38,10 +39,16 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
                     </div>
 
                     {showImageOverlay &&
-                        <div onClick={imageOverlayCloseHandler}
-                            style={{ zIndex: 1, background: 'black', opacity: '50%', position: 'fixed', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <img id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${image}`} alt={image} />
-                        </div>
+                        <>
+                            <div style={{ position: 'fixed', top: '40px', right: '40px', zIndex: 999 }}>
+                                <CloseSVG clickHandler={imageOverlayCloseHandler} stroke={'white'} />
+                            </div>
+
+                            <div onClick={imageOverlayCloseHandler}
+                                style={{ zIndex: 998, position: 'fixed', top: 0, left: 0, background: 'rgba(0, 0, 0, .7)', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <img style={{ height: '80%', width: '50%', objectFit: 'contain', border: '1px solid white' }} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${image}`} alt={image} />
+                            </div>
+                        </>
                     }
                 </>
             }

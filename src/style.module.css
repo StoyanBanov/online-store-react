@@ -10,6 +10,10 @@
     --redish: rgb(248, 93, 93);
 }
 
+img:hover {
+    cursor: pointer;
+}
+
 main {
     display: flex;
     flex-direction: row;

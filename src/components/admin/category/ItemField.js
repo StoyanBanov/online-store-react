@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
+import { CloseSVG } from "../../common/svg/CloseSVG"
 
-export const ItemField = ({ defValues, removeFieldClickHandler, changeField }) => {
+export const ItemField = ({ defValues, removeFieldHandler, changeField }) => {
     const [values, setValues] = useState({
         name: '',
         type: 'text'
@@ -27,10 +28,7 @@ export const ItemField = ({ defValues, removeFieldClickHandler, changeField }) =
                 <option>text</option>
             </select>
 
-            <svg onClick={removeFieldClickHandler} width={22} height={22} stroke="black" strokeWidth={1}>
-                <line x1={2} y1={2} x2={20} y2={20} />
-                <line x1={2} y1={20} x2={20} y2={2} />
-            </svg>
+            <CloseSVG clickHandler={removeFieldHandler} />
         </div>
     )
 }

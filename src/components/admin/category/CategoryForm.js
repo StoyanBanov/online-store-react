@@ -24,7 +24,7 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
         setFieldKeys(state => [...state, ++fieldsCount.current])
     }, [])
 
-    const removeFieldClickHandler = useCallback((index, name) => {
+    const removeFieldHandler = useCallback((index, name) => {
         setFields(state => {
             const current = { ...state }
             delete current[name]
@@ -116,7 +116,7 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
                                 <ItemField
                                     key={a}
                                     defValues={fields[`field${a}`]}
-                                    removeFieldClickHandler={removeFieldClickHandler.bind(null, i, `field${a}`)}
+                                    removeFieldHandler={removeFieldHandler.bind(null, i, `field${a}`)}
                                     changeField={changeField.bind(null, `field${a}`)}
                                 />
                             )

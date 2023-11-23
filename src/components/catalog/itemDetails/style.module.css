@@ -33,3 +33,36 @@
 .page:hover {
     color: gray;
 }
+
+
+
+/* images */
+
+.imageOverlayCloseSvgContainer {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    z-index: 999;
+}
+
+.imageOverlayContainer {
+    z-index: 998;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .7);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageOverlayContainer .mainImage {
+    height: 80%;
+    width: 50%;
+    background: rgba(255, 255, 255, .9);
+    border-radius: 4px;
+    object-fit: contain;
+    border: 1px solid white;
+}

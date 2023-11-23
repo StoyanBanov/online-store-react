@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import style from './style.module.css'
+import styleDetails from './itemDetails/style.module.css'
 import { useCarousel } from '../common/hooks/useCarousel'
 import { IMAGES_DIR } from '../../constants'
 import { DETAILS_IMAGE_OVERLAY_ID } from './constants'
@@ -40,13 +41,12 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
 
                     {showImageOverlay &&
                         <>
-                            <div style={{ position: 'fixed', top: '40px', right: '40px', zIndex: 999 }}>
+                            <div className={styleDetails.imageOverlayCloseSvgContainer}>
                                 <CloseSVG clickHandler={imageOverlayCloseHandler} stroke={'white'} />
                             </div>
 
-                            <div onClick={imageOverlayCloseHandler}
-                                style={{ zIndex: 998, position: 'fixed', top: 0, left: 0, background: 'rgba(0, 0, 0, .7)', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <img style={{ height: '80%', width: '50%', objectFit: 'contain', border: '1px solid white' }} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${image}`} alt={image} />
+                            <div onClick={imageOverlayCloseHandler} className={styleDetails.imageOverlayContainer}>
+                                <img className={styleDetails.mainImage} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${image}`} alt={image} />
                             </div>
                         </>
                     }

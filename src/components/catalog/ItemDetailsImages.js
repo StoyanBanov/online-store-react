@@ -44,16 +44,16 @@ export const ItemDetailsImages = ({ images }) => {
                             </div>
 
                             <div onClick={imageOverlayCloseHandler} className={styleDetails.imageOverlayContainer}>
-                                <svg onClick={() => setImageIndex(state => state === 0 ? images.length - 1 : state - 1)} width={20} height={40} stroke='white' strokeWidth={2}>
-                                    <line x1={2} y1={20} x2={18} y2={2} />
-                                    <line x1={2} y1={20} x2={18} y2={38} />
+                                <svg onClick={() => setImageIndex(state => state === 0 ? images.length - 1 : state - 1)} width={40} height={80} stroke='white' strokeWidth={2}>
+                                    <line x1={2} y1={40} x2={38} y2={2} />
+                                    <line x1={2} y1={40} x2={38} y2={78} />
                                 </svg>
 
                                 <img className={styleDetails.mainImage} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${images[imageIndex]}`} alt={images[imageIndex]} />
 
-                                <svg onClick={() => setImageIndex(state => state === images.length - 1 ? 0 : state + 1)} width={20} height={40} stroke='white' strokeWidth={2}>
-                                    <line x2={2} y1={20} x1={18} y2={2} />
-                                    <line x2={2} y1={20} x1={18} y2={38} />
+                                <svg onClick={() => setImageIndex(state => state === images.length - 1 ? 0 : state + 1)} width={40} height={80} stroke='white' strokeWidth={2}>
+                                    <line x2={2} y1={40} x1={38} y2={2} />
+                                    <line x2={2} y1={40} x1={38} y2={78} />
                                 </svg>
                             </div>
                         </>

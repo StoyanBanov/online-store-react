@@ -80,8 +80,8 @@ export const ItemDetails = () => {
         <div className={style.itemDetailsContainer}>
             {item._id &&
                 <>
-                    <div className={style.itemDetailsTop}>
-                        <ItemDetailsImages {...item} />
+                    <div className={style.itemDetailsTop} >
+                        <ItemDetailsImages images={[item.thumbnail].concat(item.images)} />
 
                         <div>
                             <h2>{item.title}</h2>

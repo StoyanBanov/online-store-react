@@ -6,47 +6,55 @@ import { IMAGES_DIR } from '../../constants'
 import { DETAILS_IMAGE_OVERLAY_ID } from './constants'
 import { CloseSVG } from '../common/svg/CloseSVG'
 
-export const ItemDetailsImages = ({ thumbnail, images }) => {
-    const [image, setImage] = useState()
+export const ItemDetailsImages = ({ images }) => {
+    const [imageIndex, setImageIndex] = useState(0)
 
     const [showImageOverlay, setShowImageOverlay] = useState()
 
     const carouselRef = useRef()
 
-    useEffect(() => {
-        setImage(thumbnail)
-    }, [thumbnail])
-
     const [slideHandler, displayCarouselButtons, setInitialWidth] = useCarousel(carouselRef)
 
     useEffect(() => {
         setInitialWidth()
-    }, [setInitialWidth, thumbnail, images])
+    }, [setInitialWidth, images])
 
-    const carouselImgHoverHandler = useCallback(e => {
-        setImage(e.target.src.split('/').slice(-1)[0])
+    const carouselImgHoverHandler = useCallback(imgIndex => {
+        setImageIndex(imgIndex)
     }, [])
 
     const imageOverlayCloseHandler = useCallback(e => {
-        if (e.target.id !== DETAILS_IMAGE_OVERLAY_ID) setShowImageOverlay(false)
+        if (e.target === e.currentTarget) setShowImageOverlay(false)
     }, [])
+
+    console.log(images[0]);
 
     return (
         <div className={style.itemImages}>
-            {image &&
+            {images &&
                 <>
                     <div className={style.mainImageContainer}>
-                        <img onClick={() => setShowImageOverlay(true)} src={`${IMAGES_DIR}/${image}`} alt={image} />
+                        <img onClick={() => setShowImageOverlay(true)} src={`${IMAGES_DIR}/${images[imageIndex]}`} alt={images[imageIndex]} />
                     </div>
 
                     {showImageOverlay &&
                         <>
                             <div className={styleDetails.imageOverlayCloseSvgContainer}>
-                                <CloseSVG clickHandler={imageOverlayCloseHandler} stroke={'white'} />
+                                <CloseSVG clickHandler={imageOverlayCloseHandler} stroke={'white'} strokeWidth={2} />
                             </div>
 
                             <div onClick={imageOverlayCloseHandler} className={styleDetails.imageOverlayContainer}>
-                                <img className={styleDetails.mainImage} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${image}`} alt={image} />
+                                <svg onClick={() => setImageIndex(state => state === 0 ? images.length - 1 : state - 1)} width={20} height={40} stroke='white' strokeWidth={2}>
+                                    <line x1={2} y1={20} x2={18} y2={2} />
+                                    <line x1={2} y1={20} x2={18} y2={38} />
+                                </svg>
+
+                                <img className={styleDetails.mainImage} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${images[imageIndex]}`} alt={images[imageIndex]} />
+
+                                <svg onClick={() => setImageIndex(state => state === images.length - 1 ? 0 : state + 1)} width={20} height={40} stroke='white' strokeWidth={2}>
+                                    <line x2={2} y1={20} x1={18} y2={2} />
+                                    <line x2={2} y1={20} x1={18} y2={38} />
+                                </svg>
                             </div>
                         </>
                     }
@@ -57,7 +65,13 @@ export const ItemDetailsImages = ({ thumbnail, images }) => {
                 <div className={style.detailsImageCarouselContainer}>
                     <div ref={carouselRef} className={style.detailsImageCarouselItems}>
                         {
-                            [thumbnail, ...images].map(i => <img key={i} style={i === image ? { outline: '1px solid green', outlineOffset: '-1px' } : {}} onMouseOver={carouselImgHoverHandler} src={`${IMAGES_DIR}/${i}`} alt={i} />)
+                            images.map((i, ind) =>
+                                <img key={ind}
+                                    onClick={() => setShowImageOverlay(true)}
+                                    style={ind === imageIndex ? { outline: '1px solid green', outlineOffset: '-1px' } : {}}
+                                    onMouseOver={() => carouselImgHoverHandler(ind)} src={`${IMAGES_DIR}/${i}`} alt={i}
+                                />
+                            )
                         }
                     </div>
                 </div>

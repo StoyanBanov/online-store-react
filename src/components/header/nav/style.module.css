@@ -105,3 +105,17 @@ nav .inactiveLink {
 .navItemText {
     width: 0;
 }
+
+.allNav svg:hover {
+    animation: rotateY-anim 2s linear infinite;
+}
+
+@keyframes rotateY-anim {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}

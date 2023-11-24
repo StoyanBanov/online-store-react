@@ -3,7 +3,6 @@ import style from './style.module.css'
 import styleDetails from './itemDetails/style.module.css'
 import { useCarousel } from '../common/hooks/useCarousel'
 import { IMAGES_DIR } from '../../constants'
-import { DETAILS_IMAGE_OVERLAY_ID } from './constants'
 import { CloseSVG } from '../common/svg/CloseSVG'
 
 export const ItemDetailsImages = ({ images }) => {
@@ -27,8 +26,6 @@ export const ItemDetailsImages = ({ images }) => {
         if (e.target === e.currentTarget) setShowImageOverlay(false)
     }, [])
 
-    console.log(images[0]);
-
     return (
         <div className={style.itemImages}>
             {images &&
@@ -49,7 +46,7 @@ export const ItemDetailsImages = ({ images }) => {
                                     <line x1={2} y1={40} x2={38} y2={78} />
                                 </svg>
 
-                                <img className={styleDetails.mainImage} id={DETAILS_IMAGE_OVERLAY_ID} src={`${IMAGES_DIR}/${images[imageIndex]}`} alt={images[imageIndex]} />
+                                <img className={styleDetails.mainImage} src={`${IMAGES_DIR}/${images[imageIndex]}`} alt={images[imageIndex]} />
 
                                 <svg onClick={() => setImageIndex(state => state === images.length - 1 ? 0 : state + 1)} width={40} height={80} stroke='white' strokeWidth={2}>
                                     <line x2={2} y1={40} x1={38} y2={2} />

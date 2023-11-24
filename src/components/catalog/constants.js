@@ -1,1 +1,0 @@
-export const DETAILS_IMAGE_OVERLAY_ID = 'overlayImage'

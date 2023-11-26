@@ -13,7 +13,7 @@ export const NavItem = ({ children, name }) => {
     const itemRef = useRef()
 
     useEffect(() => {
-        setIsActive(location.pathname.includes(`/${name}`) || (location.pathname === '/' && name === 'Home'))
+        setIsActive(location.pathname.includes(`/${name.toLowerCase()}`) || (location.pathname === '/' && name === 'Home'))
     }, [location, name])
 
     const profileHandler = useCallback(e => {

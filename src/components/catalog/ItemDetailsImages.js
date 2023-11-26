@@ -49,14 +49,14 @@ export const ItemDetailsImages = ({ images }) => {
                             </div>
 
                             <div onClick={imageOverlayCloseHandler} className={styleDetails.imageOverlayContainer}>
-                                <svg onClick={imageOverlayChangeImageHandler(IMAGE_OVERLAY_MOVE_LEFT)} width={40} height={80} stroke='white' strokeWidth={2}>
+                                <svg onClick={() => imageOverlayChangeImageHandler(IMAGE_OVERLAY_MOVE_LEFT)} width={40} height={80} stroke='white' strokeWidth={2}>
                                     <line x1={2} y1={40} x2={38} y2={2} />
                                     <line x1={2} y1={40} x2={38} y2={78} />
                                 </svg>
 
                                 <img className={styleDetails.mainImage} src={`${IMAGES_DIR}/${images[imageIndex]}`} alt={images[imageIndex]} />
 
-                                <svg onClick={imageOverlayChangeImageHandler(IMAGE_OVERLAY_MOVE_RiGHT)} width={40} height={80} stroke='white' strokeWidth={2}>
+                                <svg onClick={() => imageOverlayChangeImageHandler(IMAGE_OVERLAY_MOVE_RiGHT)} width={40} height={80} stroke='white' strokeWidth={2}>
                                     <line x2={2} y1={40} x1={38} y2={2} />
                                     <line x2={2} y1={40} x1={38} y2={78} />
                                 </svg>

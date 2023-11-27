@@ -137,12 +137,38 @@
 }
 
 .searchBar .searchBarResultsContainer {
+    list-style-type: none;
     position: absolute;
     top: 7px;
     left: 10px;
     background: white;
     width: 200px;
     z-index: 990;
+    padding-left: 0;
+}
+
+.searchBar .searchBarResultsContainer li:hover {
+    background-color: lightgray;
+}
+
+.searchBar .searchBarResultsContainer li a {
+    text-decoration: none;
+}
+
+.searchBar .searchBarResultsContainer li a:hover {
+    text-decoration: underline;
+}
+
+.searchBar .searchBarResultsContainer li a>div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.searchBar .searchBarResultsContainer li img {
+    height: 45px;
+    width: 45px;
+    object-fit: contain;
 }
 
 .searchBar>svg:hover {

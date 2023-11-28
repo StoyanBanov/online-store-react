@@ -145,11 +145,19 @@
     width: 200px;
     z-index: 990;
     padding-left: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 1px 1px 5px 0.5px gray;
+}
+
+.searchBar .searchBarResultsContainer li {
+    border-bottom: 1px solid gray;
+    padding: 3px;
 }
 
 .searchBar .searchBarResultsContainer li:hover {
     background-color: lightgray;
-    box-shadow: 2px, 2px, 3px;
+    border-color: black;
 }
 
 .searchBar .searchBarResultsContainer li a {

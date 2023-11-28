@@ -35,6 +35,15 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
         }, 20)
     }, [windowWidth])
 
+    const typeHandler = useCallback(() => {
+        searchValue.length
+            ? getItems({ search: searchValue, itemsPerPage: 5 })
+                .then(setSearchResults)
+            : setSearchResults([])
+    }, [searchValue])
+
+    useEffect(typeHandler, [typeHandler])
+
     const searchValueChangeHandler = useCallback(e => {
         setSearchValue(e.target.value)
     }, [])
@@ -67,13 +76,6 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
     }, [closeHandler, width])
 
-    const typeHandler = useCallback(e => {
-        e.target.value.length
-            ? getItems({ search: searchValue, itemsPerPage: 5 })
-                .then(setSearchResults)
-            : setSearchResults([])
-    }, [searchValue])
-
     const blurSearchHandler = useCallback(() => {
         setTimeout(() => setSearchResults([]), 300)
     }, [])
@@ -85,8 +87,8 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
                     style={{ width }}
                     value={searchValue}
                     onChange={searchValueChangeHandler}
-                    onKeyUp={typeHandler}
                     onBlur={blurSearchHandler}
+                    onFocus={typeHandler}
                     autoFocus={autoFocus}
                 />
 

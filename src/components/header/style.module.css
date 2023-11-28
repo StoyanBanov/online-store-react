@@ -149,6 +149,7 @@
 
 .searchBar .searchBarResultsContainer li:hover {
     background-color: lightgray;
+    box-shadow: 2px, 2px, 3px;
 }
 
 .searchBar .searchBarResultsContainer li a {

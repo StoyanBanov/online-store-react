@@ -145,9 +145,10 @@
     width: 200px;
     z-index: 990;
     padding-left: 0;
-    border-radius: 4px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     overflow: hidden;
-    box-shadow: 1px 1px 5px 0.5px gray;
+    box-shadow: 2px 5px 5px gray;
 }
 
 .searchBar .searchBarResultsContainer li {

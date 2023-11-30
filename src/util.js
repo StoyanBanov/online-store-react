@@ -16,3 +16,7 @@ export function makePages(current, total) {
 
     return pages
 }
+
+export function getTotalPrice(items) {
+    return items.reduce((total, i) => total + i.item.price * i.count, 0)
+}

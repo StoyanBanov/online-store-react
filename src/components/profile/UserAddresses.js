@@ -6,8 +6,7 @@ export const UserAddresses = () => {
 
     return (
         <div>
-            {
-                address &&
+            {address &&
                 <AddressForm address={address} changeUserData={changeUserData.bind(null, 'address')} />
             }
 

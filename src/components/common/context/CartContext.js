@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useCallback, useRef } from "react";
 import { getCartBydId, addToCartBydId, removeFromCartBydId, emptyCartBydId } from "../../../data/services/shoppingCartService"
 import { AuthContext } from "./AuthContext";
+import { getTotalPrice } from "../../../util";
 
 export const CartContext = createContext()
 
@@ -66,7 +67,7 @@ export const CartContextProvider = ({ children }) => {
                 return state;
         }
 
-        changedCart.totalPrice = changedCart.items.reduce((total, i) => total + i.item.price * i.count, 0)
+        changedCart.totalPrice = getTotalPrice(changedCart.items)
         changedCart._id = state._id
 
         if (!_id) localStorage.setItem('cart', JSON.stringify(changedCart))

@@ -22,6 +22,8 @@ export const SearchResult = ({ item, searchValue }) => {
 
                         {title.slice(searchValueIndex + searchValue.length)}
                     </div>
+
+                    <span><b>{item.price.toFixed(2)}$</b></span>
                 </div>
             </Link>
         </li>

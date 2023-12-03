@@ -15,13 +15,13 @@ export const SearchResult = ({ item, searchValue }) => {
                 <div>
                     <img src={`${IMAGES_DIR}/${item.thumbnail}`} alt={item.thumbnail} />
 
-                    <div>
+                    <p style={{ textOverflow: 'clip' }}>
                         {title.slice(0, searchValueIndex)}
 
                         <b>{title.slice(searchValueIndex, searchValueIndex + searchValue.length)}</b>
 
                         {title.slice(searchValueIndex + searchValue.length)}
-                    </div>
+                    </p>
 
                     <span><b>{item.price.toFixed(2)}$</b></span>
                 </div>

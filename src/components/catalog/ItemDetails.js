@@ -40,6 +40,8 @@ export const ItemDetails = () => {
             })
     }, [_id, itemId])
 
+    console.log(itemRating);
+
     const ratingStarMouseOverHandler = useCallback(e => {
         Array.from(e.currentTarget.children)
             .slice(itemRating, Number(e.target.id) + 1)
@@ -78,7 +80,8 @@ export const ItemDetails = () => {
 
     return (
         <div className={style.itemDetailsContainer}>
-            {item._id &&
+            {
+                item._id &&
                 <>
                     <div className={style.itemDetailsTop} >
                         <ItemDetailsImages images={[item.thumbnail].concat(item.images)} />
@@ -144,6 +147,6 @@ export const ItemDetails = () => {
                     }
                 </>
             }
-        </div >
+        </div>
     )
 }

@@ -1,30 +1,14 @@
 import React from 'react'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { ItemDetails } from './ItemDetails'
 import { AuthContext } from '../common/context/AuthContext'
-import { BrowserRouter } from 'react-router-dom'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { CartContext } from '../common/context/CartContext'
-import { HOST } from '../../constants'
 
-const mockItem = {
-    _id: 1,
-    category: 1,
-    title: 'title1',
-    description: 'description1',
-    rating: 2,
-    price: 1,
-    count: 5,
-    thumbnail: '',
-    images: []
-}
+import { mockItems } from '../../setupTests'
 
-const mockCategory = {
-    _id: 1,
-    title: 'cat1'
-}
+const mockItem = mockItems[0]
 
 const mockUser = {
     _id: 1,
@@ -35,28 +19,6 @@ const mockAdmin = {
     _id: 2,
     roles: ['admin']
 }
-
-const mockRating = {
-    rating: 2,
-    user: 1,
-    item: 1
-}
-
-const server = setupServer(
-    rest.get(HOST + `/item/rating`, (req, res, ctx) => {
-        return res(ctx.json([mockRating]))
-    }),
-    rest.get(HOST + '/item/:id', (req, res, ctx) => {
-        return res(ctx.json(mockItem))
-    }),
-    rest.get(HOST + '/category/:id', (req, res, ctx) => {
-        return res(ctx.json(mockCategory))
-    })
-)
-
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
 
 test('loads details for guest', async () => {
     renderSkeleton({})
@@ -134,12 +96,14 @@ test('does\'t show edit/delete buttons for guest', async () => {
 
 function renderSkeleton(user) {
     render(
-        <AuthContext.Provider value={{ user }}>
-            <CartContext.Provider value={{ addToCart: () => { } }}>
-                <BrowserRouter>
-                    <ItemDetails />
-                </BrowserRouter>
-            </CartContext.Provider>
-        </AuthContext.Provider>
+        <MemoryRouter initialEntries={[`/catalog/${mockItem._id}`]}>
+            <AuthContext.Provider value={{ user }}>
+                <CartContext.Provider value={{ addToCart: () => { } }}>
+                    <Routes>
+                        <Route path='catalog/:itemId' element={<ItemDetails />} />
+                    </Routes>
+                </CartContext.Provider>
+            </AuthContext.Provider>
+        </MemoryRouter>
     )
 }

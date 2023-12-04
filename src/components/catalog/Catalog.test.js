@@ -1,6 +1,4 @@
 import React from 'react'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import { fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
@@ -9,82 +7,13 @@ import { DimensionsContext } from '../common/context/DimensionsContext'
 import { AuthContext } from '../common/context/AuthContext'
 import { CartContext } from '../common/context/CartContext'
 import { ItemDetails } from './ItemDetails'
-import { HOST } from '../../constants'
-import { parseWhere } from './testsUtil'
+
+import { mockCategories, mockItems } from './../../setupTests'
 
 const mockUser = {
     _id: 1,
     roles: ['user']
 }
-
-const mockCategories = [
-    {
-        _id: '1',
-        title: 'clickMe',
-        parentCategory: null,
-        childCategories: [
-            {
-                _id: '3',
-                parentCategory: '1',
-                title: 'a1cat'
-            }, {
-                _id: '4',
-                parentCategory: '1',
-                title: 'a2cat'
-            }
-        ]
-    }, {
-        _id: '2',
-        title: 'b',
-        parentCategory: null,
-        childCategories: []
-    }, {
-        _id: '3',
-        parentCategory: '1',
-        title: 'a1cat',
-        childCategories: []
-    }, {
-        _id: '4',
-        parentCategory: '1',
-        title: 'a2cat',
-        childCategories: []
-    }
-]
-
-const mockItems = [
-    {
-        _id: '1',
-        category: mockCategories[2],
-        title: 'title1',
-        description: 'someDesc',
-        rating: 2,
-        price: 1,
-        images: []
-    }
-]
-
-const server = setupServer(
-    rest.get(HOST + `/category/:cId`, (req, res, ctx) => {
-        return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
-    }),
-    rest.get(HOST + `/category`, (req, res, ctx) => {
-        let where = parseWhere(req)
-
-        return res(ctx.json(mockCategories.filter(c => c.parentCategory === where.parentCategory)))
-    }),
-    rest.get(HOST + `/item`, (req, res, ctx) => {
-        let where = parseWhere(req)
-
-        return res(ctx.json(mockItems.filter(i => i.category._id === where.category)))
-    }),
-    rest.get(HOST + `/item/:iId`, (req, res, ctx) => {
-        return res(ctx.json(mockItems.find(i => i._id === req.params.iId)))
-    })
-)
-
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
 
 test('loads parent categories', async () => {
     renderSkeleton(mockUser)

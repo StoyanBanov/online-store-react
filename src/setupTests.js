@@ -8,12 +8,12 @@ import { HOST } from './constants';
 import { rest } from 'msw';
 import { parseWhere } from './components/catalog/testsUtil';
 
-const mockUser = {
+export const mockUser = {
     _id: 1,
     roles: ['user']
 }
 
-const mockCategories = [
+export const mockCategories = [
     {
         _id: '1',
         title: 'clickMe',
@@ -47,12 +47,21 @@ const mockCategories = [
     }
 ]
 
-const mockItems = [
+const mockRatings = [
+    {
+        rating: 2,
+        user: 1,
+        item: '1'
+    }
+]
+
+export const mockItems = [
     {
         _id: '1',
         category: mockCategories[2],
         title: 'title1',
         description: 'someDesc',
+        count: 3,
         rating: 2,
         price: 1,
         images: []
@@ -73,7 +82,16 @@ const server = setupServer(
 
         return res(ctx.json(mockItems.filter(i => i.category._id === where.category)))
     }),
+    rest.get(HOST + `/item/rating`, (req, res, ctx) => {
+        let where = parseWhere(req)
+
+        return res(ctx.json(mockRatings.filter(r => r.user === where.user && r.item === where.item)))
+    }),
     rest.get(HOST + `/item/:iId`, (req, res, ctx) => {
         return res(ctx.json(mockItems.find(i => i._id === req.params.iId)))
-    })
+    }),
 )
+
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())

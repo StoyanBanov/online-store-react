@@ -45,6 +45,7 @@ export const mockCategories = [
         }
     }
 ]
+mockCategories[0].childCategories = [mockCategories[1], mockCategories[2]]
 
 const mockRatings = [
     {
@@ -74,7 +75,7 @@ export const mockItems = [
         rating: 5,
         price: 1,
         category: mockCategories[1],
-        fieldCat1: 'fieldCat1Type2',
+        fieldCat1: 'fieldCat1Type1',
         images: []
     },
     {

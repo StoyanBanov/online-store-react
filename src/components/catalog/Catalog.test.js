@@ -20,17 +20,13 @@ test('loads parent categories', async () => {
 
     let parentCategories = mockCategories.filter(c => c.parentCategory == null)
 
-    const titles = await Promise.all(parentCategories.map(c => screen.findByText(c.title)))
-
-    expect(titles.length).toBe(parentCategories.length)
+    await Promise.all(parentCategories.map(c => screen.findByText(c.title)))
 })
 
 test('loads child categories', async () => {
     renderSkeleton(mockUser, `/${mockCategories[0].title}/${mockCategories[0]._id}`)
 
-    let titles = await Promise.all(mockCategories[0].childCategories.map(c => screen.findByText(c.title)))
-
-    expect(titles.length).toBe(mockCategories[0].childCategories.length)
+    await Promise.all(mockCategories[0].childCategories.map(c => screen.findByText(c.title)))
 })
 
 test('loads child categories from catalog', async () => {
@@ -38,27 +34,24 @@ test('loads child categories from catalog', async () => {
 
     fireEvent.click(await screen.findByText(mockCategories[0].title))
 
-    let childrenTitles = await Promise.all(mockCategories[0].childCategories.map(c => screen.findByText(c.title)))
-
-    expect(childrenTitles.length).toBe(mockCategories[0].childCategories.length)
+    await Promise.all(mockCategories[0].childCategories.map(c => screen.findByText(c.title)))
 })
 
 test('loads items', async () => {
     renderSkeleton(mockUser, `/${mockCategories[2].title}/${mockCategories[2]._id}`)
 
-    let titles = await Promise.all(mockItems.filter(i => i.category === mockCategories[2]).map(i => screen.findByText(i.title)))
-
-    expect(titles.length).toBe(mockItems.length)
+    await Promise.all(mockItems.filter(i => i.category === mockCategories[2]).map(i => screen.findByText(i.title)))
 })
 
 test('loads items from catalog', async () => {
-    renderSkeleton(mockUser, `/${mockCategories[0].title}/${mockCategories[0]._id}`)
+    const cat = mockCategories[0]
+    const childCat = cat.childCategories[0]
 
-    fireEvent.click(await screen.findByText(mockCategories[0].childCategories[0].title))
+    renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
 
-    let itemsTitles = await Promise.all(mockItems.filter(i => i.category === mockCategories[2]).map(i => screen.findByText(i.title)))
+    fireEvent.click(await screen.findByText(childCat.title))
 
-    expect(itemsTitles.length).toBe(mockItems.length)
+    await Promise.all(mockItems.filter(i => i.category === childCat).map(i => screen.findByText(i.title)))
 })
 
 test('loads item details', async () => {
@@ -90,9 +83,11 @@ test('shows filters for items catalog', async () => {
 })
 
 test('doesn\'t shows filters for categories catalog', async () => {
-    renderSkeleton(mockUser, `/${mockCategories[0].title}/${mockCategories[0]._id}`)
+    const cat = mockCategories[0]
 
-    await screen.findByText(mockCategories[0].childCategories[0].title)
+    renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
+
+    await screen.findByText(cat.childCategories[0].title)
 
     expect(screen.queryByText('Filter')).not.toBeInTheDocument()
 })

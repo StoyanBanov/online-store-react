@@ -1,108 +1,20 @@
 import React from 'react'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { parseWhere } from '../testsUtil'
 import { DimensionsContext } from '../../common/context/DimensionsContext'
 import { CartContext } from '../../common/context/CartContext'
 import { AuthContext } from '../../common/context/AuthContext'
 import { Catalog } from '../Catalog'
-import { host } from '../../../constants'
+import { mockCategories, mockItems } from '../../../setupTests'
 
 const mockUser = {
     _id: 1,
     roles: ['user']
 }
 
-const mockCategories = [
-    {
-        _id: '1',
-        title: '1Cat',
-        itemFields: {
-            fieldCat1: 'String'
-        },
-        childCategories: []
-    },
-    {
-        _id: '2',
-        title: '1Cat',
-        itemFields: {
-            fieldCat2: 'Number'
-        },
-        childCategories: []
-    }
-]
-
-const mockItems = [
-    {
-        _id: '1',
-        title: '1Title',
-        description: '1Description',
-        price: 1,
-        category: mockCategories[0],
-        fieldCat1: 'fieldCat1Type1',
-        images: []
-    },
-    {
-        _id: '2',
-        title: '2Title',
-        description: '2Description',
-        price: 3,
-        category: mockCategories[0],
-        fieldCat1: 'fieldCat1Type2',
-        images: []
-    },
-    {
-        _id: '3',
-        title: '3Title',
-        description: '3Description',
-        price: 2,
-        category: mockCategories[1],
-        fieldCat2: 'fieldCat2Type1',
-        images: []
-    }
-]
-
-const server = setupServer(
-    rest.get(host + `/category/:cId`, (req, res, ctx) => {
-        return res(ctx.json(mockCategories.find(c => c._id === req.params.cId)))
-    }),
-    rest.get(host + `/item`, (req, res, ctx) => {
-        let itemsToReturn = [...mockItems]
-
-        const search = req.url.searchParams.get('search')
-
-        if (search) {
-            itemsToReturn = itemsToReturn.filter(i => i.title.includes(search) || i.description.includes(search))
-        }
-
-        const where = parseWhere(req)
-
-        for (const [k, v] of Object.entries(where)) {
-            if (k === 'category')
-                itemsToReturn = itemsToReturn.filter(i => i.category._id === v)
-            else
-                itemsToReturn = itemsToReturn.filter(i => Array.isArray(v) ? v.includes(i[k]) : v === i[k])
-        }
-
-        const minPrice = Number(req.url.searchParams.get('minPrice'))
-        const maxPrice = Number(req.url.searchParams.get('maxPrice'))
-        if (minPrice || maxPrice) {
-            itemsToReturn = itemsToReturn.filter(i => i.price >= (minPrice || 0) && i.price <= (maxPrice || Number.MAX_SAFE_INTEGER))
-        }
-
-        return res(ctx.json(itemsToReturn))
-    })
-)
-
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
-
 test('shows filters', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
 
     renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
 
@@ -112,7 +24,7 @@ test('shows filters', async () => {
 })
 
 test('shows price filter', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
 
     renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
 
@@ -122,7 +34,7 @@ test('shows price filter', async () => {
 })
 
 test('shows category specific filters', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
 
     renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
 
@@ -130,7 +42,7 @@ test('shows category specific filters', async () => {
 })
 
 test('shows all items when no filters are selected', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
 
     renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
 
@@ -138,7 +50,7 @@ test('shows all items when no filters are selected', async () => {
 })
 
 test('shows filtered items for one selected option for one filter', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
 
     renderSkeleton(mockUser, `/${cat.title}/${cat._id}`)
 
@@ -158,7 +70,7 @@ test('shows filtered items for one selected option for one filter', async () => 
 })
 
 test('shows filtered items for one selected option for one filter from url', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
     const filter1 = Object.keys(cat.itemFields)[0]
     const value1 = mockItems.find(i => i.category._id === cat._id)[filter1]
 
@@ -174,7 +86,7 @@ test('shows filtered items for one selected option for one filter from url', asy
 })
 
 test('shows filtered items by price from url', async () => {
-    const cat = mockCategories[0]
+    const cat = mockCategories[1]
 
     const sortedItems = mockItems.filter(i => i.category._id === cat._id).sort((a, b) => a.price - b.price)
 

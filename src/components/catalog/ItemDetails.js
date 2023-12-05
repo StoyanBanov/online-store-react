@@ -40,8 +40,6 @@ export const ItemDetails = () => {
             })
     }, [_id, itemId])
 
-    console.log(itemRating);
-
     const ratingStarMouseOverHandler = useCallback(e => {
         Array.from(e.currentTarget.children)
             .slice(itemRating, Number(e.target.id) + 1)

@@ -15,35 +15,34 @@ export const mockUser = {
 
 export const mockCategories = [
     {
-        _id: '1',
+        _id: '0',
         title: 'clickMe',
         parentCategory: null,
-        childCategories: [
-            {
-                _id: '3',
-                parentCategory: '1',
-                title: 'a1cat'
-            }, {
-                _id: '4',
-                parentCategory: '1',
-                title: 'a2cat'
-            }
-        ]
+        childCategories: ['1', '2']
+    }, {
+        _id: '1',
+        title: 'b',
+        parentCategory: '0',
+        childCategories: [],
+        itemFields: {
+            fieldCat1: 'String'
+        },
     }, {
         _id: '2',
-        title: 'b',
-        parentCategory: null,
-        childCategories: []
+        parentCategory: '0',
+        title: 'a1cat',
+        childCategories: [],
+        itemFields: {
+            fieldCat2: 'Number'
+        }
     }, {
         _id: '3',
-        parentCategory: '1',
-        title: 'a1cat',
-        childCategories: []
-    }, {
-        _id: '4',
-        parentCategory: '1',
-        title: 'a2cat',
-        childCategories: []
+        parentCategory: null,
+        title: 'a3cat',
+        childCategories: [],
+        itemFields: {
+            fieldCat3: 'Number'
+        }
     }
 ]
 
@@ -59,11 +58,45 @@ export const mockItems = [
     {
         _id: '1',
         category: mockCategories[2],
+        fieldCat2: 21,
         title: 'title1',
         description: 'someDesc',
         count: 3,
         rating: 2,
         price: 1,
+        images: []
+    },
+    {
+        _id: '2',
+        title: '2Title',
+        description: '1Description',
+        count: 12,
+        rating: 5,
+        price: 1,
+        category: mockCategories[1],
+        fieldCat1: 'fieldCat1Type2',
+        images: []
+    },
+    {
+        _id: '3',
+        title: '3Title',
+        description: '3Description',
+        count: 1,
+        rating: 1,
+        price: 3,
+        category: mockCategories[1],
+        fieldCat1: 'fieldCat1Type2',
+        images: []
+    },
+    {
+        _id: '4',
+        title: '4Title',
+        description: '3Description',
+        count: 100,
+        rating: 3,
+        price: 2,
+        category: mockCategories[2],
+        fieldCat2: 3,
         images: []
     }
 ]
@@ -78,9 +111,30 @@ const server = setupServer(
         return res(ctx.json(mockCategories.filter(c => c.parentCategory === where.parentCategory)))
     }),
     rest.get(HOST + `/item`, (req, res, ctx) => {
-        let where = parseWhere(req)
+        let itemsToReturn = [...mockItems]
 
-        return res(ctx.json(mockItems.filter(i => i.category._id === where.category)))
+        const search = req.url.searchParams.get('search')
+
+        if (search) {
+            itemsToReturn = itemsToReturn.filter(i => i.title.includes(search) || i.description.includes(search))
+        }
+
+        const where = parseWhere(req)
+
+        for (const [k, v] of Object.entries(where)) {
+            if (k === 'category')
+                itemsToReturn = itemsToReturn.filter(i => i.category._id === v)
+            else
+                itemsToReturn = itemsToReturn.filter(i => Array.isArray(v) ? v.includes(i[k]) : v === i[k])
+        }
+
+        const minPrice = Number(req.url.searchParams.get('minPrice'))
+        const maxPrice = Number(req.url.searchParams.get('maxPrice'))
+        if (minPrice || maxPrice) {
+            itemsToReturn = itemsToReturn.filter(i => i.price >= (minPrice || 0) && i.price <= (maxPrice || Number.MAX_SAFE_INTEGER))
+        }
+
+        return res(ctx.json(itemsToReturn))
     }),
     rest.get(HOST + `/item/rating`, (req, res, ctx) => {
         let where = parseWhere(req)

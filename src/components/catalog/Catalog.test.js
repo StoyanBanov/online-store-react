@@ -59,9 +59,7 @@ test('loads item details', async () => {
 
     renderSkeleton({}, `/${item._id}`)
 
-    let description = await screen.findByText(item.description)
-
-    expect(description).toBeInTheDocument()
+    await screen.findByText(item.description)
 })
 
 test('loads item details from catalog', async () => {
@@ -71,9 +69,7 @@ test('loads item details from catalog', async () => {
 
     fireEvent.click(await screen.findByText(mockItems[0].title))
 
-    let description = await screen.findByText(item.description)
-
-    expect(description).toBeInTheDocument()
+    await screen.findByText(item.description)
 })
 
 test('shows filters for items catalog', async () => {

@@ -3,7 +3,7 @@
 
 Uses the [Online Store Server](https://github.com/StoyanBanov/online-store-server)
 
-<h2>Functionality</h2>
+<h2>Main Functionality</h2>
 
 **user**
 register

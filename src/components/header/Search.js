@@ -10,9 +10,7 @@ import { SearchResult } from "./SearchResult"
 export const Search = ({ autoFocus = false, closeHandler }) => {
     const [searchValue, setSearchValue] = useState('')
 
-    const [searchResults, setSearchResults] = useState([])
-
-    const [highlightedInd, setHighlightedInd] = useState()
+    const [searchResults, setSearchResults] = useState({ list: [], highlighted: -1 })
 
     const navigate = useNavigate()
 
@@ -44,8 +42,8 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
     const typeHandler = useCallback(() => {
         searchValue.length
             ? getItems({ search: searchValue, itemsPerPage: 5 })
-                .then(setSearchResults)
-            : setSearchResults([])
+                .then(data => setSearchResults(state => ({ ...state, list: data })))
+            : setSearchResults({ list: [], highlighted: -1 })
     }, [searchValue])
 
     useEffect(typeHandler, [typeHandler])
@@ -84,9 +82,9 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
     const keyDownHandler = useCallback(e => {
         if (e.key === 'ArrowDown') {
-            setHighlightedInd(state => !isNaN(state) && state < searchResults.length ? state + 1 : 0)
+            setSearchResults(state => ({ list: [...state.list], highlighted: state.highlighted < state.list.length - 1 ? state.highlighted + 1 : 0 }))
         }
-    }, [searchResults])
+    }, [])
 
     const focusSearchHandler = useCallback(() => {
         typeHandler()
@@ -96,7 +94,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
     const blurSearchHandler = useCallback(() => {
         setTimeout(() => {
             window.removeEventListener('keydown', keyDownHandler)
-            setSearchResults([])
+            setSearchResults({ list: [], highlighted: -1 })
         }, 300)
     }, [keyDownHandler])
 
@@ -116,7 +114,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
                 <ul className={style.searchBarResultsContainer}>
                     {
-                        searchResults.map((r, i) => <SearchResult key={r._id} item={r} searchValue={searchValue} highlighted={highlightedInd === i} />)
+                        searchResults.list.map((r, i) => <SearchResult key={r._id} item={r} searchValue={searchValue} highlighted={searchResults.highlighted === i} />)
                     }
                 </ul>
             </form>

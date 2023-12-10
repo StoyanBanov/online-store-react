@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
 import { IMAGES_DIR } from "../../constants"
 
-export const SearchResult = ({ item, searchValue }) => {
+import style from "./style.module.css"
+
+export const SearchResult = ({ item, searchValue, highlighted }) => {
 
     const searchValueIndex = item.title.toLowerCase().indexOf(searchValue.toLowerCase())
 
@@ -10,7 +12,7 @@ export const SearchResult = ({ item, searchValue }) => {
         : item.title
 
     return (
-        <li>
+        <li className={highlighted ? style.liHighlighted : ''}>
             <Link to={`/catalog/${item._id}`}>
                 <div>
                     <img src={`${IMAGES_DIR}/${item.thumbnail}`} alt={item.thumbnail} />

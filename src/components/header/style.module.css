@@ -156,6 +156,7 @@
     padding: 3px;
 }
 
+.liHighlighted,
 .searchBar .searchBarResultsContainer li:hover {
     background-color: lightgray;
     border-color: black;

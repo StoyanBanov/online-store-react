@@ -12,6 +12,8 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
     const [searchResults, setSearchResults] = useState([])
 
+    const [highlightedInd, setHighlightedInd] = useState()
+
     const navigate = useNavigate()
 
     const { windowWidth } = useContext(DimensionsContext)
@@ -34,6 +36,10 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
             }
         }, 20)
     }, [windowWidth])
+
+    useEffect(() => {
+
+    }, [])
 
     const typeHandler = useCallback(() => {
         searchValue.length
@@ -76,9 +82,23 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
     }, [closeHandler, width])
 
+    const keyDownHandler = useCallback(e => {
+        if (e.key === 'ArrowDown') {
+            setHighlightedInd(state => !isNaN(state) && state < searchResults.length ? state + 1 : 0)
+        }
+    }, [searchResults])
+
+    const focusSearchHandler = useCallback(() => {
+        typeHandler()
+        window.addEventListener('keydown', keyDownHandler)
+    }, [typeHandler, keyDownHandler])
+
     const blurSearchHandler = useCallback(() => {
-        setTimeout(() => setSearchResults([]), 300)
-    }, [])
+        setTimeout(() => {
+            window.removeEventListener('keydown', keyDownHandler)
+            setSearchResults([])
+        }, 300)
+    }, [keyDownHandler])
 
     return (
         <div className={style.searchBar}>
@@ -88,7 +108,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
                     value={searchValue}
                     onChange={searchValueChangeHandler}
                     onBlur={blurSearchHandler}
-                    onFocus={typeHandler}
+                    onFocus={focusSearchHandler}
                     autoFocus={autoFocus}
                 />
 
@@ -96,7 +116,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
 
                 <ul className={style.searchBarResultsContainer}>
                     {
-                        searchResults.map(i => <SearchResult key={i._id} item={i} searchValue={searchValue} />)
+                        searchResults.map((r, i) => <SearchResult key={r._id} item={r} searchValue={searchValue} highlighted={highlightedInd === i} />)
                     }
                 </ul>
             </form>

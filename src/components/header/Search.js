@@ -49,13 +49,14 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
     useEffect(typeHandler, [typeHandler])
 
     const searchValueChangeHandler = useCallback(e => {
+        setSearchResults(state => ({ list: state.list, highlighted: -1 }))
         setSearchValue(e.target.value)
     }, [])
 
     const submitHandler = e => {
         e.preventDefault()
         if (searchValue) {
-            navigate('/catalog?search=' + searchValue)
+            navigate(`/catalog${searchResults.highlighted >= 0 ? `/${searchResults.list[searchResults.highlighted]._id}` : `?search=${searchValue}`}`)
             if (closeHandler) {
                 closeHandler()
             }
@@ -83,10 +84,13 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
     const keyDownHandler = useCallback(e => {
         if (e.key === 'ArrowDown') {
             setSearchResults(state => ({ list: [...state.list], highlighted: state.highlighted < state.list.length - 1 ? state.highlighted + 1 : 0 }))
+        } else if (e.key === 'ArrowUp') {
+            setSearchResults(state => ({ list: [...state.list], highlighted: state.highlighted > 0 ? state.highlighted - 1 : state.list.length - 1 }))
         }
     }, [])
 
     const focusSearchHandler = useCallback(() => {
+        setSearchResults({ list: [], highlighted: -1 })
         typeHandler()
         window.addEventListener('keydown', keyDownHandler)
     }, [typeHandler, keyDownHandler])

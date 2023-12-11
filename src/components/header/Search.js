@@ -102,6 +102,10 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
         }, 300)
     }, [keyDownHandler])
 
+    const clickSearchHandler = useCallback(() => {
+        setSearchResults(state => ({ ...state, highlighted: -1 }))
+    }, [])
+
     return (
         <div className={style.searchBar}>
             <form onSubmit={submitHandler} onBlur={closeHandler && blurHandler}>
@@ -111,6 +115,7 @@ export const Search = ({ autoFocus = false, closeHandler }) => {
                     onChange={searchValueChangeHandler}
                     onBlur={blurSearchHandler}
                     onFocus={focusSearchHandler}
+                    onClick={clickSearchHandler}
                     autoFocus={autoFocus}
                 />
 

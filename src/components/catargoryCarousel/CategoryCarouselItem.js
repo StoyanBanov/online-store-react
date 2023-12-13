@@ -6,6 +6,7 @@ import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButt
 import { IMAGES_DIR } from '../../constants'
 
 export const CategoryCarouselItem = ({ item, cat, width }) => {
+    console.log(item);
     const navigate = useNavigate()
 
     const itemClickHandler = useCallback(() => {
@@ -23,7 +24,10 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
                     {item.discount > 0 && 'Original '}Price: {item.price.toFixed(2)}$
 
                     {item.discount > 0 &&
-                        `Discounted to: ${(item.price * item.discount / 100).toFixed(2)}$`
+                        <>
+                            <br />
+                            {`Discounted to: ${(item.price * item.discount / 100).toFixed(2)}$`}
+                        </>
                     }
                 </p>
 

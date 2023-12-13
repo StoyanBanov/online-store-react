@@ -18,7 +18,15 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
 
             <div>
                 <h3 onClick={itemClickHandler}>{item.title}</h3>
-                <p>Price: {item.price.toFixed(2)}$</p>
+
+                <p>
+                    {item.discount > 0 && 'Original '}Price: {item.price.toFixed(2)}$
+
+                    {item.discount > 0 &&
+                        `Discounted to: ${(item.price * item.discount / 100).toFixed(2)}$`
+                    }
+                </p>
+
                 <div style={{ width: width - 20, display: 'flex', justifyContent: 'center' }}>
                     <AddToCartButton item={item} containerWidth={width} />
                 </div>

@@ -3,6 +3,7 @@ import style from './style.module.css'
 
 import { useNavigate } from "react-router-dom"
 import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButton'
+import { IMAGES_DIR } from '../../constants'
 
 export const CategoryCarouselItem = ({ item, cat, width }) => {
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
 
     return (
         <div style={{ width: width + 'px' }} className={style.carouselItem}>
-            <img onClick={itemClickHandler} className={style.carouselItemThumbnail} src={'http://localhost:3030/static/images/' + item.thumbnail} alt={`${item.title} thumbnail`} />
+            <img onClick={itemClickHandler} className={style.carouselItemThumbnail} src={`${IMAGES_DIR}/${item.thumbnail}`} alt={`${item.title} thumbnail`} />
 
             <div>
                 <h3 onClick={itemClickHandler}>{item.title}</h3>

@@ -21,14 +21,19 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
                 <h3 onClick={itemClickHandler}>{item.title}</h3>
 
                 <p>
-                    {item.discount > 0 && 'Original '}Price: {item.price.toFixed(2)}$
-
                     {item.discount > 0 &&
                         <>
+                            {`Price: ${(item.price * item.discount / 100).toFixed(2)}$`}
                             <br />
-                            {`Discounted to: ${(item.price * item.discount / 100).toFixed(2)}$`}
                         </>
                     }
+
+                    {item.discount > 0
+                        ? <>
+                            <span style={{ textDecoration: 'line-through' }}>{item.price.toFixed(2)}$</span>
+                            (-{item.discount}%)
+                        </>
+                        : `Price: ${item.price.toFixed(2)}$`}
                 </p>
 
                 <div style={{ width: width - 20, display: 'flex', justifyContent: 'center' }}>

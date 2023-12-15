@@ -7,7 +7,6 @@ import { IMAGES_DIR } from '../../constants'
 import { Price } from '../common/helpers/price/Price'
 
 export const CategoryCarouselItem = ({ item, cat, width }) => {
-    console.log(item);
     const navigate = useNavigate()
 
     const itemClickHandler = useCallback(() => {

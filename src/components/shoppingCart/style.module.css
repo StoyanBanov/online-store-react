@@ -72,6 +72,17 @@
     text-decoration: underline;
 }
 
+.cartItemContainer a {
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.cartItemContainer a:hover {
+    text-decoration: underline;
+    opacity: 85%;
+}
+
 @media screen and (max-width: 300px) {
     .cartItemContainer input[type=number] {
         width: 40px;

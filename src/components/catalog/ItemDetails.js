@@ -8,6 +8,7 @@ import style from './style.module.css'
 import { ItemDetailsImages } from './ItemDetailsImages'
 import { ItemReviews } from './itemDetails/ItemReviews'
 import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButton'
+import { Price } from '../common/helpers/price/Price'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
@@ -89,7 +90,7 @@ export const ItemDetails = () => {
 
                             <h3 style={{ color: item.count ? 'green' : 'red' }}>{item.count ? 'In stock' : 'Sold out'}</h3>
 
-                            <p>Price: {item.price.toFixed(2)}$</p>
+                            <Price item={item} />
 
                             {item.category.itemFields &&
                                 Object.keys(item.category.itemFields).map((k, i) => <p key={i}>{k}: {item[k]}</p>)

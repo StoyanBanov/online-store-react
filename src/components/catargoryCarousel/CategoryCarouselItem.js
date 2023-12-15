@@ -4,6 +4,7 @@ import style from './style.module.css'
 import { useNavigate } from "react-router-dom"
 import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButton'
 import { IMAGES_DIR } from '../../constants'
+import { Price } from '../common/helpers/price/Price'
 
 export const CategoryCarouselItem = ({ item, cat, width }) => {
     console.log(item);
@@ -20,21 +21,7 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
             <div>
                 <h3 onClick={itemClickHandler}>{item.title}</h3>
 
-                <p>
-                    {item.discount > 0 &&
-                        <>
-                            {`Price: ${(item.price * item.discount / 100).toFixed(2)}$`}
-                            <br />
-                        </>
-                    }
-
-                    {item.discount > 0
-                        ? <>
-                            <span style={{ textDecoration: 'line-through' }}>{item.price.toFixed(2)}$</span>
-                            (-{item.discount}%)
-                        </>
-                        : `Price: ${item.price.toFixed(2)}$`}
-                </p>
+                <Price item={item} />
 
                 <div style={{ width: width - 20, display: 'flex', justifyContent: 'center' }}>
                     <AddToCartButton item={item} containerWidth={width} />

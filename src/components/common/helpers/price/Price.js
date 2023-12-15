@@ -1,6 +1,6 @@
 export const Price = ({ item }) => {
     return (
-        <p>
+        <p style={{ margin: 0 }}>
             {item.discount > 0 &&
                 <>
                     {`Price: ${(item.price * item.discount / 100).toFixed(2)}$`}

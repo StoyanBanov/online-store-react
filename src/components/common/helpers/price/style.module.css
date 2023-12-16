@@ -1,0 +1,8 @@
+.discountedPrice {
+    color: green;
+}
+
+.oldPrice {
+    text-decoration: line-through;
+    color: red;
+}

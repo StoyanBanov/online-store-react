@@ -1,19 +1,25 @@
+import style from './style.module.css'
+
 export const Price = ({ item }) => {
     return (
         <p style={{ margin: 0, display: 'block' }}>
-            {item.discount > 0 &&
-                <>
-                    {`Price: ${(item.price * item.discount / 100).toFixed(2)}$`}
-                    <br />
-                </>
-            }
+            <span>Price: </span>
 
             {item.discount > 0
                 ? <>
-                    <span style={{ textDecoration: 'line-through' }}>{item.price.toFixed(2)}$</span>
+                    <span className={style.discountedPrice}>
+                        ${(item.price * item.discount / 100).toFixed(2)}$
+                    </span>
+
+                    <br />
+
+                    <span className={style.oldPrice}>
+                        {item.price.toFixed(2)}$
+                    </span>
                     (-{item.discount}%)
                 </>
-                : `Price: ${item.price.toFixed(2)}$`}
+                : `${item.price.toFixed(2)}$`
+            }
         </p>
     )
 }

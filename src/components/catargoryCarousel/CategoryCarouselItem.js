@@ -15,7 +15,12 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
 
     return (
         <div style={{ width: width + 'px' }} className={style.carouselItem}>
-            <img onClick={itemClickHandler} className={style.carouselItemThumbnail} src={`${IMAGES_DIR}/${item.thumbnail}`} alt={`${item.title} thumbnail`} />
+            <img
+                onClick={itemClickHandler}
+                className={style.carouselItemThumbnail}
+                src={`${IMAGES_DIR}/${item.thumbnail}`}
+                alt={`${item.title} thumbnail`}
+            />
 
             <div>
                 <h3 onClick={itemClickHandler}>{item.title}</h3>

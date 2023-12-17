@@ -22,7 +22,7 @@ export const CategoryCarouselItem = ({ item, cat, width }) => {
 
                 <Price item={item} />
 
-                <div style={{ width: width - 20, display: 'flex', justifyContent: 'center' }}>
+                <div style={{ width: width - 20, display: 'flex', justifyContent: 'center', marginTop: `${width / 10}px` }}>
                     <AddToCartButton item={item} containerWidth={width} />
                 </div>
             </div>

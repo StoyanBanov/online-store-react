@@ -43,7 +43,7 @@ export const Catalog = () => {
                             })
                     }
                 })
-        } else if (Array.from(searchParams).length > 0) { //searchParams.size() isnt't working with tests
+        } else if (Array.from(searchParams).length > 0) { //searchParams.size() isn't working with tests
             if (Object.keys(searchParamsObj).length > 0) {
                 Promise.all([getItems(searchParamsObj), getItems({ ...searchParamsObj, count: true, page: 1, itemsPerPage: null })])
                     .then(([items, itemsCount]) => {

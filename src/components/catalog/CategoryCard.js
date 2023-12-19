@@ -9,9 +9,13 @@ export const CategoryCard = ({ cat }) => {
 
     const navigate = useNavigate()
 
-    const editClickHandler = useCallback(() => {
+    const editHandler = useCallback(() => {
         navigate(`/admin/edit/category/${cat._id}`)
     }, [navigate, cat])
+
+    const deleteHandler = useCallback(() => {
+        //navigate(`/admin/edit/category/${cat._id}`)
+    }, [cat])
 
     const catDetailsHandler = useCallback(e => {
         if (e.target.tagName !== 'BUTTON')
@@ -30,8 +34,8 @@ export const CategoryCard = ({ cat }) => {
 
             {roles?.includes('admin') &&
                 <div>
-                    <button onClick={editClickHandler}>Edit</button>
-                    <button onClick={editClickHandler}>Delete</button>
+                    <button onClick={editHandler}>Edit</button>
+                    <button onClick={deleteHandler}>Delete</button>
                 </div>
             }
         </div>

@@ -124,6 +124,11 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
                         </div>
 
                         <div>
+                            <label htmlFor="item-price">Discount percentage</label>
+                            <input type="number" id="item-discount" name="discount" value={values.discount} onChange={onValueChangeHandler} />
+                        </div>
+
+                        <div>
                             <label htmlFor="item-description">Description</label>
                             <textarea id="item-description" name="description" value={values.description} onChange={onValueChangeHandler} rows={5} />
                         </div>

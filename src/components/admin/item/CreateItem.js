@@ -6,6 +6,7 @@ export const CreateItem = () => {
     const values = {
         title: '',
         description: '',
+        discount: '',
         price: 0,
         count: 0,
         thumbnail: null,

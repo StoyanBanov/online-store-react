@@ -14,7 +14,6 @@ export const CategoryCard = ({ cat }) => {
     }, [navigate, cat])
 
     const deleteHandler = useCallback(() => {
-        //navigate(`/admin/edit/category/${cat._id}`)
     }, [cat])
 
     const catDetailsHandler = useCallback(e => {

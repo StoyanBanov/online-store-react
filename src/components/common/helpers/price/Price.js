@@ -8,7 +8,7 @@ export const Price = ({ item }) => {
             {item.discount > 0
                 ? <>
                     <span className={style.discountedPrice}>
-                        ${(item.price * item.discount / 100).toFixed(2)}$
+                        ${(item.price * (1 - item.discount / 100)).toFixed(2)}$
                     </span>
 
                     <br />

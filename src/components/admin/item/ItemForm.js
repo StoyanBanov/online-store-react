@@ -85,12 +85,12 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
         values &&
         <div className={style.formContainer}>
             <h1>{title} Form</h1>
+
             <form onSubmit={onSubmitHandler} encType="multipart/form-data">
                 <div>
                     <div>
-
                         {!existingItem &&
-                            <div>
+                            <div className={style.formRow}>
                                 <label htmlFor="item-category">Category</label>
                                 <select id="item-category" name="category" onChange={onValueChangeHandler} value={values.category}>
                                     {categories.map(c => <option key={c._id} value={c._id}>{c.title}</option>)}
@@ -98,12 +98,13 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
                             </div>
                         }
 
-                        <strong>Category fields</strong>
+                        <strong className={style.formRowHeading}>Category fields</strong>
+
                         <div>
                             {values.categoryFields &&
                                 Object.entries(values.categoryFields)
                                     .map(([k, v]) =>
-                                        <div key={k}>
+                                        <div key={k} className={style.formRow}>
                                             <label htmlFor={"item-" + k}>{k}</label>
                                             <input type={v} id={"item-" + k} name={k} value={values[k] || ''} onChange={onValueChangeHandler} />
                                         </div>
@@ -111,34 +112,34 @@ export const ItemForm = ({ defValues, existingItem, title, submitCallback }) => 
                             }
                         </div>
 
-                        <strong>Item fields</strong>
+                        <strong className={style.formRowHeading}>Item fields</strong>
 
-                        <div>
+                        <div className={style.formRow}>
                             <label htmlFor="item-title">Title</label>
                             <input id="item-title" name="title" value={values.title} onChange={onValueChangeHandler} />
                         </div>
 
-                        <div>
+                        <div className={style.formRow}>
                             <label htmlFor="item-price">Price</label>
-                            <input type="number" id="item-price" name="price" value={values.price} onChange={onValueChangeHandler} />
+                            <input type="number" id="item-price" name="price" min={0.1} step={0.1} value={values.price} onChange={onValueChangeHandler} />
                         </div>
 
-                        <div>
-                            <label htmlFor="item-price">Discount percentage</label>
-                            <input type="number" id="item-discount" name="discount" value={values.discount} onChange={onValueChangeHandler} />
+                        <div className={style.formRow}>
+                            <label htmlFor="item-price">Discount %</label>
+                            <input type="number" id="item-discount" name="discount" min={0} step={0.1} value={values.discount} onChange={onValueChangeHandler} />
                         </div>
 
-                        <div>
+                        <div className={style.formRow}>
                             <label htmlFor="item-description">Description</label>
                             <textarea id="item-description" name="description" value={values.description} onChange={onValueChangeHandler} rows={5} />
                         </div>
 
-                        <div>
+                        <div className={style.formRow}>
                             <label htmlFor="item-count">Count</label>
                             <input type="number" min={0} id="item-count" name="count" value={values.count} onChange={onValueChangeHandler} />
                         </div>
 
-                        <div>
+                        <div className={style.formRow}>
                             <label htmlFor="item-thumbnail">Thumbnail</label>
                             {(existingItem && existingItem.thumbnail) &&
                                 <ItemFormImage image={existingItem.thumbnail} imageHandler={imageHandler} isRemovable={false} />

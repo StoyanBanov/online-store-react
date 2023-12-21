@@ -16,24 +16,6 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
 
     const fieldsCount = useRef(0)
 
-    const changeField = useCallback((name, values) => {
-        setFields(state => ({ ...state, [name]: values }))
-    }, [])
-
-    const addFieldClickHandler = useCallback(() => {
-        setFieldKeys(state => [...state, ++fieldsCount.current])
-    }, [])
-
-    const removeFieldHandler = useCallback((index, name) => {
-        setFields(state => {
-            const current = { ...state }
-            delete current[name]
-            return current
-        })
-
-        setFieldKeys(state => state.filter((_, i) => i !== index))
-    }, [])
-
     useEffect(() => {
         if (existingCat?.itemFields) {
             let fieldsObj = {}
@@ -55,6 +37,24 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
         getAllParentCategories()
             .then(cats => setCategories(cats.filter(c => c._id !== existingCat?._id)))
     }, [existingCat])
+
+    const changeField = useCallback((name, values) => {
+        setFields(state => ({ ...state, [name]: values }))
+    }, [])
+
+    const addFieldClickHandler = useCallback(() => {
+        setFieldKeys(state => [...state, ++fieldsCount.current])
+    }, [])
+
+    const removeFieldHandler = useCallback((index, name) => {
+        setFields(state => {
+            const current = { ...state }
+            delete current[name]
+            return current
+        })
+
+        setFieldKeys(state => state.filter((_, i) => i !== index))
+    }, [])
 
     const onValueChangeHandler = useCallback(e => {
         setValues(state => ({ ...state, [e.target.name]: e.target.value }))
@@ -86,6 +86,7 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
         values &&
         <div className={style.formContainer}>
             <h1>{title} Form</h1>
+
             <form onSubmit={onSubmitHandler}>
                 <div>
                     <label htmlFor="cat-title">Title</label>

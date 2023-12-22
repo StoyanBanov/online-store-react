@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { getAllParentCategories } from "../../../data/services/itemService"
-
-import style from '../style.module.css'
 import { ItemField } from "./ItemField"
+import { IMAGES_DIR } from "../../../constants"
+import style from '../style.module.css'
 
 export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) => {
 
@@ -97,7 +97,7 @@ export const CategoryForm = ({ defValues, submitCallback, existingCat, title }) 
                     <label htmlFor="item-thumbnail">Thumbnail</label>
                     {
                         existingCat &&
-                        <img src={`http://localhost:3030/static/images/${existingCat.thumbnail}`} alt={existingCat.title} />
+                        <img src={`${IMAGES_DIR}/${existingCat.thumbnail}`} alt={existingCat.title} />
                     }
                     <input type="file" id="item-thumbnail" name="thumbnail" onChange={onImageHandler} />
                 </div>

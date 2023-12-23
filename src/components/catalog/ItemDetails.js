@@ -138,9 +138,8 @@ export const ItemDetails = () => {
                             </p>
 
                             <button onClick={showReviewsHandler}>{showReviews ? 'Hide ' : 'Read'} reviews</button>
-                            {showReviews
-                                ? <ItemReviews itemId={item._id} />
-                                : 'no reviews yet'
+                            {showReviews &&
+                                <ItemReviews itemId={item._id} />
                             }
                         </>
                     }

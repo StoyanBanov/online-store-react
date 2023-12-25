@@ -32,29 +32,25 @@ export const ItemReviews = ({ itemId }) => {
     }, [itemId, newUserReview])
 
     const likeHandler = useCallback(async id => {
-        if (reviews.find(r => r._id === id).likes.some(l => l._creator === _id)) {
-            await removeLikeByReviewId(id)
-            setReviews(state => {
-                const review = state.find(r => r._id === id)
-                const reviewIndex = state.indexOf(review)
-                return [
-                    ...state.slice(0, reviewIndex),
-                    { ...review, likes: review.likes.filter(l => l._creator !== _id) },
-                    ...state.slice(reviewIndex + 1)
-                ]
-            })
-        } else {
-            await addLikeByReviewId(id)
-            setReviews(state => {
-                const review = state.find(r => r._id === id)
-                const reviewIndex = state.indexOf(review)
-                return [
-                    ...state.slice(0, reviewIndex),
-                    { ...review, likes: [...review.likes, { _creator: _id }] },
-                    ...state.slice(reviewIndex + 1)
-                ]
-            })
-        }
+        const hasLike = reviews.find(r => r._id === id).likes.some(l => l._creator === _id)
+        await hasLike ? removeLikeByReviewId(id) : addLikeByReviewId(id)
+
+        setReviews(state => {
+            const review = state.find(r => r._id === id)
+            const reviewIndex = state.indexOf(review)
+            const updatedReview = {
+                ...review,
+                likes: hasLike
+                    ? review.likes.filter(l => l._creator !== _id)
+                    : [...review.likes, { _creator: _id }]
+            }
+
+            return [
+                ...state.slice(0, reviewIndex),
+                updatedReview,
+                ...state.slice(reviewIndex + 1)
+            ]
+        })
 
     }, [reviews, _id])
 
@@ -64,61 +60,55 @@ export const ItemReviews = ({ itemId }) => {
 
     return (
         <div className={style.reviewsContainer}>
-            {
-                <>
-                    {(_id && page === 1) &&
-                        <div>
-                            <span>{reviews.length ? 'Leave a review' : 'Leave the first review'}</span>
-                            <form onSubmit={submitReviewHandler}>
-                                <label htmlFor='reviewTextArea'>Review</label>
-                                <textarea rows={4} placeholder='My review...' value={newUserReview} onChange={e => setNewUserReview(e.target.value)} />
-                                <button>Send</button>
-                            </form>
-                        </div>
-                    }
+            <>
+                {(_id && page === 1) &&
+                    <div>
+                        <span>{reviews.length ? 'Leave a review' : 'Leave the first review'}</span>
+                        <form onSubmit={submitReviewHandler}>
+                            <label htmlFor='reviewTextArea'>Review</label>
+                            <textarea rows={4} placeholder='My review...' value={newUserReview} onChange={e => setNewUserReview(e.target.value)} />
+                            <button>Send</button>
+                        </form>
+                    </div>
+                }
 
-                    {reviews.length > 0 &&
-                        <>
-                            <div>
-                                {
-                                    reviews.map(r =>
-                                        <div className={style.reviewContainer} key={r._id}>
-                                            <b>
-                                                {r._creator._id === _id
-                                                    ? 'You: '
-                                                    : `${r._creator.fname} ${r._creator.lname}: `
-                                                }
-                                            </b>
+                {reviews.length > 0 &&
+                    <div>
+                        {
+                            reviews.map(r =>
+                                <div className={style.reviewContainer} key={r._id}>
+                                    <b>
+                                        {r._creator._id === _id
+                                            ? 'You: '
+                                            : `${r._creator.fname} ${r._creator.lname}: `
+                                        }
+                                    </b>
 
-                                            <div>
-                                                <span>{r.text}</span>
-                                            </div>
+                                    <div>
+                                        <span>{r.text}</span>
+                                    </div>
 
-                                            <div>
-                                                {_id
-                                                    ? <span className={style.likeButton} onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
-                                                    : <span>👍</span>
-                                                }
-                                                ({r.likes.length})
-                                            </div>
-                                        </div>
-                                    )
-                                }
-
-                                <div>
-                                    {
-                                        <PaginationPages
-                                            currentPage={page}
-                                            totalPages={totalPages}
-                                            pageWrap={({ children }) => <span className={style.page} onClick={changePageHandler}>{children}</span>}
-                                        />
-                                    }
+                                    <div>
+                                        {_id
+                                            ? <span className={style.likeButton} onClick={() => likeHandler(r._id)} style={r.likes.some(l => l._creator === _id) ? { background: 'blue' } : {}}>👍</span>
+                                            : <span>👍</span>
+                                        }
+                                        ({r.likes.length})
+                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    }
-                </>
-            }
+                            )
+                        }
+
+                        <div>
+                            <PaginationPages
+                                currentPage={page}
+                                totalPages={totalPages}
+                                pageWrap={({ children }) => <span className={style.page} onClick={changePageHandler}>{children}</span>}
+                            />
+                        </div>
+                    </div>
+                }
+            </>
         </div>
     )
 }

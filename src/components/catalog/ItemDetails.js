@@ -92,10 +92,6 @@ export const ItemDetails = () => {
 
                             <Price item={item} />
 
-                            {item.category.itemFields &&
-                                Object.keys(item.category.itemFields).map((k, i) => <p key={i}>{k}: {item[k]}</p>)
-                            }
-
                             <div>
                                 <AddToCartButton item={item} />
                             </div>
@@ -108,6 +104,12 @@ export const ItemDetails = () => {
                         </strong>
                         <br />
                         {item.description}
+                    </p>
+
+                    <p>
+                        {item.category.itemFields &&
+                            Object.keys(item.category.itemFields).map((k, i) => <p key={i}>{k}: {item[k]}</p>)
+                        }
                     </p>
 
                     {roles && roles.includes('admin') &&

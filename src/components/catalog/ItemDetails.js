@@ -9,6 +9,7 @@ import { ItemDetailsImages } from './ItemDetailsImages'
 import { ItemReviews } from './itemDetails/ItemReviews'
 import { AddToCartButton } from '../common/helpers/addToCartButton/AddToCartButton'
 import { Price } from '../common/helpers/price/Price'
+import { ItemCharacteristics } from './itemDetails/ItemCharacteristics'
 
 export const ItemDetails = () => {
     const { user: { roles, _id } } = useContext(AuthContext)
@@ -107,22 +108,7 @@ export const ItemDetails = () => {
                         {item.description}
                     </p>
 
-                    <p>
-                        <strong>
-                            Characteristics:
-                        </strong>
-
-                        <table style={{ border: '1px solid black' }}>
-                            <tr>
-                                <th>property</th>
-                                <th>value</th>
-                            </tr>
-
-                            {item.category.itemFields &&
-                                Object.keys(item.category.itemFields).map((k, i) => <tr key={i}><td>{k}</td> <td>{item[k]}</td> </tr>)
-                            }
-                        </table>
-                    </p>
+                    <ItemCharacteristics item={item} />
 
                     {roles && roles.includes('admin') &&
                         <>

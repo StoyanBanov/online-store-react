@@ -1,3 +1,5 @@
+import { ItemCharacteristicsRow } from "./ItemCharacteristicsRow"
+
 export const ItemCharacteristics = ({ item }) => {
     return (
         <p>
@@ -12,7 +14,7 @@ export const ItemCharacteristics = ({ item }) => {
                 </tr>
 
                 {item.category.itemFields &&
-                    Object.keys(item.category.itemFields).map((k, i) => <tr key={i}><td>{k}</td> <td>{item[k]}</td> </tr>)
+                    Object.keys(item.category.itemFields).map((k) => <ItemCharacteristicsRow key={k} item={item} fieldName={k} />)
                 }
             </table>
         </p>

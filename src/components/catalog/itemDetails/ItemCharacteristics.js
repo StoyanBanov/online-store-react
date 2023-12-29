@@ -1,22 +1,25 @@
 import { ItemCharacteristicsRow } from "./ItemCharacteristicsRow"
 
+import style from './style.module.css'
+
 export const ItemCharacteristics = ({ item }) => {
     return (
-        <p>
-            <table style={{ border: '1px solid black' }}>
+        <table className={style.characteristicsTable} >
+            <thead>
                 <tr>
                     <th colSpan={2}>Characteristics</th>
                 </tr>
-
                 <tr>
                     <th>property</th>
                     <th>value</th>
                 </tr>
+            </thead>
 
+            <tbody>
                 {item.category.itemFields &&
                     Object.keys(item.category.itemFields).map((k) => <ItemCharacteristicsRow key={k} item={item} fieldName={k} />)
                 }
-            </table>
-        </p>
+            </tbody>
+        </table>
     )
 }

@@ -79,3 +79,28 @@
 .imageOverlayContainer svg:hover {
     background: rgba(255, 255, 255, .75);
 }
+
+
+
+/* characteristics */
+
+.characteristicsTable {
+    width: 100%;
+    border: 2px solid black;
+}
+
+.characteristicsTable,
+.characteristicsTable th,
+.characteristicsTable td {
+    border-collapse: collapse;
+}
+
+.characteristicsTable th,
+.characteristicsTable td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.characteristicsTable tr:first-child {
+    border-bottom: 2px solid black;
+}

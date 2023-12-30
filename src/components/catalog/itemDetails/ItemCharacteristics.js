@@ -1,11 +1,11 @@
 export const ItemCharacteristics = ({ item }) => {
     return (
         <p>
-            <strong>
-                Characteristics:
-            </strong>
-
             <table style={{ border: '1px solid black' }}>
+                <tr>
+                    <th colSpan={2}>Characteristics</th>
+                </tr>
+
                 <tr>
                     <th>property</th>
                     <th>value</th>

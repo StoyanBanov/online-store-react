@@ -99,8 +99,9 @@
 .characteristicsTable td {
     border: 1px solid black;
     border-collapse: collapse;
+    padding: 1vw;
 }
 
-.characteristicsTable tr:first-child {
+.characteristicsTable thead tr:first-child {
     border-bottom: 2px solid black;
 }

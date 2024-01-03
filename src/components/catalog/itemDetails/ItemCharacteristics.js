@@ -10,8 +10,8 @@ export const ItemCharacteristics = ({ item }) => {
                     <th colSpan={2}>Characteristics</th>
                 </tr>
                 <tr>
-                    <th>property</th>
-                    <th>value</th>
+                    <th>Property</th>
+                    <th>Value</th>
                 </tr>
             </thead>
 

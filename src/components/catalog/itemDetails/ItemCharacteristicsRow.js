@@ -1,8 +1,8 @@
-export const ItemCharacteristicsRow = ({ item, fieldName }) => {
+export const ItemCharacteristicsRow = ({ name, value }) => {
     return (
         <tr>
-            <td>{fieldName}</td>
-            <td>{item[fieldName]}</td>
+            <td>{name}</td>
+            <td>{value}</td>
         </tr>
     )
 }

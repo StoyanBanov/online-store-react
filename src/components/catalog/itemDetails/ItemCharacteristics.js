@@ -17,7 +17,7 @@ export const ItemCharacteristics = ({ item }) => {
 
             <tbody>
                 {item.category.itemFields &&
-                    Object.keys(item.category.itemFields).map((k) => <ItemCharacteristicsRow key={k} item={item} fieldName={k} />)
+                    Object.keys(item.category.itemFields).map((k) => <ItemCharacteristicsRow key={k} name={k} value={item[k]} />)
                 }
             </tbody>
         </table>

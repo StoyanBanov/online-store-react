@@ -1,24 +1,24 @@
 import style from './style.module.css'
 
-export const Price = ({ item }) => {
+export const Price = ({ item: price, discount }) => {
     return (
         <p style={{ margin: 0, display: 'block' }}>
             <span>Price: </span>
 
-            {item.discount > 0
+            {discount > 0
                 ? <>
                     <span className={style.discountedPrice}>
-                        ${(item.price * (1 - item.discount / 100)).toFixed(2)}$
+                        ${(price * (1 - discount / 100)).toFixed(2)}$
                     </span>
 
                     <br />
 
                     <span className={style.oldPrice}>
-                        {item.price.toFixed(2)}$
+                        {price.toFixed(2)}$
                     </span>
-                    (-{item.discount}%)
+                    (-{discount}%)
                 </>
-                : `${item.price.toFixed(2)}$`
+                : `${price.toFixed(2)}$`
             }
         </p>
     )
